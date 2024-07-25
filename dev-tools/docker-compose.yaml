@@ -1,0 +1,48 @@
+version: '3'
+services:
+  jenkins-demo-database:
+    container_name: jenkins-demo-database
+    image: postgres:16-alpine
+    hostname: ${DB_HOST}
+    ports:
+      - "${DB_EXTERNAL_PORT}:${DB_INTERNAL_PORT}"
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U ${DB_USERNAME}'" ]
+      timeout: 45s
+      interval: 10s
+      retries: 2
+    restart: always
+    volumes:
+      - "./db-init:/docker-entrypoint-initdb.d"
+      - "postgres_data:/data/postgres"
+      - "postgres_backup:/data/postgres/backup"
+    env_file: .env
+
+  jenkins-demo-message-broker:
+    container_name: jenkins-demo-message-broker
+    image: rabbitmq:3-management
+    hostname: ${MESSAGE_BROKER_HOST}
+    ports:
+      - "${MESSAGE_BROKER_EXTERNAL_PORT}:${MESSAGE_BROKER_INTERNAL_PORT}"
+      - "${MESSAGE_BROKER_UI_EXTERNAL_PORT}:${MESSAGE_BROKER_UI_INTERNAL_PORT}"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${MESSAGE_BROKER_USERNAME}
+      RABBITMQ_DEFAULT_PASS: ${MESSAGE_BROKER_PASSWORD}
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "${MESSAGE_BROKER_HOST}", "${MESSAGE_BROKER_EXTERNAL_PORT}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    env_file: .env
+
+volumes:
+  postgres_data:
+  postgres_backup:
+
+networks:
+  default:
+    driver: bridge
