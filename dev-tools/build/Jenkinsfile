@@ -1,9 +1,58 @@
-pipeline {
-    agent { docker { image 'maven:3.9.8-eclipse-temurin-21-alpine' } }
+/------------------------------------------------------------------------------
+// JenkinsFile
+//------------------------------------------------------------------------------
+
+def maven_url = "https://dlcdn.apache.org/maven/maven-3/3.9.8/binaries/apache-maven-3.9.8-bin.zip"
+def jdk_url = "https://aka.ms/download-jdk/microsoft-jdk-17.0.11-linux-x64.tar.gz"
+def file_name_regex = "^.*/"
+def parent_path_regex = "/([^/]+)\$"
+def base_dir = "./build-cache"
+def maven_home = "$base_dir/maven/" + maven_url.replaceFirst(file_name_regex, "")
+def java_home = "$base_dir/java/" + jdk_url.replaceFirst(file_name_regex, "")
+
+def docker_repo = "jenkins-demo-app/api"
+@@ -38,19 +46,45 @@ pipeline {
+        ansiColor colorMapName: 'XTerm'
+        buildDiscarder(logRotator(numToKeepStr: '3'))
+    }
+    environment {
+        DOCKER_PATH = tool (name: "docker-latest", type: 'org.jenkinsci.plugins.docker.commons.tools.DockerTool')
+        MAVEN_HOME = "$maven_home"
+        JAVA_HOME = "$java_home"
+        PATH = "$maven_home/bin:$java_home/bin:$PATH"
+    }
+
+
     stages {
-        stage('build') {
+        stage('init') {
             steps {
-                sh 'mvn --version'
+                script {
+                    if (!fileExists(maven_home)) {
+                        echo "Install Maven"
+                        sh "rm -rf " + maven_home.replaceFirst(parent_path_regex, "")
+                        sh "mkdir -p $maven_home"
+                        def maven_zip = "$maven_home/maven.zip"
+                        sh "curl -sLf $maven_url -o $maven_zip"
+                        sh "unzip -q $maven_zip -d $maven_home"
+                        sh "rm -f $maven_zip"
+                        def unzipped_maven_dir = sh(script: "readlink -f $maven_home/*", returnStdout: true).trim()
+                        sh "mv $unzipped_maven_dir/* $maven_home"
+                        sh "rm -rf $unzipped_maven_dir"
+                    }
+
+                    if (!fileExists(java_home)) {
+                        echo "Install JDK"
+                        sh "rm -rf " + java_home.replaceFirst(parent_path_regex, "")
+                        sh "mkdir -p $java_home"
+                        def java_tar = "$java_home/jdk.tar.gz"
+                        sh "curl -sLf $jdk_url -o $java_tar"
+                        sh "tar -xzf $java_tar -C $java_home --strip-components=1"
+                        sh "rm -f $java_tar"
+                    }
+
+                    sh "mvn -v"
+                    sh "java -version"
+                }
             }
         }
     }
