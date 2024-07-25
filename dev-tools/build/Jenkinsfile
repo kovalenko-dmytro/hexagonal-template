@@ -11,12 +11,21 @@ def maven_home = "$base_dir/maven/" + maven_url.replaceFirst(file_name_regex, ""
 def java_home = "$base_dir/java/" + jdk_url.replaceFirst(file_name_regex, "")
 
 pipeline {
-    agent any
+    agent {
+            label 'docker && build'
+        }
+
+        options {
+            ansiColor colorMapName: 'XTerm'
+            buildDiscarder(logRotator(numToKeepStr: '3'))
+        }
+
     environment {
             MAVEN_HOME = "$maven_home"
             JAVA_HOME = "$java_home"
             PATH = "$maven_home/bin:$java_home/bin:$PATH"
     }
+
     stages {
         stage('init') {
                     steps {
