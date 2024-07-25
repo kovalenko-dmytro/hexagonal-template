@@ -10,12 +10,9 @@ def base_dir = "./build-cache"
 def maven_home = "$base_dir/maven/" + maven_url.replaceFirst(file_name_regex, "")
 def java_home = "$base_dir/java/" + jdk_url.replaceFirst(file_name_regex, "")
 
-def docker_repo = "jenkins-demo-app/api"
-
 pipeline {
     agent any
     environment {
-            DOCKER_PATH = tool (name: "docker-latest", type: 'org.jenkinsci.plugins.docker.commons.tools.DockerTool')
             MAVEN_HOME = "$maven_home"
             JAVA_HOME = "$java_home"
             PATH = "$maven_home/bin:$java_home/bin:$PATH"
