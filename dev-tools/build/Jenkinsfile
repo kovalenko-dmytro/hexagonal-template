@@ -11,7 +11,7 @@ def maven_home = "$base_dir/maven/" + maven_url.replaceFirst(file_name_regex, ""
 def java_home = "$base_dir/java/" + jdk_url.replaceFirst(file_name_regex, "")
 
 def docker_repo = "jenkins-demo-app/api"
-@@ -38,19 +46,45 @@ pipeline {
+pipeline {
         ansiColor colorMapName: 'XTerm'
         buildDiscarder(logRotator(numToKeepStr: '3'))
     }
