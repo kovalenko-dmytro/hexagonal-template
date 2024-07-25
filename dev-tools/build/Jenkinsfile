@@ -11,9 +11,7 @@ def maven_home = "$base_dir/maven/" + maven_url.replaceFirst(file_name_regex, ""
 def java_home = "$base_dir/java/" + jdk_url.replaceFirst(file_name_regex, "")
 
 pipeline {
-    agent {
-            label 'any'
-        }
+    agent any
 
     environment {
             MAVEN_HOME = "$maven_home"
