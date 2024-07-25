@@ -12,44 +12,45 @@ def java_home = "$base_dir/java/" + jdk_url.replaceFirst(file_name_regex, "")
 
 def docker_repo = "jenkins-demo-app/api"
 
+pipeline {
+    agent any
     environment {
-        DOCKER_PATH = tool (name: "docker-latest", type: 'org.jenkinsci.plugins.docker.commons.tools.DockerTool')
-        MAVEN_HOME = "$maven_home"
-        JAVA_HOME = "$java_home"
-        PATH = "$maven_home/bin:$java_home/bin:$PATH"
+            DOCKER_PATH = tool (name: "docker-latest", type: 'org.jenkinsci.plugins.docker.commons.tools.DockerTool')
+            MAVEN_HOME = "$maven_home"
+            JAVA_HOME = "$java_home"
+            PATH = "$maven_home/bin:$java_home/bin:$PATH"
     }
-
-
     stages {
         stage('init') {
-            steps {
-                script {
-                    if (!fileExists(maven_home)) {
-                        echo "Install Maven"
-                        sh "rm -rf " + maven_home.replaceFirst(parent_path_regex, "")
-                        sh "mkdir -p $maven_home"
-                        def maven_zip = "$maven_home/maven.zip"
-                        sh "curl -sLf $maven_url -o $maven_zip"
-                        sh "unzip -q $maven_zip -d $maven_home"
-                        sh "rm -f $maven_zip"
-                        def unzipped_maven_dir = sh(script: "readlink -f $maven_home/*", returnStdout: true).trim()
-                        sh "mv $unzipped_maven_dir/* $maven_home"
-                        sh "rm -rf $unzipped_maven_dir"
-                    }
+                    steps {
+                        script {
+                            if (!fileExists(maven_home)) {
+                                echo "Install Maven"
+                                sh "rm -rf " + maven_home.replaceFirst(parent_path_regex, "")
+                                sh "mkdir -p $maven_home"
+                                def maven_zip = "$maven_home/maven.zip"
+                                sh "curl -sLf $maven_url -o $maven_zip"
+                                sh "unzip -q $maven_zip -d $maven_home"
+                                sh "rm -f $maven_zip"
+                                def unzipped_maven_dir = sh(script: "readlink -f $maven_home/*", returnStdout: true).trim()
+                                sh "mv $unzipped_maven_dir/* $maven_home"
+                                sh "rm -rf $unzipped_maven_dir"
+                            }
 
-                    if (!fileExists(java_home)) {
-                        echo "Install JDK"
-                        sh "rm -rf " + java_home.replaceFirst(parent_path_regex, "")
-                        sh "mkdir -p $java_home"
-                        def java_tar = "$java_home/jdk.tar.gz"
-                        sh "curl -sLf $jdk_url -o $java_tar"
-                        sh "tar -xzf $java_tar -C $java_home --strip-components=1"
-                        sh "rm -f $java_tar"
-                    }
+                            if (!fileExists(java_home)) {
+                                echo "Install JDK"
+                                sh "rm -rf " + java_home.replaceFirst(parent_path_regex, "")
+                                sh "mkdir -p $java_home"
+                                def java_tar = "$java_home/jdk.tar.gz"
+                                sh "curl -sLf $jdk_url -o $java_tar"
+                                sh "tar -xzf $java_tar -C $java_home --strip-components=1"
+                                sh "rm -f $java_tar"
+                            }
 
-                    sh "mvn -v"
-                    sh "java -version"
+                            sh "mvn -v"
+                            sh "java -version"
+                        }
+                    }
                 }
-            }
-        }
     }
+}
