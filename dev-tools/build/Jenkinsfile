@@ -12,7 +12,7 @@ def java_home = "$base_dir/java/" + jdk_url.replaceFirst(file_name_regex, "")
 
 pipeline {
     agent {
-            label any
+            label 'any'
         }
 
     environment {
