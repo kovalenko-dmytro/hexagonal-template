@@ -11,10 +11,7 @@ def maven_home = "$base_dir/maven/" + maven_url.replaceFirst(file_name_regex, ""
 def java_home = "$base_dir/java/" + jdk_url.replaceFirst(file_name_regex, "")
 
 def docker_repo = "jenkins-demo-app/api"
-pipeline {
-        ansiColor colorMapName: 'XTerm'
-        buildDiscarder(logRotator(numToKeepStr: '3'))
-    }
+
     environment {
         DOCKER_PATH = tool (name: "docker-latest", type: 'org.jenkinsci.plugins.docker.commons.tools.DockerTool')
         MAVEN_HOME = "$maven_home"
