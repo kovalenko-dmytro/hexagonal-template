@@ -27,6 +27,16 @@ springdoc:
   api-docs:
     path: /api-docs
 
+application:
+  default-admin:
+    username: ${DEFAULT_ADMIN_USERNAME}
+    password: ${DEFAULT_ADMIN_PASSWORD}
+    email: ${DEFAULT_ADMIN_EMAIL}
+  jwt:
+    secret-key: ${JWT_SECRET_KEY}
+    expiration: ${JWT_EXPIRED}
+    refresh-expiration: ${JWT_REFRESH_EXPIRED}
+
 server:
   servlet:
     context-path: /${SERVER_CONTEXT_PATH}
