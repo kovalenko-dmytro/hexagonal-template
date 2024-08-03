@@ -10,6 +10,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.*;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.util.MimeType;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -136,6 +137,13 @@ public class RESTErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleAccessDenied(AccessDeniedException ex) {
         final var response =
             buildRestApiErrorResponse(ex.getMessage(), HttpStatus.FORBIDDEN, List.of());
+        return createResponseEntity(response);
+    }
+
+    @ExceptionHandler({AuthenticationException.class})
+    public ResponseEntity<Object> handleUnauthorized(AuthenticationException ex) {
+        final var response =
+            buildRestApiErrorResponse(ex.getMessage(), HttpStatus.UNAUTHORIZED, List.of());
         return createResponseEntity(response);
     }
 
