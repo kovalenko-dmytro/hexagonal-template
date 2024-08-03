@@ -1,0 +1,20 @@
+spring:
+  profiles:
+    active: test
+  jpa:
+    hibernate:
+      ddl-auto: create
+    open-in-view: false
+  liquibase:
+    enabled: false
+  datasource:
+    url: jdbc:tc:postgresql://localhost:5432/test
+    username: test
+    password: test
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+
+application:
+  jwt:
+    secret-key: d12c205d3c1f6d9bf812a2f1d025a797t20c7edd22730329b802320286n1741c
+    expiration: 3600000
+    refresh-expiration: 3600000
