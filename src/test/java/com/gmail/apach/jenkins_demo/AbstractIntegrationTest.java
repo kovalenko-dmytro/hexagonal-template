@@ -2,8 +2,10 @@ package com.gmail.apach.jenkins_demo;
 
 import com.github.database.rider.core.api.configuration.DBUnit;
 import com.github.database.rider.core.api.configuration.Orthography;
+import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.junit5.api.DBRider;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -27,6 +29,11 @@ public abstract class AbstractIntegrationTest {
 		System.setProperty("DB_URL", container.getJdbcUrl());
 		System.setProperty("DB_USERNAME", container.getUsername());
 		System.setProperty("DB_PASSWORD", container.getPassword());
+	}
+
+	@BeforeEach
+	@DataSet("datasets/infrastructure/clear.yml")
+	void beforeEach() {
 	}
 
 }

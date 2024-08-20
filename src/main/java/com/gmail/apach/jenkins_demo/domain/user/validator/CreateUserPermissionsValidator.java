@@ -1,0 +1,65 @@
+package com.gmail.apach.jenkins_demo.domain.user.validator;
+
+import com.gmail.apach.jenkins_demo.common.constant.CommonConstant;
+import com.gmail.apach.jenkins_demo.common.constant.message.Error;
+import com.gmail.apach.jenkins_demo.common.exception.ForbiddenException;
+import com.gmail.apach.jenkins_demo.common.exception.UnauthorizedException;
+import com.gmail.apach.jenkins_demo.domain.common.constant.RoleType;
+import com.gmail.apach.jenkins_demo.domain.user.model.Role;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+@Component
+@RequiredArgsConstructor
+public class CreateUserPermissionsValidator {
+
+    private final MessageSource messageSource;
+
+    public void validate(Set<Role> roles) {
+        final var authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (Objects.isNull(authentication)) {
+            throw new UnauthorizedException(messageSource.getMessage(
+                Error.UNAUTHORISED.getKey(), null, LocaleContextHolder.getLocale()));
+        }
+
+        final var authorities = authentication.getAuthorities();
+        if (CollectionUtils.isEmpty(authorities)) {
+            throw new ForbiddenException(messageSource.getMessage(
+                Error.FORBIDDEN_AUTHORITIES_NOT_FOUND.getKey(), null, LocaleContextHolder.getLocale()));
+        }
+
+        final var authUserRoles = authorities.stream()
+            .map(authority -> authority.getAuthority().replace("ROLE_", StringUtils.EMPTY))
+            .collect(Collectors.toSet());
+        final var requestRoleTypes = roles.stream()
+            .map(Role::getRole)
+            .collect(Collectors.toSet());
+
+        final var isAdmin = authUserRoles.contains(RoleType.ADMIN.name());
+        final var isManagerCreateUser =
+            authUserRoles.contains(RoleType.MANAGER.name())
+                && !authUserRoles.contains(RoleType.ADMIN.name())
+                && requestRoleTypes.contains(RoleType.USER)
+                && !requestRoleTypes.contains(RoleType.MANAGER);
+        if (!(isAdmin || isManagerCreateUser)) {
+            throw new ForbiddenException(messageSource.getMessage(
+                Error.FORBIDDEN_USER_CREATION.getKey(), getArgs(requestRoleTypes), LocaleContextHolder.getLocale()));
+        }
+    }
+
+    private Object[] getArgs(Set<RoleType> requestRoleTypes) {
+        return new Object[]{
+            requestRoleTypes.stream()
+                .map(RoleType::name)
+                .collect(Collectors.joining(CommonConstant.COMMA.getValue()))};
+    }
+}

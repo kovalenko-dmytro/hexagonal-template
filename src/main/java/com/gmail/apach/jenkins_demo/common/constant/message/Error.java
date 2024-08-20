@@ -17,6 +17,8 @@ public enum Error {
     HTTP_METHOD_NOT_ALLOWED("error.http.method.not.allowed"),
     MEDIA_TYPE_NOT_SUPPORTED("error.media.type.not.supported"),
     UNAUTHORISED("error.unauthorised"),
+    FORBIDDEN_AUTHORITIES_NOT_FOUND("error.forbidden.authorities.not.found"),
+    FORBIDDEN_USER_CREATION("error.forbidden.user.creation"),
     INTERNAL_SERVER_ERROR_OCCURRED("error.internal.server.error.occurred");
 
     private final String key;

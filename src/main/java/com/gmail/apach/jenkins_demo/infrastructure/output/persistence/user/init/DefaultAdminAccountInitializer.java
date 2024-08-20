@@ -1,6 +1,5 @@
 package com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.init;
 
-import com.gmail.apach.jenkins_demo.domain.common.constant.RoleType;
 import com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.entity.UserEntity;
 import com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.repository.RoleRepository;
 import com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.repository.UserRepository;
@@ -12,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.HashSet;
 
 @Profile("!test")
 @Component
@@ -44,7 +43,7 @@ public class DefaultAdminAccountInitializer implements CommandLineRunner {
                 .email(email)
                 .enabled(true)
                 .created(LocalDateTime.now())
-                .roles(Set.of(roleRepository.findByRole(RoleType.ADMIN).get()))
+                .roles(new HashSet<>(roleRepository.findAll()))
                 .build();
             userRepository.save(defaultAdmin);
         }

@@ -1,6 +1,8 @@
 package com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.mapper;
 
+import com.gmail.apach.jenkins_demo.domain.user.model.Role;
 import com.gmail.apach.jenkins_demo.domain.user.model.User;
+import com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.entity.RoleEntity;
 import com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.entity.UserEntity;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
@@ -17,5 +19,7 @@ public interface UserPersistenceMapper {
 
     User toUser(UserEntity userEntity);
 
+    RoleEntity toRoleEntity(Role role);
 
+    Role toRole(RoleEntity roleEntity);
 }

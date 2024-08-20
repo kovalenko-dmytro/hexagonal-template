@@ -1,7 +1,10 @@
 package com.gmail.apach.jenkins_demo.infrastructure.input.rest.user.dto;
 
+import com.gmail.apach.jenkins_demo.domain.common.constant.RoleType;
+import com.gmail.apach.jenkins_demo.infrastructure.input.rest.common.validation.CreateUserRoleTypeConstraint;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 
@@ -22,8 +25,8 @@ public record CreateUserRequest(
     @NotBlank
     @Size(max = 255)
     @Email
-    String email
-) {
-
-
-}
+    String email,
+    @NotNull
+    @CreateUserRoleTypeConstraint
+    RoleType roleType
+) {}
