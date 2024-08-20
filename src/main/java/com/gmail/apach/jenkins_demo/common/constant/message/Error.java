@@ -19,6 +19,7 @@ public enum Error {
     UNAUTHORISED("error.unauthorised"),
     FORBIDDEN_AUTHORITIES_NOT_FOUND("error.forbidden.authorities.not.found"),
     FORBIDDEN_USER_CREATION("error.forbidden.user.creation"),
+    FORBIDDEN_USER_GET_BY_ID("error.forbidden.user.get.id"),
     INTERNAL_SERVER_ERROR_OCCURRED("error.internal.server.error.occurred");
 
     private final String key;

@@ -7,4 +7,5 @@ import java.util.Optional;
 public interface GetUserOutputPort {
 
     Optional<User> getByUsername(String username);
+    Optional<User> getByUserId(String userId);
 }

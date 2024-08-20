@@ -2,7 +2,7 @@ package com.gmail.apach.jenkins_demo.domain.user.validator;
 
 import com.gmail.apach.jenkins_demo.common.exception.ForbiddenException;
 import com.gmail.apach.jenkins_demo.data.AuthoritiesTestData;
-import com.gmail.apach.jenkins_demo.data.RolesTestData;
+import com.gmail.apach.jenkins_demo.data.UsersTestData;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,72 +20,99 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class CreateUserPermissionsValidatorTest {
+class GetUserByIdPermissionsValidatorTest {
 
     @InjectMocks
-    private CreateUserPermissionsValidator createUserPermissionsValidator;
+    private GetUserByIdPermissionsValidator getUserByIdPermissionsValidator;
     @Mock
     private MessageSource messageSource;
 
     @Test
-    void validateAdminCreatesUserOrManager_success() {
+    void validateAdminGetAnyUser_success() {
         final var authentication = mock(AbstractAuthenticationToken.class);
         final var securityContext = mock(SecurityContext.class);
 
         when(securityContext.getAuthentication()).thenReturn(authentication);
         SecurityContextHolder.setContext(securityContext);
         when(authentication.getAuthorities()).thenReturn(AuthoritiesTestData.adminAuthorities());
+        when(authentication.getName()).thenReturn("admin");
 
-        assertDoesNotThrow(() -> createUserPermissionsValidator.validate(RolesTestData.userRoles()));
-        assertDoesNotThrow(() -> createUserPermissionsValidator.validate(RolesTestData.managerRoles()));
+        assertDoesNotThrow(() -> getUserByIdPermissionsValidator.validate(UsersTestData.admin()));
+        assertDoesNotThrow(() -> getUserByIdPermissionsValidator.validate(UsersTestData.manager()));
+        assertDoesNotThrow(() -> getUserByIdPermissionsValidator.validate(UsersTestData.userCreatedByAdmin()));
 
         Mockito.reset(authentication, securityContext);
     }
 
     @Test
-    void validateManagerCreatesUser_success() {
+    void validateManagerGetSelfOrOwnUser_success() {
         final var authentication = mock(AbstractAuthenticationToken.class);
         final var securityContext = mock(SecurityContext.class);
 
         when(securityContext.getAuthentication()).thenReturn(authentication);
         SecurityContextHolder.setContext(securityContext);
         when(authentication.getAuthorities()).thenReturn(AuthoritiesTestData.managerAuthorities());
+        when(authentication.getName()).thenReturn("manager");
 
-        assertDoesNotThrow(() -> createUserPermissionsValidator.validate(RolesTestData.userRoles()));
+        assertDoesNotThrow(() -> getUserByIdPermissionsValidator.validate(UsersTestData.manager()));
+        assertDoesNotThrow(() -> getUserByIdPermissionsValidator.validate(UsersTestData.userCreatedByManager()));
 
         Mockito.reset(authentication, securityContext);
     }
 
     @Test
-    void validateManagerCreatesManager_fail() {
+    void validateManagerNotGetSelfOrOwnUser_fail() {
         final var authentication = mock(AbstractAuthenticationToken.class);
         final var securityContext = mock(SecurityContext.class);
 
         when(securityContext.getAuthentication()).thenReturn(authentication);
         SecurityContextHolder.setContext(securityContext);
         when(authentication.getAuthorities()).thenReturn(AuthoritiesTestData.managerAuthorities());
+        when(authentication.getName()).thenReturn("manager");
 
         assertThrows(ForbiddenException.class,
-            () -> createUserPermissionsValidator.validate(RolesTestData.managerRoles()));
+            () -> getUserByIdPermissionsValidator.validate(UsersTestData.admin()));
+        assertThrows(ForbiddenException.class,
+            () -> getUserByIdPermissionsValidator.validate(UsersTestData.anotherManager()));
+        assertThrows(ForbiddenException.class,
+            () -> getUserByIdPermissionsValidator.validate(UsersTestData.userCreatedByAnotherManager()));
 
         Mockito.reset(authentication, securityContext);
     }
 
     @Test
-    void validateUserCreatesAny_fail() {
+    void validateUserGetSelf_success() {
         final var authentication = mock(AbstractAuthenticationToken.class);
         final var securityContext = mock(SecurityContext.class);
 
         when(securityContext.getAuthentication()).thenReturn(authentication);
         SecurityContextHolder.setContext(securityContext);
         when(authentication.getAuthorities()).thenReturn(AuthoritiesTestData.userAuthorities());
+        when(authentication.getName()).thenReturn("userCreatedByAdmin");
+
+        assertDoesNotThrow(() -> getUserByIdPermissionsValidator.validate(UsersTestData.userCreatedByAdmin()));
+
+        Mockito.reset(authentication, securityContext);
+    }
+
+    @Test
+    void validateUserNotGetSelf_fail() {
+        final var authentication = mock(AbstractAuthenticationToken.class);
+        final var securityContext = mock(SecurityContext.class);
+
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+        when(authentication.getAuthorities()).thenReturn(AuthoritiesTestData.userAuthorities());
+        when(authentication.getName()).thenReturn("userCreatedByAdmin");
 
         assertThrows(ForbiddenException.class,
-            () -> createUserPermissionsValidator.validate(RolesTestData.userRoles()));
+            () -> getUserByIdPermissionsValidator.validate(UsersTestData.admin()));
         assertThrows(ForbiddenException.class,
-            () -> createUserPermissionsValidator.validate(RolesTestData.managerRoles()));
+            () -> getUserByIdPermissionsValidator.validate(UsersTestData.manager()));
         assertThrows(ForbiddenException.class,
-            () -> createUserPermissionsValidator.validate(RolesTestData.adminRoles()));
+            () -> getUserByIdPermissionsValidator.validate(UsersTestData.anotherManager()));
+        assertThrows(ForbiddenException.class,
+            () -> getUserByIdPermissionsValidator.validate(UsersTestData.userCreatedByAnotherManager()));
 
         Mockito.reset(authentication, securityContext);
     }
