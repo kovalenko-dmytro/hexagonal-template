@@ -44,6 +44,9 @@ public class UserEntity {
     @Column(name = "created", nullable = false)
     private LocalDateTime created;
 
+    @Column(name = "created_by", nullable = false)
+    private String createdBy;
+
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
         name = "users_roles",

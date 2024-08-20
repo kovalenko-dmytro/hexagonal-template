@@ -22,5 +22,6 @@ public class User {
     private String email;
     private boolean enabled;
     private LocalDateTime created;
+    private String createdBy;
     private Set<Role> roles;
 }

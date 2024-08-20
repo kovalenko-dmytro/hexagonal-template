@@ -7,6 +7,7 @@ users:
     email: "email@email"
     enabled: "true"
     created: "2024-07-31 00:00:00.000"
+    created_by: "admin"
 roles:
   - role_: "6a8d68c8-2f28-4b53-ac5a-2db586512438"
     role: "USER"
