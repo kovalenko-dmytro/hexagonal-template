@@ -20,4 +20,9 @@ public class GetUserPersistenceAdapter implements GetUserOutputPort {
     public Optional<User> getByUsername(String username) {
         return userRepository.findByUsername(username).map(userMapper::toUser);
     }
+
+    @Override
+    public Optional<User> getByUserId(String userId) {
+        return userRepository.findById(userId).map(userMapper::toUser);
+    }
 }

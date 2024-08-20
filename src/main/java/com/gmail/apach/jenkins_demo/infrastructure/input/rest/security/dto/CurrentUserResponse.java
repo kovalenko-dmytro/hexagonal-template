@@ -8,6 +8,7 @@ import java.util.Set;
 
 @Builder
 public record CurrentUserResponse(
+    String userId,
     String username,
     String firstName,
     String lastName,
