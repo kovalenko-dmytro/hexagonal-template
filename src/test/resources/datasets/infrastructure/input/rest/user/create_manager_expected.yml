@@ -1,0 +1,19 @@
+users:
+  - user_:
+    user_name: "manager"
+    password:
+    first_name: "first_name"
+    last_name: "last_name"
+    email: "email@email"
+    enabled: "true"
+    created:
+roles:
+  - role_: "6a8d68c8-2f28-4b53-ac5a-2db586512438"
+    role: "USER"
+  - role_: "7a8d68c8-2f28-4b53-ac5a-2db586512438"
+    role: "MANAGER"
+users_roles:
+  - user_:
+    role_: "6a8d68c8-2f28-4b53-ac5a-2db586512438"
+  - user_:
+    role_: "7a8d68c8-2f28-4b53-ac5a-2db586512438"

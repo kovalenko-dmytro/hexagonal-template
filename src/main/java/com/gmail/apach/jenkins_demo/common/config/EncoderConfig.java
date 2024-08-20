@@ -1,4 +1,4 @@
-package com.gmail.apach.jenkins_demo.infrastructure.input.rest.security.config;
+package com.gmail.apach.jenkins_demo.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -8,6 +8,7 @@ import com.gmail.apach.jenkins_demo.infrastructure.input.rest.security.dto.SignI
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -61,6 +62,7 @@ class RESTAuthAdapterTest extends AbstractControllerIntegrationTest {
     }
 
     @Test
+    @WithMockUser(roles = { "ADMIN", "MANAGER", "USER" })
     @DataSet("datasets/infrastructure/input/rest/security/current_user_setup.yml")
     void getCurrentUser_success() throws Exception {
         final var request = SignInRequest.builder().username("current_user").password(PASSWORD).build();
