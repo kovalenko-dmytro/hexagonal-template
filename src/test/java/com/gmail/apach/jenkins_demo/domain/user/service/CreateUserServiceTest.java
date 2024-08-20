@@ -10,7 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
@@ -60,6 +64,12 @@ class CreateUserServiceTest {
 
     @Test
     void createUser_success() {
+        final var authentication = mock(Authentication.class);
+        final var securityContext = mock(SecurityContext.class);
+
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+        when(authentication.getName()).thenReturn("admin");
         when(passwordEncoder.encode(user.getPassword())).thenReturn("encodedPassword");
         doNothing().when(createUserPermissionsValidator).validate(user.getRoles());
         when(createUserOutputPort.createUser(user)).thenReturn(savedUser);
@@ -68,10 +78,18 @@ class CreateUserServiceTest {
 
         assertNotNull(actual);
         assertNotNull(actual.getUserId());
+
+        Mockito.reset(authentication, securityContext);
     }
 
     @Test
     void createUserWithNoRoles_success() {
+        final var authentication = mock(Authentication.class);
+        final var securityContext = mock(SecurityContext.class);
+
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+        when(authentication.getName()).thenReturn("admin");
         when(passwordEncoder.encode(user.getPassword())).thenReturn("encodedPassword");
         when(createUserOutputPort.createUser(userWithNoRoles)).thenReturn(savedUser);
 
@@ -83,13 +101,23 @@ class CreateUserServiceTest {
         assertEquals(1, actual.getRoles().size());
         final var roleTypes = actual.getRoles().stream().map(Role::getRole).collect(Collectors.toSet());
         assertTrue(roleTypes.contains(RoleType.USER));
+
+        Mockito.reset(authentication, securityContext);
     }
 
     @Test
     void createUser_fail() {
+        final var authentication = mock(Authentication.class);
+        final var securityContext = mock(SecurityContext.class);
+
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+        when(authentication.getName()).thenReturn("username");
         doThrow(new ForbiddenException("forbidden"))
             .when(createUserPermissionsValidator).validate(user.getRoles());
 
         assertThrows(ForbiddenException.class, () -> createUserService.createUser(user));
+
+        Mockito.reset(authentication, securityContext);
     }
 }

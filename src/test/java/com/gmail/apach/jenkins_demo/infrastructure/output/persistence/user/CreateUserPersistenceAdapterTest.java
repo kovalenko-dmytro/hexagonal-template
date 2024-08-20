@@ -38,6 +38,7 @@ class CreateUserPersistenceAdapterTest extends AbstractIntegrationTest {
             .firstName("first_name")
             .lastName("last_name")
             .created(LocalDateTime.now())
+            .createdBy("admin")
             .email("email@email")
             .roles(Set.of(Role.builder().role(RoleType.USER).build()))
             .enabled(true)
@@ -68,6 +69,7 @@ class CreateUserPersistenceAdapterTest extends AbstractIntegrationTest {
             .firstName("first_name")
             .lastName("last_name")
             .created(LocalDateTime.now())
+            .createdBy("admin")
             .email("email@email")
             .roles(Set.of(
                 Role.builder().role(RoleType.MANAGER).build(),

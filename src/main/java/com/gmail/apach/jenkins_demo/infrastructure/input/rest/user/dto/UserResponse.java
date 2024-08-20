@@ -15,5 +15,6 @@ public record UserResponse(
     String email,
     boolean enabled,
     LocalDateTime created,
+    String createdBy,
     Set<RoleType> roles
 ) {}

@@ -8,6 +8,7 @@ import com.gmail.apach.jenkins_demo.domain.user.model.User;
 import com.gmail.apach.jenkins_demo.domain.user.validator.CreateUserPermissionsValidator;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,7 @@ public class CreateUserService implements CreateUserInputPort {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
         user.setCreated(LocalDateTime.now());
+        user.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
         if (CollectionUtils.isNotEmpty(user.getRoles())) {
             createUserPermissionsValidator.validate(user.getRoles());
         } else {
