@@ -24,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         final var authorities = CollectionUtils.emptyIfNull(user.getRoles()).stream()
             .map(role -> new SimpleGrantedAuthority("ROLE_".concat(role.getRole().name())))
             .collect(Collectors.toSet());
-        return new User(user.getUsername(), user.getPassword(), user.isEnabled(),
+        return new User(user.getUsername(), user.getPassword(), user.getEnabled(),
             true, true, true, authorities);
     }
 }
