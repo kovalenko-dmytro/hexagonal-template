@@ -3,7 +3,7 @@ package com.gmail.apach.jenkins_demo.infrastructure.input.rest.common.handler;
 import com.gmail.apach.jenkins_demo.common.constant.CommonConstant;
 import com.gmail.apach.jenkins_demo.common.constant.message.Error;
 import com.gmail.apach.jenkins_demo.common.exception.ApplicationServerException;
-import com.gmail.apach.jenkins_demo.common.exception.EntityNotFoundException;
+import com.gmail.apach.jenkins_demo.common.exception.ResourceNotFoundException;
 import com.gmail.apach.jenkins_demo.infrastructure.input.rest.common.dto.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -126,8 +126,8 @@ public class RESTErrorHandler extends ResponseEntityExceptionHandler {
         return createResponseEntity(response);
     }
 
-    @ExceptionHandler({EntityNotFoundException.class})
-    public ResponseEntity<Object> handleNotFound(EntityNotFoundException ex) {
+    @ExceptionHandler({ResourceNotFoundException.class})
+    public ResponseEntity<Object> handleNotFound(ResourceNotFoundException ex) {
         final var response =
             buildRestApiErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND, List.of());
         return createResponseEntity(response);

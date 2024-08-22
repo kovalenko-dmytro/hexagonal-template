@@ -39,7 +39,7 @@ public class UserEntity {
     private String email;
 
     @Column(name = "enabled", nullable = false)
-    private boolean enabled;
+    private Boolean enabled;
 
     @Column(name = "created", nullable = false)
     private LocalDateTime created;

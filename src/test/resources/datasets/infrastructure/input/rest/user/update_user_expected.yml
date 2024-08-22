@@ -1,0 +1,20 @@
+users:
+  - user_: "5a8d68c8-2f28-4b53-ac5a-2db586512440"
+    user_name: "username"
+    password: "password"
+    first_name: "first_name_new"
+    last_name: "last_name_new"
+    email: "new@new"
+    enabled: "false"
+    created: "2024-07-31 00:00:00.000"
+    created_by: "admin"
+roles:
+  - role_: "6a8d68c8-2f28-4b53-ac5a-2db586512438"
+    role: "USER"
+  - role_: "7a8d68c8-2f28-4b53-ac5a-2db586512438"
+    role: "MANAGER"
+  - role_: "8a8d68c8-2f28-4b53-ac5a-2db586512438"
+    role: "ADMIN"
+users_roles:
+  - user_: "5a8d68c8-2f28-4b53-ac5a-2db586512440"
+    role_: "6a8d68c8-2f28-4b53-ac5a-2db586512438"

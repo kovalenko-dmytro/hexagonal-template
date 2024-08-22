@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class GetUserPersistenceAdapterTest extends AbstractIntegrationTest {
 
@@ -20,8 +20,8 @@ class GetUserPersistenceAdapterTest extends AbstractIntegrationTest {
     void getByUsername() {
         final var actual = getUserPersistenceAdapter.getByUsername(USERNAME);
 
-        assertTrue(actual.isPresent());
-        assertEquals(USERNAME, actual.get().getUsername());
+        assertNotNull(actual);
+        assertEquals(USERNAME, actual.getUsername());
     }
 
     @Test
@@ -29,7 +29,7 @@ class GetUserPersistenceAdapterTest extends AbstractIntegrationTest {
     void getByUserId() {
         final var actual = getUserPersistenceAdapter.getByUserId(USER_ID);
 
-        assertTrue(actual.isPresent());
-        assertEquals(USER_ID, actual.get().getUserId());
+        assertNotNull(actual);
+        assertEquals(USER_ID, actual.getUserId());
     }
 }
