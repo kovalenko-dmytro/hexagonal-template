@@ -10,12 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -59,19 +55,11 @@ class GetUserServiceTest {
         final var admin = UsersTestData.admin();
         when(getUserOutputPort.getByUserId(USER_ID)).thenReturn(admin);
 
-        final var authentication = mock(Authentication.class);
-        final var securityContext = mock(SecurityContext.class);
-
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
-        when(authentication.getName()).thenReturn("admin");
         doNothing().when(getUserByIdPermissionsValidator).validate(admin);
 
         final var actual = getUserService.getByUserId(USER_ID);
 
         assertNotNull(actual);
-
-        Mockito.reset(authentication, securityContext);
     }
 
     @Test
@@ -87,17 +75,9 @@ class GetUserServiceTest {
         final var admin = UsersTestData.admin();
         when(getUserOutputPort.getByUserId(USER_ID)).thenReturn(admin);
 
-        final var authentication = mock(Authentication.class);
-        final var securityContext = mock(SecurityContext.class);
-
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
-        when(authentication.getName()).thenReturn("user");
         doThrow(new ForbiddenException("forbidden"))
             .when(getUserByIdPermissionsValidator).validate(admin);
 
         assertThrows(ForbiddenException.class, () -> getUserService.getByUserId(USER_ID));
-
-        Mockito.reset(authentication, securityContext);
     }
 }
