@@ -23,6 +23,7 @@ public enum Error {
     FORBIDDEN_USER_UPDATE_BY_ID("error.forbidden.user.update.id"),
     FORBIDDEN_USER_UPDATE_ENABLED("error.forbidden.user.update.enabled"),
     FORBIDDEN_USER_UPDATE_ROLES("error.forbidden.user.update.roles"),
+    FORBIDDEN_USER_DELETE_BY_ID("error.forbidden.user.delete"),
     INTERNAL_SERVER_ERROR_OCCURRED("error.internal.server.error.occurred");
 
     private final String key;
