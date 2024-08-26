@@ -47,6 +47,9 @@ public class UserEntity {
     @Column(name = "created_by", nullable = false)
     private String createdBy;
 
+    @Column(name = "is_admin", nullable = false, columnDefinition = "boolean default false")
+    private boolean isAdmin;
+
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
         name = "users_roles",

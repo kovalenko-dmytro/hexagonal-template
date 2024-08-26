@@ -44,6 +44,7 @@ public class DefaultAdminAccountInitializer implements CommandLineRunner {
                 .enabled(true)
                 .created(LocalDateTime.now())
                 .createdBy(username)
+                .isAdmin(true)
                 .roles(new HashSet<>(roleRepository.findAll()))
                 .build();
             userRepository.save(defaultAdmin);
