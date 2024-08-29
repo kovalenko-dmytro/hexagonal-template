@@ -1,6 +1,7 @@
 package com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.specification;
 
-import com.gmail.apach.jenkins_demo.domain.user.wrapper.GetUsersSearchSortPageWrapper;
+import com.gmail.apach.jenkins_demo.common.dto.CurrentUserContext;
+import com.gmail.apach.jenkins_demo.domain.user.wrapper.GetUsersRequestWrapper;
 import com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.entity.UserEntity;
 import jakarta.persistence.criteria.Predicate;
 import lombok.AccessLevel;
@@ -15,7 +16,10 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class UserSpecifications {
 
-    public static Specification<UserEntity> specification(GetUsersSearchSortPageWrapper wrapper, boolean isAdmin) {
+    public static Specification<UserEntity> specification(
+        GetUsersRequestWrapper wrapper,
+        CurrentUserContext context)
+    {
         return (root, criteriaQuery, criteriaBuilder) -> {
             final var predicates = new ArrayList<Predicate>();
 
@@ -51,7 +55,7 @@ public final class UserSpecifications {
                 predicates.add(criteriaBuilder.between(root.get("created"), timeFrom, timeTo));
             }
 
-            if (!isAdmin) {
+            if (!context.isAdmin()) {
                 predicates.add(criteriaBuilder.notEqual(root.get("isAdmin"), true));
             }
 

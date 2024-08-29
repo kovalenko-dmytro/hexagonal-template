@@ -5,7 +5,7 @@ import lombok.Builder;
 import java.time.LocalDate;
 
 @Builder
-public record GetUsersSearchSortPageWrapper(
+public record GetUsersRequestWrapper(
     String username,
     String firstName,
     String lastName,

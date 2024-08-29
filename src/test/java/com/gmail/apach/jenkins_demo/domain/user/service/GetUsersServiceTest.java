@@ -7,7 +7,7 @@ import com.gmail.apach.jenkins_demo.common.util.CurrentUserContextUtil;
 import com.gmail.apach.jenkins_demo.data.AuthoritiesTestData;
 import com.gmail.apach.jenkins_demo.data.UsersTestData;
 import com.gmail.apach.jenkins_demo.domain.user.validator.GetUsersPermissionsValidator;
-import com.gmail.apach.jenkins_demo.domain.user.wrapper.GetUsersSearchSortPageWrapper;
+import com.gmail.apach.jenkins_demo.domain.user.wrapper.GetUsersRequestWrapper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,7 +39,7 @@ class GetUsersServiceTest {
         final var context = CurrentUserContext.builder()
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
-        final var wrapper = GetUsersSearchSortPageWrapper.builder().build();
+        final var wrapper = GetUsersRequestWrapper.builder().build();
 
         when(currentUserContextUtil.getContext())
             .thenReturn(context);
@@ -47,7 +47,7 @@ class GetUsersServiceTest {
             .when(getUsersPermissionsValidator)
             .validate(context);
 
-        when(getUsersOutputPort.getUsers(wrapper, true))
+        when(getUsersOutputPort.getUsers(wrapper, context))
             .thenReturn(users);
 
         final var actual = getUsersService.getUsers(wrapper);
@@ -62,7 +62,7 @@ class GetUsersServiceTest {
         final var context = CurrentUserContext.builder()
             .authorities(AuthoritiesTestData.userAuthorities())
             .build();
-        final var wrapper = GetUsersSearchSortPageWrapper.builder().build();
+        final var wrapper = GetUsersRequestWrapper.builder().build();
 
         when(currentUserContextUtil.getContext())
             .thenReturn(context);
