@@ -2,8 +2,9 @@ package com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user;
 
 import com.gmail.apach.jenkins_demo.application.output.user.GetUsersOutputPort;
 import com.gmail.apach.jenkins_demo.common.constant.CommonConstant;
+import com.gmail.apach.jenkins_demo.common.dto.CurrentUserContext;
 import com.gmail.apach.jenkins_demo.domain.user.model.User;
-import com.gmail.apach.jenkins_demo.domain.user.wrapper.GetUsersSearchSortPageWrapper;
+import com.gmail.apach.jenkins_demo.domain.user.wrapper.GetUsersRequestWrapper;
 import com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.mapper.UserPersistenceMapper;
 import com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.repository.UserRepository;
 import com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.specification.UserSpecifications;
@@ -26,13 +27,13 @@ public class GetUsersPersistenceAdapter implements GetUsersOutputPort {
     private final UserPersistenceMapper userMapper;
 
     @Override
-    public Page<User> getUsers(GetUsersSearchSortPageWrapper wrapper, boolean isAdmin) {
+    public Page<User> getUsers(GetUsersRequestWrapper wrapper, CurrentUserContext context) {
         final var pageable = Objects.isNull(wrapper.sort()) || wrapper.sort().length == 0
             ? PageRequest.of(wrapper.page() - 1, wrapper.size())
             : PageRequest.of(wrapper.page() - 1, wrapper.size(), Sort.by(defineOrders(wrapper.sort())));
 
         return userRepository
-            .findAll(UserSpecifications.specification(wrapper, isAdmin), pageable)
+            .findAll(UserSpecifications.specification(wrapper, context), pageable)
             .map(userMapper::toUser);
     }
 

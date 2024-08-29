@@ -1,7 +1,7 @@
 package com.gmail.apach.jenkins_demo.infrastructure.input.rest.user;
 
 import com.gmail.apach.jenkins_demo.application.input.user.GetUsersInputPort;
-import com.gmail.apach.jenkins_demo.domain.user.wrapper.GetUsersSearchSortPageWrapper;
+import com.gmail.apach.jenkins_demo.domain.user.wrapper.GetUsersRequestWrapper;
 import com.gmail.apach.jenkins_demo.infrastructure.input.rest.common.mapper.UserRESTMapper;
 import com.gmail.apach.jenkins_demo.infrastructure.input.rest.user.dto.UserResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -40,7 +40,7 @@ public class GetUsersRESTAdapter {
         @RequestParam(defaultValue = "10") int size,
         @RequestParam(defaultValue = "created") String[] sort
     ) {
-        final var wrapper = GetUsersSearchSortPageWrapper.builder()
+        final var wrapper = GetUsersRequestWrapper.builder()
             .username(username)
             .firstName(firstName)
             .lastName(lastName)
