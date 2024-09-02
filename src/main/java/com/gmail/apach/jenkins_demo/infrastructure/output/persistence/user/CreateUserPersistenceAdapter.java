@@ -1,6 +1,7 @@
 package com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user;
 
 import com.gmail.apach.jenkins_demo.application.output.user.CreateUserOutputPort;
+import com.gmail.apach.jenkins_demo.common.constant.cache.CacheConstant;
 import com.gmail.apach.jenkins_demo.domain.common.constant.RoleType;
 import com.gmail.apach.jenkins_demo.domain.user.model.User;
 import com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.entity.RoleEntity;
@@ -10,6 +11,7 @@ import com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.repos
 import com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -23,6 +25,11 @@ public class CreateUserPersistenceAdapter implements CreateUserOutputPort {
     private final UserPersistenceMapper userMapper;
 
     @Override
+    @CacheEvict(
+        value = CacheConstant.User.LIST_CACHE_NAME,
+        key = CacheConstant.User.Key.ID,
+        allEntries = true
+    )
     public User createUser(User user) {
         final var userEntity = userMapper.toUserEntity(user);
         setRoles(userEntity);

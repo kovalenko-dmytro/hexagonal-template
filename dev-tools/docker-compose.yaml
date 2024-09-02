@@ -39,6 +39,16 @@ services:
       retries: 3
     env_file: .env
 
+  jenkins-demo-cache-storage:
+    container_name: jenkins-demo-cache-storage
+    image: redis:7.0.5-alpine
+    hostname: ${REDIS_HOST}
+    ports:
+      - "${REDIS_EXTERNAL_PORT}:${REDIS_INTERNAL_PORT}"
+    restart: always
+    command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
+    env_file: .env
+
 volumes:
   postgres_data:
   postgres_backup:

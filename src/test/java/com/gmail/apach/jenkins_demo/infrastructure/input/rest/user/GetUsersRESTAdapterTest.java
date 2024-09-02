@@ -29,6 +29,14 @@ class GetUsersRESTAdapterTest extends AbstractControllerIntegrationTest {
         final var content = result.getResponse().getContentAsString();
 
         assertNotNull(content);
+
+        final var resultFromCache = mvc.perform(
+                get(BASE_PATH)
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andReturn();
+
+        assertEquals(HttpStatus.OK.value(), resultFromCache.getResponse().getStatus());
     }
 
     @Test

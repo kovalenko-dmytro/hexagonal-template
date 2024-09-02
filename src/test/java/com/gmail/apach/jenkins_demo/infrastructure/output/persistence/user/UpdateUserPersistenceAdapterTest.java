@@ -27,7 +27,7 @@ class UpdateUserPersistenceAdapterTest extends AbstractIntegrationTest {
     @ExpectedDataSet(
         value = "datasets/infrastructure/output/persistence/user/update_user_expected.yml",
         ignoreCols = {"created"})
-    void update() {
+    void updateUser_success() {
         final var expected = User.builder()
             .userId(USER_ID)
             .username("user")

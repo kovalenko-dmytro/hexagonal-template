@@ -2,6 +2,7 @@ package com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user;
 
 import com.gmail.apach.jenkins_demo.application.output.user.GetUsersOutputPort;
 import com.gmail.apach.jenkins_demo.common.constant.CommonConstant;
+import com.gmail.apach.jenkins_demo.common.constant.cache.CacheConstant;
 import com.gmail.apach.jenkins_demo.common.dto.CurrentUserContext;
 import com.gmail.apach.jenkins_demo.domain.user.model.User;
 import com.gmail.apach.jenkins_demo.domain.user.wrapper.GetUsersRequestWrapper;
@@ -10,6 +11,7 @@ import com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.repos
 import com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.specification.UserSpecifications;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -27,6 +29,11 @@ public class GetUsersPersistenceAdapter implements GetUsersOutputPort {
     private final UserPersistenceMapper userMapper;
 
     @Override
+    @Cacheable(
+        value = CacheConstant.User.LIST_CACHE_NAME,
+        key = CacheConstant.User.Key.SEARCH,
+        condition = CacheConstant.User.Condition.SEARCH
+    )
     public Page<User> getUsers(GetUsersRequestWrapper wrapper, CurrentUserContext context) {
         final var pageable = Objects.isNull(wrapper.sort()) || wrapper.sort().length == 0
             ? PageRequest.of(wrapper.page() - 1, wrapper.size())
@@ -47,7 +54,7 @@ public class GetUsersPersistenceAdapter implements GetUsersOutputPort {
                 if (_sort.size() == 1) {
                     return new Sort.Order(Sort.Direction.ASC, _sort.get(0));
                 }
-                final var order = _sort.get(1).equalsIgnoreCase("desc")
+                final var order = _sort.get(1).equalsIgnoreCase(CommonConstant.DESC.getValue())
                     ? Sort.Direction.DESC
                     : Sort.Direction.ASC;
                 return new Sort.Order(order, _sort.get(0));

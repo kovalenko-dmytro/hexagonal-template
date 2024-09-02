@@ -3,11 +3,20 @@ spring:
     import: optional:file:dev-tools/.env[.properties]
   profiles:
     active: ${APPLICATION_PROFILE}
+  cache:
+    type: redis
+    redis:
+      cache-null-values: false
+      time-to-live: 60000
   jpa:
     hibernate:
       ddl-auto: validate
     open-in-view: false
   data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_EXTERNAL_PORT}
+      password: ${REDIS_PASSWORD}
     web:
       pageable:
         one-indexed-parameters: true

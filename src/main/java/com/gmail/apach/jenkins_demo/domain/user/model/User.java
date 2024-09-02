@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -14,7 +16,10 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Data
-public class User {
+public class User implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1234567L;
 
     private String userId;
     private String username;
