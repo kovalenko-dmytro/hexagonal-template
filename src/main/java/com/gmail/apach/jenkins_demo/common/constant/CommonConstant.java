@@ -19,6 +19,7 @@ public enum CommonConstant {
     SPACE(" "),
     SLASH("/"),
     EMPTY(""),
+    DESC("DESC"),
     DEFAULT_CHARSET("UTF-8");
 
     private final String value;

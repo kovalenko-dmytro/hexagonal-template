@@ -7,7 +7,6 @@ import com.gmail.apach.jenkins_demo.domain.common.constant.RoleType;
 import com.gmail.apach.jenkins_demo.domain.user.model.Role;
 import com.gmail.apach.jenkins_demo.domain.user.model.User;
 import org.apache.commons.collections4.CollectionUtils;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,10 +20,6 @@ class CreateUserPersistenceAdapterTest extends AbstractIntegrationTest {
 
     @Autowired
     private CreateUserPersistenceAdapter createUserPersistenceAdapter;
-
-    @BeforeEach
-    @DataSet("datasets/infrastructure/clear.yml")
-    void setUp(){}
 
     @Test
     @DataSet("datasets/infrastructure/output/persistence/user/create_user_setup.yml")

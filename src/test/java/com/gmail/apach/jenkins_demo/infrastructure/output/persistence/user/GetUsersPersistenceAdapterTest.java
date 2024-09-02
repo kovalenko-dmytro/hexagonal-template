@@ -24,7 +24,11 @@ class GetUsersPersistenceAdapterTest extends AbstractIntegrationTest {
     @Test
     @DataSet("datasets/infrastructure/output/persistence/user/get_users_setup.yml")
     void getUsers_Admin_withoutFilter() {
-        final var requestWrapper = GetUsersRequestWrapper.builder().page(1).size(5).build();
+        final var requestWrapper = GetUsersRequestWrapper.builder()
+            .page(1)
+            .size(5)
+            .sort(new String[]{"created"})
+            .build();
         final var currentUserContext = CurrentUserContext.builder()
             .username("admin")
             .authorities(AuthoritiesTestData.adminAuthorities())
@@ -45,7 +49,11 @@ class GetUsersPersistenceAdapterTest extends AbstractIntegrationTest {
     @Test
     @DataSet("datasets/infrastructure/output/persistence/user/get_users_setup.yml")
     void getUsers_Manager_withoutFilter() {
-        final var requestWrapper = GetUsersRequestWrapper.builder().page(1).size(6).build();
+        final var requestWrapper = GetUsersRequestWrapper.builder()
+            .page(1)
+            .size(6)
+            .sort(new String[]{"created"})
+            .build();
         final var currentUserContext = CurrentUserContext.builder()
             .username("manager1")
             .authorities(AuthoritiesTestData.managerAuthorities())
