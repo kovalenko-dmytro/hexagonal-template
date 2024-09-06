@@ -31,6 +31,25 @@ spring:
     port: ${MESSAGE_BROKER_EXTERNAL_PORT}
     username: ${MESSAGE_BROKER_USERNAME}
     password: ${MESSAGE_BROKER_PASSWORD}
+  mail:
+    protocol: smtp
+    host: smtp.gmail.com
+    port: 465
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    tls: true
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            required: true
+            enable: true
+          ssl:
+            enable: true
+            trust: smtp.gmail.com
+  thymeleaf:
+    check-template-location: false
 
 springdoc:
   api-docs:

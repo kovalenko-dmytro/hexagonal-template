@@ -1,7 +1,7 @@
 package com.gmail.apach.jenkins_demo.infrastructure.input.rest.common.mapper;
 
-import com.gmail.apach.jenkins_demo.domain.common.constant.RoleType;
 import com.gmail.apach.jenkins_demo.domain.user.model.Role;
+import com.gmail.apach.jenkins_demo.domain.user.model.RoleType;
 import com.gmail.apach.jenkins_demo.domain.user.model.User;
 import com.gmail.apach.jenkins_demo.infrastructure.input.rest.security.dto.CurrentUserResponse;
 import com.gmail.apach.jenkins_demo.infrastructure.input.rest.user.dto.CreateUserRequest;

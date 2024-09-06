@@ -3,7 +3,7 @@ package com.gmail.apach.jenkins_demo.infrastructure.input.rest.user;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.gmail.apach.jenkins_demo.AbstractControllerIntegrationTest;
-import com.gmail.apach.jenkins_demo.domain.common.constant.RoleType;
+import com.gmail.apach.jenkins_demo.domain.user.model.RoleType;
 import com.gmail.apach.jenkins_demo.infrastructure.input.rest.user.dto.UpdateUserRequest;
 import com.gmail.apach.jenkins_demo.infrastructure.input.rest.user.dto.UserResponse;
 import org.junit.jupiter.api.Test;

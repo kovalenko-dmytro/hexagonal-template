@@ -2,7 +2,7 @@ package com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user;
 
 import com.gmail.apach.jenkins_demo.application.output.user.CreateUserOutputPort;
 import com.gmail.apach.jenkins_demo.common.constant.cache.CacheConstant;
-import com.gmail.apach.jenkins_demo.domain.common.constant.RoleType;
+import com.gmail.apach.jenkins_demo.domain.user.model.RoleType;
 import com.gmail.apach.jenkins_demo.domain.user.model.User;
 import com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.entity.RoleEntity;
 import com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.entity.UserEntity;

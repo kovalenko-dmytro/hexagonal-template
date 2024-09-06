@@ -3,7 +3,7 @@ package com.gmail.apach.jenkins_demo.domain.user.validator;
 import com.gmail.apach.jenkins_demo.common.constant.message.Error;
 import com.gmail.apach.jenkins_demo.common.exception.ForbiddenException;
 import com.gmail.apach.jenkins_demo.common.util.CurrentUserContextUtil;
-import com.gmail.apach.jenkins_demo.domain.common.constant.RoleType;
+import com.gmail.apach.jenkins_demo.domain.user.model.RoleType;
 import com.gmail.apach.jenkins_demo.domain.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;

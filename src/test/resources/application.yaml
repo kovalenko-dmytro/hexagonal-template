@@ -14,8 +14,30 @@ spring:
     username: test
     password: test
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+  rabbitmq:
+    host:
+    port:
+    username:
+    password:
+  mail:
+    host: localhost
+    port: 3025
+    username: ''
+    password: ''
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+  thymeleaf:
+    check-template-location: false
 
 application:
+  default-admin:
+    username: admin
+    password: password
+    email: admin@gmail.com
   jwt:
     secret-key: d12c205d3c1f6d9bf812a2f1d025a797t20c7edd22730329b802320286n1741c
     expiration: 3600000

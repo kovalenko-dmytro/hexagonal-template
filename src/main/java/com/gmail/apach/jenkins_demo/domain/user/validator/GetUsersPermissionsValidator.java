@@ -3,7 +3,7 @@ package com.gmail.apach.jenkins_demo.domain.user.validator;
 import com.gmail.apach.jenkins_demo.common.constant.message.Error;
 import com.gmail.apach.jenkins_demo.common.dto.CurrentUserContext;
 import com.gmail.apach.jenkins_demo.common.exception.ForbiddenException;
-import com.gmail.apach.jenkins_demo.domain.common.constant.RoleType;
+import com.gmail.apach.jenkins_demo.domain.user.model.RoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;

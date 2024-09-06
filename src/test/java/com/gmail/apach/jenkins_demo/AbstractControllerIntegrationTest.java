@@ -24,7 +24,7 @@ public abstract class AbstractControllerIntegrationTest extends AbstractIntegrat
 	private WebApplicationContext context;
 
 	@Override
-	void beforeEach() {
+	protected void beforeEach() {
 		super.beforeEach();
 		mvc = MockMvcBuilders
 			.webAppContextSetup(context)
