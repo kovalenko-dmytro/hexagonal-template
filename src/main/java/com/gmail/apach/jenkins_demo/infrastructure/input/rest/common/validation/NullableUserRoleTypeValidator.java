@@ -1,6 +1,6 @@
 package com.gmail.apach.jenkins_demo.infrastructure.input.rest.common.validation;
 
-import com.gmail.apach.jenkins_demo.domain.common.constant.RoleType;
+import com.gmail.apach.jenkins_demo.domain.user.model.RoleType;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

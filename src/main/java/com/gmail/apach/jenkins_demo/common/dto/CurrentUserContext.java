@@ -1,6 +1,6 @@
 package com.gmail.apach.jenkins_demo.common.dto;
 
-import com.gmail.apach.jenkins_demo.domain.common.constant.RoleType;
+import com.gmail.apach.jenkins_demo.domain.user.model.RoleType;
 import lombok.Builder;
 import org.apache.commons.collections4.CollectionUtils;
 

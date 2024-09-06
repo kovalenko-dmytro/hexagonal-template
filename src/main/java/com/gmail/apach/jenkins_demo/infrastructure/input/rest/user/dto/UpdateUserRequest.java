@@ -1,7 +1,7 @@
 package com.gmail.apach.jenkins_demo.infrastructure.input.rest.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.gmail.apach.jenkins_demo.domain.common.constant.RoleType;
+import com.gmail.apach.jenkins_demo.domain.user.model.RoleType;
 import com.gmail.apach.jenkins_demo.infrastructure.input.rest.common.validation.NullableUserRoleTypeConstraint;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;

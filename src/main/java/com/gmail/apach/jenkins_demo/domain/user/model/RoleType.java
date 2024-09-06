@@ -1,4 +1,4 @@
-package com.gmail.apach.jenkins_demo.domain.common.constant;
+package com.gmail.apach.jenkins_demo.domain.user.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

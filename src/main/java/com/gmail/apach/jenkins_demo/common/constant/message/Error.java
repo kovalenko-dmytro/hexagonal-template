@@ -25,7 +25,9 @@ public enum Error {
     FORBIDDEN_USER_UPDATE_ENABLED("error.forbidden.user.update.enabled"),
     FORBIDDEN_USER_UPDATE_ROLES("error.forbidden.user.update.roles"),
     FORBIDDEN_USER_DELETE_BY_ID("error.forbidden.user.delete"),
-    INTERNAL_SERVER_ERROR_OCCURRED("error.internal.server.error.occurred");
+    INTERNAL_SERVER_ERROR_OCCURRED("error.internal.server.error.occurred"),
+    EMAIL_SEND_ERROR("error.email.send"),
+    EMAIL_TEMPLATE_NOT_FOUND("error.email.template.not.found");
 
     private final String key;
 }

@@ -22,5 +22,9 @@
         <sqlFile path="db/sql/2024-07-25-0844_insert_table_roles.sql"/>
     </changeSet>
 
+    <changeSet id="db-change-set-5" author="jenkins-demo-app">
+        <sqlFile path="db/sql/2024-09-03-0942_create_table_emails.sql"/>
+    </changeSet>
+
 
 </databaseChangeLog>

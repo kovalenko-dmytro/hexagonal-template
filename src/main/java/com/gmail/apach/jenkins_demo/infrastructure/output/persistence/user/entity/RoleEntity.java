@@ -1,6 +1,6 @@
 package com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.entity;
 
-import com.gmail.apach.jenkins_demo.domain.common.constant.RoleType;
+import com.gmail.apach.jenkins_demo.domain.user.model.RoleType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

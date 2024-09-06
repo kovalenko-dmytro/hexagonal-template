@@ -2,7 +2,7 @@ package com.gmail.apach.jenkins_demo.common.util;
 
 import com.gmail.apach.jenkins_demo.common.exception.ForbiddenException;
 import com.gmail.apach.jenkins_demo.common.exception.UnauthorizedException;
-import com.gmail.apach.jenkins_demo.domain.common.constant.RoleType;
+import com.gmail.apach.jenkins_demo.domain.user.model.RoleType;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

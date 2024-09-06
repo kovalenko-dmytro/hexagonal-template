@@ -1,6 +1,6 @@
 package com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.repository;
 
-import com.gmail.apach.jenkins_demo.domain.common.constant.RoleType;
+import com.gmail.apach.jenkins_demo.domain.user.model.RoleType;
 import com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.entity.RoleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
