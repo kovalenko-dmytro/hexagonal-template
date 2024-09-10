@@ -2,7 +2,7 @@ package com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user;
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.gmail.apach.jenkins_demo.AbstractIntegrationTest;
-import com.gmail.apach.jenkins_demo.common.constant.cache.CacheConstant;
+import com.gmail.apach.jenkins_demo.common.constant.cache.UserCacheConstant;
 import com.gmail.apach.jenkins_demo.common.dto.CurrentUserContext;
 import com.gmail.apach.jenkins_demo.data.AuthoritiesTestData;
 import com.gmail.apach.jenkins_demo.data.UsersTestData;
@@ -157,12 +157,12 @@ class UserCacheTest extends AbstractIntegrationTest {
 
     private Optional<ConcurrentMap<Object, Object>> getUsersCache() {
         return Optional
-            .ofNullable(cacheManager.getCache(CacheConstant.User.LIST_CACHE_NAME))
+            .ofNullable(cacheManager.getCache(UserCacheConstant.LIST_CACHE_NAME))
             .map(cache -> ((ConcurrentMapCache) cache).getNativeCache());
     }
 
     private Optional<User> getCachedUser(String userId) {
-        return Optional.ofNullable(cacheManager.getCache(CacheConstant.User.CACHE_NAME))
+        return Optional.ofNullable(cacheManager.getCache(UserCacheConstant.CACHE_NAME))
             .map(cache -> cache.get(userId, User.class));
     }
 }
