@@ -1,8 +1,8 @@
 package com.gmail.apach.jenkins_demo.domain.user.service;
 
 import com.gmail.apach.jenkins_demo.application.input.user.CreateUserInputPort;
+import com.gmail.apach.jenkins_demo.application.output.email.SendEmailPublisher;
 import com.gmail.apach.jenkins_demo.application.output.user.CreateUserOutputPort;
-import com.gmail.apach.jenkins_demo.common.config.mq.process.EmailProcessingConfig;
 import com.gmail.apach.jenkins_demo.common.util.CurrentUserContextUtil;
 import com.gmail.apach.jenkins_demo.domain.email.model.EmailType;
 import com.gmail.apach.jenkins_demo.domain.email.wrapper.SendEmailWrapper;
@@ -12,7 +12,6 @@ import com.gmail.apach.jenkins_demo.domain.user.model.User;
 import com.gmail.apach.jenkins_demo.domain.user.validator.CreateUserPermissionsValidator;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,11 +27,11 @@ public class CreateUserService implements CreateUserInputPort {
     private final CreateUserOutputPort createUserOutputPort;
     private final CreateUserPermissionsValidator createUserPermissionsValidator;
     private final CurrentUserContextUtil currentUserContextUtil;
-    private final RabbitTemplate rabbitTemplate;
+    private final SendEmailPublisher sendEmailPublisher;
 
     @Override
     public User createUser(User user) {
-       final var createdBy = currentUserContextUtil.getContext().username();
+        final var createdBy = currentUserContextUtil.getContext().username();
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
@@ -47,13 +46,14 @@ public class CreateUserService implements CreateUserInputPort {
 
         final var createdUser = createUserOutputPort.createUser(user);
 
-        sendEmail(createdBy, createdUser);
+        final var emailData = prepareEmailData(createdUser, createdBy);
+        sendEmailPublisher.publish(emailData);
 
         return createdUser;
     }
 
-    private void sendEmail(String createdBy, User createdUser) {
-        final var emailData = SendEmailWrapper.builder()
+    private SendEmailWrapper prepareEmailData(User createdUser, String createdBy) {
+        return SendEmailWrapper.builder()
             .sendBy(createdBy)
             .sendTo(createdUser.getEmail())
             .properties(Map.of(
@@ -63,10 +63,5 @@ public class CreateUserService implements CreateUserInputPort {
             .subject("Hello")
             .emailType(EmailType.INVITE)
             .build();
-
-        rabbitTemplate.convertAndSend(
-            EmailProcessingConfig.EMAIL_DIRECT_EXCHANGE,
-            EmailProcessingConfig.EMAIL_ROUTING_KEY,
-            emailData);
     }
 }
