@@ -3,6 +3,7 @@ package com.gmail.apach.jenkins_demo.domain.email.service;
 import com.gmail.apach.jenkins_demo.application.output.email.CreateEmailOutputPort;
 import com.gmail.apach.jenkins_demo.common.config.email.EmailConfigProperties;
 import com.gmail.apach.jenkins_demo.data.CreateUserTestData;
+import com.gmail.apach.jenkins_demo.domain.email.model.Email;
 import jakarta.mail.internet.MimeMessage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +15,8 @@ import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.thymeleaf.context.IContext;
 import org.thymeleaf.spring6.SpringTemplateEngine;
+
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.any;
@@ -46,6 +49,8 @@ class SendEmailServiceTest {
         when(emailSender.createMimeMessage()).thenReturn(message);
 
         assertDoesNotThrow(() -> sendEmailService.sendEmail(emailData));
+
+        verify(createEmailOutputPort, times(1)).createEmail(any(Email.class));
     }
 
     @Test
@@ -60,5 +65,8 @@ class SendEmailServiceTest {
             .when(emailSender).send(message);
 
         sendEmailService.sendEmail(emailData);
+
+        verify(createEmailOutputPort, times(1)).createEmail(any(Email.class));
+        verify(messageSource, times(1)).getMessage(any(String.class), any(), any(Locale.class));
     }
 }

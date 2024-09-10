@@ -1,7 +1,7 @@
 package com.gmail.apach.jenkins_demo.domain.user.service;
 
+import com.gmail.apach.jenkins_demo.application.output.email.SendEmailPublisher;
 import com.gmail.apach.jenkins_demo.application.output.user.CreateUserOutputPort;
-import com.gmail.apach.jenkins_demo.common.config.mq.process.EmailProcessingConfig;
 import com.gmail.apach.jenkins_demo.common.dto.CurrentUserContext;
 import com.gmail.apach.jenkins_demo.common.exception.ForbiddenException;
 import com.gmail.apach.jenkins_demo.common.util.CurrentUserContextUtil;
@@ -17,7 +17,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Map;
@@ -30,6 +29,7 @@ import static org.mockito.Mockito.*;
 class CreateUserServiceTest {
 
     private static final String ENCODED_PASSWORD = "encodedPassword";
+    private static final String CURRENT_USER_USERNAME = "admin";
 
     @InjectMocks
     private CreateUserService createUserService;
@@ -42,14 +42,14 @@ class CreateUserServiceTest {
     @Mock
     private PasswordEncoder passwordEncoder;
     @Mock
-    private RabbitTemplate rabbitTemplate;
+    private SendEmailPublisher sendEmailPublisher;
 
     @Test
     void createUser_success() {
         final var user = CreateUserTestData.user();
         final var savedUser = CreateUserTestData.savedUser();
         final var context = CurrentUserContext.builder()
-            .username("admin")
+            .username(CURRENT_USER_USERNAME)
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
         final var emailData = SendEmailWrapper.builder()
@@ -66,12 +66,11 @@ class CreateUserServiceTest {
         when(passwordEncoder.encode(user.getPassword())).thenReturn(ENCODED_PASSWORD);
         when(currentUserContextUtil.getContext()).thenReturn(context);
         doNothing().when(createUserPermissionsValidator).validate(user.getRoles());
-        doNothing().when(rabbitTemplate).convertAndSend(EmailProcessingConfig.EMAIL_DIRECT_EXCHANGE,
-            EmailProcessingConfig.EMAIL_ROUTING_KEY, emailData);
         when(createUserOutputPort.createUser(user)).thenReturn(savedUser);
 
         final var actual = createUserService.createUser(user);
 
+        verify(sendEmailPublisher, times(1)).publish(emailData);
         assertNotNull(actual);
         assertNotNull(actual.getUserId());
     }
@@ -82,7 +81,7 @@ class CreateUserServiceTest {
         final var userWithNoRoles = CreateUserTestData.userWithNoRoles();
         final var savedUser = CreateUserTestData.savedUser();
         final var context = CurrentUserContext.builder()
-            .username("admin")
+            .username(CURRENT_USER_USERNAME)
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
         final var emailData = SendEmailWrapper.builder()
@@ -98,12 +97,11 @@ class CreateUserServiceTest {
 
         when(passwordEncoder.encode(user.getPassword())).thenReturn(ENCODED_PASSWORD);
         when(currentUserContextUtil.getContext()).thenReturn(context);
-        doNothing().when(rabbitTemplate).convertAndSend(EmailProcessingConfig.EMAIL_DIRECT_EXCHANGE,
-            EmailProcessingConfig.EMAIL_ROUTING_KEY, emailData);
         when(createUserOutputPort.createUser(userWithNoRoles)).thenReturn(savedUser);
 
         final var actual = createUserService.createUser(userWithNoRoles);
 
+        verify(sendEmailPublisher, times(1)).publish(emailData);
         assertNotNull(actual);
         assertNotNull(actual.getUserId());
         assertFalse(actual.getRoles().isEmpty());
@@ -116,7 +114,6 @@ class CreateUserServiceTest {
     void createUser_forbidden() {
         final var user = CreateUserTestData.user();
         final var context = CurrentUserContext.builder()
-            .username("user")
             .authorities(AuthoritiesTestData.userAuthorities())
             .build();
 
