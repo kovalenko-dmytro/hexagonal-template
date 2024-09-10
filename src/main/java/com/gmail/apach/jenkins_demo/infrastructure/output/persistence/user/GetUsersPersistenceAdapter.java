@@ -1,7 +1,7 @@
 package com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user;
 
 import com.gmail.apach.jenkins_demo.application.output.user.GetUsersOutputPort;
-import com.gmail.apach.jenkins_demo.common.constant.cache.CacheConstant;
+import com.gmail.apach.jenkins_demo.common.constant.cache.UserCacheConstant;
 import com.gmail.apach.jenkins_demo.common.dto.CurrentUserContext;
 import com.gmail.apach.jenkins_demo.common.util.PageableUtil;
 import com.gmail.apach.jenkins_demo.domain.user.model.User;
@@ -24,9 +24,9 @@ public class GetUsersPersistenceAdapter implements GetUsersOutputPort {
 
     @Override
     @Cacheable(
-        value = CacheConstant.User.LIST_CACHE_NAME,
-        key = CacheConstant.User.Key.SEARCH,
-        condition = CacheConstant.User.Condition.SEARCH
+        value = UserCacheConstant.LIST_CACHE_NAME,
+        key = UserCacheConstant.Key.SEARCH,
+        condition = UserCacheConstant.Condition.SEARCH
     )
     public Page<User> getUsers(GetUsersRequestWrapper wrapper, CurrentUserContext context) {
         final var pageable = pageableUtil.obtainPageable(wrapper.page(), wrapper.size(), wrapper.sort());

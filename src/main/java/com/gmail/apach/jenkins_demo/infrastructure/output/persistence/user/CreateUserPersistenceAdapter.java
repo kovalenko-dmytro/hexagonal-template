@@ -1,7 +1,7 @@
 package com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user;
 
 import com.gmail.apach.jenkins_demo.application.output.user.CreateUserOutputPort;
-import com.gmail.apach.jenkins_demo.common.constant.cache.CacheConstant;
+import com.gmail.apach.jenkins_demo.common.constant.cache.UserCacheConstant;
 import com.gmail.apach.jenkins_demo.domain.user.model.RoleType;
 import com.gmail.apach.jenkins_demo.domain.user.model.User;
 import com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.entity.RoleEntity;
@@ -26,8 +26,7 @@ public class CreateUserPersistenceAdapter implements CreateUserOutputPort {
 
     @Override
     @CacheEvict(
-        value = CacheConstant.User.LIST_CACHE_NAME,
-        key = CacheConstant.User.Key.ID,
+        value = UserCacheConstant.LIST_CACHE_NAME,
         allEntries = true
     )
     public User createUser(User user) {

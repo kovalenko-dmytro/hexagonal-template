@@ -1,7 +1,7 @@
 package com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user;
 
 import com.gmail.apach.jenkins_demo.application.output.user.UpdateUserOutputPort;
-import com.gmail.apach.jenkins_demo.common.constant.cache.CacheConstant;
+import com.gmail.apach.jenkins_demo.common.constant.cache.UserCacheConstant;
 import com.gmail.apach.jenkins_demo.domain.user.model.User;
 import com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.entity.RoleEntity;
 import com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user.entity.UserEntity;
@@ -26,14 +26,14 @@ public class UpdateUserPersistenceAdapter implements UpdateUserOutputPort {
     @Caching(
         evict = {
             @CacheEvict(
-                value = CacheConstant.User.LIST_CACHE_NAME,
+                value = UserCacheConstant.LIST_CACHE_NAME,
                 allEntries = true
             )
         },
         put = {
             @CachePut(
-                value = CacheConstant.User.CACHE_NAME,
-                key = CacheConstant.User.Key.USER__ID
+                value = UserCacheConstant.CACHE_NAME,
+                key = UserCacheConstant.Key.USER__ID
             )
         }
     )

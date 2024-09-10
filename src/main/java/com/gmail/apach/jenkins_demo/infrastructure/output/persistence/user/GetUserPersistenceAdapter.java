@@ -1,7 +1,7 @@
 package com.gmail.apach.jenkins_demo.infrastructure.output.persistence.user;
 
 import com.gmail.apach.jenkins_demo.application.output.user.GetUserOutputPort;
-import com.gmail.apach.jenkins_demo.common.constant.cache.CacheConstant;
+import com.gmail.apach.jenkins_demo.common.constant.cache.UserCacheConstant;
 import com.gmail.apach.jenkins_demo.common.constant.message.AttributeForModel;
 import com.gmail.apach.jenkins_demo.common.constant.message.Error;
 import com.gmail.apach.jenkins_demo.common.exception.ResourceNotFoundException;
@@ -32,8 +32,8 @@ public class GetUserPersistenceAdapter implements GetUserOutputPort {
 
     @Override
     @Cacheable(
-        value = CacheConstant.User.CACHE_NAME,
-        key = CacheConstant.User.Key.ID
+        value = UserCacheConstant.CACHE_NAME,
+        key = UserCacheConstant.Key.ID
     )
     public User getByUserId(String userId) {
         return userRepository
