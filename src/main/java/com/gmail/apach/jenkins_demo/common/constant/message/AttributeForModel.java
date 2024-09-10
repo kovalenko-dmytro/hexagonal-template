@@ -9,6 +9,7 @@ public enum AttributeForModel {
 
     USER("User"),
     ROLE("Role"),
+    EMAIL("Email"),
     STORED_FILE("File");
 
     private final String name;

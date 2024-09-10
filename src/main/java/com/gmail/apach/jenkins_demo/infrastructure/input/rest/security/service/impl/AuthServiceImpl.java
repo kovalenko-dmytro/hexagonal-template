@@ -2,6 +2,7 @@ package com.gmail.apach.jenkins_demo.infrastructure.input.rest.security.service.
 
 import com.gmail.apach.jenkins_demo.application.input.user.GetUserInputPort;
 import com.gmail.apach.jenkins_demo.common.constant.CommonConstant;
+import com.gmail.apach.jenkins_demo.common.util.CurrentUserContextUtil;
 import com.gmail.apach.jenkins_demo.infrastructure.input.rest.common.mapper.UserRESTMapper;
 import com.gmail.apach.jenkins_demo.infrastructure.input.rest.security.dto.CurrentUserResponse;
 import com.gmail.apach.jenkins_demo.infrastructure.input.rest.security.dto.SignInRequest;
@@ -11,7 +12,6 @@ import com.gmail.apach.jenkins_demo.infrastructure.input.rest.security.service.J
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +22,7 @@ public class AuthServiceImpl implements AuthService {
     private final GetUserInputPort getUserInputPort;
 
     private final AuthenticationManager authenticationManager;
+    private final CurrentUserContextUtil currentUserContextUtil;
     private final JWTService jwtService;
     private final UserRESTMapper userMapper;
 
@@ -42,8 +43,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public CurrentUserResponse getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        final var currentUser = getUserInputPort.getByUsername(authentication.getName());
+        final var context = currentUserContextUtil.getContext();
+        final var currentUser = getUserInputPort.getByUsername(context.username());
         return userMapper.toCurrentUserResponse(currentUser);
     }
 }

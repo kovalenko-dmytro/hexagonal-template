@@ -18,7 +18,9 @@ public class MessageConfig {
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename(CommonConstant.MESSAGE_SOURCE_PATH.getValue());
+        messageSource.setBasenames(
+            CommonConstant.MESSAGE_SOURCE_PATH.getValue(),
+            CommonConstant.EMAIL_PROPERTIES_SOURCE_PATH.getValue());
         messageSource.setDefaultEncoding(StandardCharsets.UTF_8.toString());
         messageSource.setDefaultLocale(Locale.ENGLISH);
         messageSource.setCacheSeconds(60);

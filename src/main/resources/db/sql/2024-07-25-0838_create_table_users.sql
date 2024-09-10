@@ -7,6 +7,8 @@ CREATE TABLE users (
     email      varchar(255)                        NOT NULL,
     enabled    bool                                NOT NULL,
     created    timestamp                           NOT NULL,
+    created_by varchar(255)                        NOT NULL,
+    is_admin   bool                                NOT NULL DEFAULT false,
     CONSTRAINT users_pkey PRIMARY KEY (user_),
     CONSTRAINT users_user_name_uk UNIQUE (user_name)
 );

@@ -1,7 +1,9 @@
 package com.gmail.apach.jenkins_demo.infrastructure.input.rest.security.service;
 
 import com.gmail.apach.jenkins_demo.application.input.user.GetUserInputPort;
-import com.gmail.apach.jenkins_demo.common.exception.EntityNotFoundException;
+import com.gmail.apach.jenkins_demo.common.dto.CurrentUserContext;
+import com.gmail.apach.jenkins_demo.common.exception.ResourceNotFoundException;
+import com.gmail.apach.jenkins_demo.common.util.CurrentUserContextUtil;
 import com.gmail.apach.jenkins_demo.domain.user.model.User;
 import com.gmail.apach.jenkins_demo.infrastructure.input.rest.common.mapper.UserRESTMapper;
 import com.gmail.apach.jenkins_demo.infrastructure.input.rest.security.dto.CurrentUserResponse;
@@ -12,13 +14,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,6 +38,8 @@ class AuthServiceTest {
     private AuthServiceImpl authService;
     @Mock
     private AuthenticationManager authenticationManager;
+    @Mock
+    private CurrentUserContextUtil currentUserContextUtil;
     @Mock
     private JWTService jwtService;
     @Mock
@@ -94,14 +96,12 @@ class AuthServiceTest {
             .firstName(USERNAME)
             .lastName("Foo")
             .build();
-        final var authentication = mock(Authentication.class);
-        final var securityContext = mock(SecurityContext.class);
+        final var context = CurrentUserContext.builder()
+            .username(USERNAME)
+            .build();
 
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
-
-        when(authentication.getName()).thenReturn(USERNAME);
-        when(getUserInputPort.getByUsername(authentication.getName())).thenReturn(user);
+        when(currentUserContextUtil.getContext()).thenReturn(context);
+        when(getUserInputPort.getByUsername(context.username())).thenReturn(user);
         when(userMapper.toCurrentUserResponse(user)).thenReturn(response);
 
         final var actual = authService.getCurrentUser();
@@ -109,27 +109,18 @@ class AuthServiceTest {
         assertNotNull(actual);
         assertEquals(user.getFirstName(), actual.firstName());
         assertEquals(user.getLastName(), actual.lastName());
-
-        Mockito.reset(authentication, securityContext);
     }
 
     @Test
     void getCurrentUser_fail() {
-        final var authentication = mock(Authentication.class);
-        final var securityContext = mock(SecurityContext.class);
+        final var context = CurrentUserContext.builder()
+            .username(null)
+            .build();
 
-        when(securityContext.getAuthentication()).thenReturn(authentication);
-        SecurityContextHolder.setContext(securityContext);
+        when(currentUserContextUtil.getContext()).thenReturn(context);
+        when(getUserInputPort.getByUsername(context.username()))
+            .thenThrow(new ResourceNotFoundException(USER_NOT_FOUND_MESSAGE));
 
-        when(authentication.getName()).thenReturn(null);
-        when(getUserInputPort.getByUsername(authentication.getName()))
-            .thenThrow(new EntityNotFoundException(USER_NOT_FOUND_MESSAGE));
-
-        final var exception = assertThrows(
-            EntityNotFoundException.class, () -> authService.getCurrentUser());
-
-        assertTrue(exception.getMessage().contains(USER_NOT_FOUND_MESSAGE));
-
-        Mockito.reset(authentication, securityContext);
+        assertThrows(ResourceNotFoundException.class, () -> authService.getCurrentUser());
     }
 }
