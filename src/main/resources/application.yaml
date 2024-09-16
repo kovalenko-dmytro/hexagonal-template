@@ -55,6 +55,43 @@ springdoc:
   api-docs:
     path: /api-docs
 
+logbook:
+  format:
+    style: json
+  strategy: default
+  filter:
+    enabled: true
+    exclude:
+      - /health
+      - /metrics
+  obfuscate:
+    headers:
+      - Authorization
+      - Cookie
+    parameters:
+      - password
+      - accessToken
+    json-body-fields:
+      - password
+      - accessToken
+    replacement: XXXXXX
+  write:
+    level: TRACE
+  max-body-size: 100000
+  exclude:
+    content-types:
+      - application/octet-stream
+  request:
+    conditions:
+      methods: [GET, POST, PUT, PATCH, DELETE]
+
+logging:
+  level:
+    org:
+      zalando:
+        logbook:
+          Logbook: TRACE
+
 application:
   default-admin:
     username: ${DEFAULT_ADMIN_USERNAME}
