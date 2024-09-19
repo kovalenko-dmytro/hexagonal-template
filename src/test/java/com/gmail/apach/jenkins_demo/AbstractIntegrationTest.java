@@ -15,7 +15,10 @@ import org.springframework.cache.CacheManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.RabbitMQContainer;
+import org.testcontainers.containers.localstack.LocalStackContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
+import org.testcontainers.utility.MountableFile;
 
 import java.util.Optional;
 
@@ -25,6 +28,8 @@ import java.util.Optional;
 @DBUnit(caseInsensitiveStrategy = Orthography.LOWERCASE)
 public abstract class AbstractIntegrationTest {
 
+    private static final String BUCKET_NAME = "test-bucket";
+
     @Autowired
     protected CacheManager cacheManager;
 
@@ -33,13 +38,21 @@ public abstract class AbstractIntegrationTest {
     protected static final RedisContainer REDIS_CONTAINER =
         new RedisContainer(DockerImageName.parse("redis:7.0.5-alpine"));
     protected static final RabbitMQContainer RABBIT_CONTAINER =
-        new RabbitMQContainer(DockerImageName.parse("rabbitmq:3-management"))
-            .withReuse(true);
+        new RabbitMQContainer(DockerImageName.parse("rabbitmq:3-management"));
+    protected static final LocalStackContainer LOCAL_STACK_CONTAINER =
+        new LocalStackContainer(DockerImageName.parse("localstack/localstack"))
+            .withCopyFileToContainer(
+                MountableFile.forClasspathResource("init-s3-bucket.sh"),
+                "/etc/localstack/init/ready.d/init-s3-bucket.sh")
+            .withServices(LocalStackContainer.Service.S3)
+            .waitingFor(Wait.forLogMessage(".*Executed init-s3-bucket.sh.*", 1));
+
 
     static {
         POSTGRESQL_CONTAINER.start();
         REDIS_CONTAINER.start();
         RABBIT_CONTAINER.start();
+        LOCAL_STACK_CONTAINER.start();
     }
 
     @BeforeAll
@@ -55,6 +68,12 @@ public abstract class AbstractIntegrationTest {
         System.setProperty("spring.rabbitmq.port", RABBIT_CONTAINER.getAmqpPort().toString());
         System.setProperty("spring.rabbitmq.username", RABBIT_CONTAINER.getAdminUsername());
         System.setProperty("spring.rabbitmq.password", RABBIT_CONTAINER.getAdminPassword());
+
+        System.setProperty("spring.cloud.aws.credentials.access-key", LOCAL_STACK_CONTAINER.getAccessKey());
+        System.setProperty("spring.cloud.aws.credentials.secret-key", LOCAL_STACK_CONTAINER.getSecretKey());
+        System.setProperty("spring.cloud.aws.s3.region", LOCAL_STACK_CONTAINER.getRegion());
+        System.setProperty("spring.cloud.aws.s3.endpoint", String.valueOf(LOCAL_STACK_CONTAINER.getEndpoint()));
+        System.setProperty("aws.s3.bucket-name", BUCKET_NAME);
     }
 
     @BeforeEach

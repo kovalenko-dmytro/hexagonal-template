@@ -40,14 +40,8 @@ class UserCacheTest extends AbstractIntegrationTest {
     void createUser_evictUsersCacheLists_success() {
         getUsersCache().ifPresent(usersCache -> assertTrue(usersCache.isEmpty()));
 
-        final var requestWrapper = GetUsersRequestWrapper.builder()
-            .page(1)
-            .size(5)
-            .sort(new String[]{"created"})
-            .build();
-        final var currentUserContext = CurrentUserContext.builder()
-            .authorities(AuthoritiesTestData.adminAuthorities())
-            .build();
+        final var requestWrapper = getUsersRequestWrapper();
+        final var currentUserContext = getContext();
 
         final var users = getUsersPersistenceAdapter.getUsers(requestWrapper, currentUserContext);
 
@@ -62,8 +56,9 @@ class UserCacheTest extends AbstractIntegrationTest {
 
     @Test
     @DataSet("datasets/infrastructure/output/persistence/user/get_user.yml")
-    void deleteByUserId_evictUserCache_success() {
+    void deleteByUserId_evictUsersCacheListsAndUserCache_success() {
         assertTrue(getCachedUser(USER_ID).isEmpty());
+        getUsersCache().ifPresent(usersCache -> assertTrue(usersCache.isEmpty()));
 
         final var userFromDB = getUserPersistenceAdapter.getByUserId(USER_ID);
         final var cachedUser = getCachedUser(USER_ID);
@@ -71,9 +66,18 @@ class UserCacheTest extends AbstractIntegrationTest {
         assertFalse(cachedUser.isEmpty());
         assertEquals(userFromDB, cachedUser.get());
 
+        final var requestWrapper = getUsersRequestWrapper();
+        final var currentUserContext = getContext();
+
+        final var users = getUsersPersistenceAdapter.getUsers(requestWrapper, currentUserContext);
+
+        assertNotNull(users);
+        getUsersCache().ifPresent(usersCache -> assertFalse(usersCache.isEmpty()));
+
         deleteUserPersistenceAdapter.deleteByUserId(USER_ID);
 
         assertTrue(getCachedUser(USER_ID).isEmpty());
+        getUsersCache().ifPresent(usersCache -> assertTrue(usersCache.isEmpty()));
     }
 
     @Test
@@ -93,11 +97,7 @@ class UserCacheTest extends AbstractIntegrationTest {
     void getUsers_addUsersCache_success() {
         getUsersCache().ifPresent(usersCache -> assertTrue(usersCache.isEmpty()));
 
-        final var requestWrapper = GetUsersRequestWrapper.builder()
-            .page(1)
-            .size(5)
-            .sort(new String[]{"created"})
-            .build();
+        final var requestWrapper = getUsersRequestWrapper();
         final var currentUserContext = CurrentUserContext.builder()
             .username("admin")
             .authorities(AuthoritiesTestData.adminAuthorities())
@@ -124,14 +124,8 @@ class UserCacheTest extends AbstractIntegrationTest {
         assertTrue(getCachedUser(USER_ID).isEmpty());
         getUsersCache().ifPresent(usersCache -> assertTrue(usersCache.isEmpty()));
 
-        final var requestWrapper = GetUsersRequestWrapper.builder()
-            .page(1)
-            .size(5)
-            .sort(new String[]{"created"})
-            .build();
-        final var currentUserContext = CurrentUserContext.builder()
-            .authorities(AuthoritiesTestData.adminAuthorities())
-            .build();
+        final var requestWrapper = getUsersRequestWrapper();
+        final var currentUserContext = getContext();
 
         getUsersPersistenceAdapter.getUsers(requestWrapper, currentUserContext);
         getUsersCache().ifPresent(usersCache -> assertFalse(usersCache.isEmpty()));
@@ -153,6 +147,20 @@ class UserCacheTest extends AbstractIntegrationTest {
 
         assertFalse(updatedCachedUser.isEmpty());
         assertEquals(updatedUser, updatedCachedUser.get());
+    }
+
+    private static GetUsersRequestWrapper getUsersRequestWrapper() {
+        return GetUsersRequestWrapper.builder()
+            .page(1)
+            .size(5)
+            .sort(new String[]{"created"})
+            .build();
+    }
+
+    private static CurrentUserContext getContext() {
+        return CurrentUserContext.builder()
+            .authorities(AuthoritiesTestData.adminAuthorities())
+            .build();
     }
 
     private Optional<ConcurrentMap<Object, Object>> getUsersCache() {

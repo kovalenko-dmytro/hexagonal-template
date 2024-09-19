@@ -31,6 +31,16 @@ spring:
     port: ${MESSAGE_BROKER_EXTERNAL_PORT}
     username: ${MESSAGE_BROKER_USERNAME}
     password: ${MESSAGE_BROKER_PASSWORD}
+  cloud:
+    aws:
+      s3:
+        endpoint: ${AWS_S3_ENDPOINT}
+        region: ${AWS_S3_REGION}
+      credentials:
+        access-key: ${AWS_S3_ACCESS_KEY}
+        secret-key: ${AWS_S3_SECRET_KEY}
+      region:
+        static: ${AWS_S3_REGION}
   mail:
     protocol: smtp
     host: smtp.gmail.com
@@ -51,9 +61,56 @@ spring:
   thymeleaf:
     check-template-location: false
 
+aws:
+  s3:
+    bucket-name: ${AWS_S3_BUCKET_NAME}
+
 springdoc:
   api-docs:
     path: /api-docs
+
+logbook:
+  format:
+    style: json
+  strategy: default
+  predicate:
+    include:
+      - path: /${SERVER_CONTEXT_PATH}/api/**
+        methods:
+          - GET
+          - POST
+          - PATCH
+          - PUT
+          - DELETE
+  filter:
+    enabled: true
+  obfuscate:
+    headers:
+      - Authorization
+      - Cookie
+    parameters:
+      - password
+      - accessToken
+    json-body-fields:
+      - password
+      - accessToken
+    replacement: XXXXXX
+  write:
+    level: TRACE
+  max-body-size: 100000
+  exclude:
+    content-types:
+      - application/octet-stream
+  request:
+    conditions:
+      methods: [GET, POST, PUT, PATCH, DELETE]
+
+logging:
+  level:
+    org:
+      zalando:
+        logbook:
+          Logbook: TRACE
 
 application:
   default-admin:
