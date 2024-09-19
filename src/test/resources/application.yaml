@@ -19,6 +19,16 @@ spring:
     port:
     username:
     password:
+  cloud:
+    aws:
+      s3:
+        endpoint:
+        region: test
+      credentials:
+        access-key: none
+        secret-key: none
+      region:
+        static: test
   mail:
     host: localhost
     port: 3025
@@ -32,6 +42,10 @@ spring:
             enable: false
   thymeleaf:
     check-template-location: false
+
+aws:
+  s3:
+    bucket-name: test
 
 application:
   default-admin:

@@ -26,5 +26,9 @@
         <sqlFile path="db/sql/2024-09-03-0942_create_table_emails.sql"/>
     </changeSet>
 
+    <changeSet id="db-change-set-6" author="jenkins-demo-app">
+        <sqlFile path="db/sql/2024-09-16-1523_create_table_files.sql"/>
+    </changeSet>
+
 
 </databaseChangeLog>

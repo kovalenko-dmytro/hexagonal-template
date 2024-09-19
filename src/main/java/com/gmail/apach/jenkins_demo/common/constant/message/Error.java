@@ -27,7 +27,9 @@ public enum Error {
     FORBIDDEN_USER_DELETE_BY_ID("error.forbidden.user.delete"),
     INTERNAL_SERVER_ERROR_OCCURRED("error.internal.server.error.occurred"),
     EMAIL_SEND_ERROR("error.email.send"),
-    EMAIL_TEMPLATE_NOT_FOUND("error.email.template.not.found");
+    EMAIL_TEMPLATE_NOT_FOUND("error.email.template.not.found"),
+    FILE_STORAGE_UNABLE_UPLOAD("error.file.storage.unable.upload"),
+    FILE_STORAGE_UNABLE_READ("error.file.storage.unable.read");
 
     private final String key;
 }

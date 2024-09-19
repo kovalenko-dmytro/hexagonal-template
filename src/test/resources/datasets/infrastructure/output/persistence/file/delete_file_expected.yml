@@ -1,0 +1,7 @@
+files:
+  - file_: "file68c8-2f28-4b53-ac5a-2db586512453"
+    storage_key: "key68c8-2f28-4b53-ac5a-2db586512442"
+    file_name: "test2.txt"
+    content_type: "text/plain"
+    file_size: "30"
+    created: "2024-08-19 12:16:25.000"
