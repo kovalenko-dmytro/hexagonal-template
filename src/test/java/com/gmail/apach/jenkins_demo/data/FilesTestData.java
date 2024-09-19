@@ -28,6 +28,16 @@ public final class FilesTestData {
             .build();
     }
 
+    public static StoredFile fileWithStorageKey() {
+        return StoredFile.builder()
+            .fileName("test.txt")
+            .storageKey("key68c8-2f28-4b53-ac5a-2db586512455")
+            .contentType("text/plain")
+            .size(29L)
+            .created(LocalDateTime.now())
+            .build();
+    }
+
     public static StoredFile storedFile() {
         return StoredFile.builder()
             .fileId("qqed68c8-2f28-4b53-ac5a-2db586512eee")
