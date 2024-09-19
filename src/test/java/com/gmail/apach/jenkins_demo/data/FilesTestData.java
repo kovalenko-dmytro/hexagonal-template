@@ -3,12 +3,21 @@ package com.gmail.apach.jenkins_demo.data;
 import com.gmail.apach.jenkins_demo.domain.file.model.StoredFile;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class FilesTestData {
+
+    private static final String FILE_PATH = "src/test/resources/file/test.txt";
+    private static final String ORIGINAL_FILE_NAME = "test.txt";
+    private static final String REQUEST_PARAM_NAME = "file";
 
     public static StoredFile file() {
         return StoredFile.builder()
@@ -57,5 +66,13 @@ public final class FilesTestData {
                 .created(LocalDateTime.now())
                 .build()
         );
+    }
+
+    public static MockMultipartFile getUploadedFile() throws IOException {
+        return new MockMultipartFile(
+            REQUEST_PARAM_NAME,
+            ORIGINAL_FILE_NAME,
+            MediaType.TEXT_PLAIN_VALUE,
+            Files.readAllBytes(new File(FILE_PATH).toPath()));
     }
 }
