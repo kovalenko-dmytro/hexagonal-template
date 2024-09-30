@@ -16,7 +16,7 @@ public class EmailProcessingConfig {
 
 
     @Bean
-    public DirectExchange orderDirectExchange() {
+    public DirectExchange emailDirectExchange() {
         return new DirectExchange(EMAIL_DIRECT_EXCHANGE);
     }
 
@@ -26,7 +26,7 @@ public class EmailProcessingConfig {
     }
 
     @Bean
-    public Binding paymentBinding() {
-        return BindingBuilder.bind(emailQueue()).to(orderDirectExchange()).with(EMAIL_ROUTING_KEY);
+    public Binding emailBinding() {
+        return BindingBuilder.bind(emailQueue()).to(emailDirectExchange()).with(EMAIL_ROUTING_KEY);
     }
 }

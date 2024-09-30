@@ -1,13 +1,14 @@
 package com.gmail.apach.jenkins_demo.infrastructure.input.rest.security.service.impl;
 
 import com.gmail.apach.jenkins_demo.domain.user.model.User;
+import com.gmail.apach.jenkins_demo.infrastructure.input.rest.security.config.JWTConfigProperties;
 import com.gmail.apach.jenkins_demo.infrastructure.input.rest.security.service.JWTService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +19,10 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class JWTServiceImpl implements JWTService {
 
-    @Value("${application.jwt.secret-key}")
-    private String secretKey;
-    @Value("${application.jwt.expiration}")
-    private long accessTokenExpiration;
-    @Value("${application.jwt.refresh-expiration}")
-    private long refreshTokenExpiration;
+    private final JWTConfigProperties jwtConfigProperties;
 
     @Override
     public String extractUsername(String token) {
@@ -50,7 +47,7 @@ public class JWTServiceImpl implements JWTService {
 
     @Override
     public long getAccessTokenExpirationTime() {
-        return accessTokenExpiration;
+        return jwtConfigProperties.getExpiration();
     }
 
     @Override
@@ -66,7 +63,7 @@ public class JWTServiceImpl implements JWTService {
             .setClaims(extraClaims)
             .setSubject(user.getUsername())
             .setIssuedAt(new Date(now))
-            .setExpiration(new Date(now + accessTokenExpiration))
+            .setExpiration(new Date(now + jwtConfigProperties.getExpiration()))
             .signWith(getSignInKey(), SignatureAlgorithm.HS256)
             .compact();
     }
@@ -89,7 +86,7 @@ public class JWTServiceImpl implements JWTService {
     }
 
     private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        byte[] keyBytes = Decoders.BASE64.decode(jwtConfigProperties.getSecretKey());
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

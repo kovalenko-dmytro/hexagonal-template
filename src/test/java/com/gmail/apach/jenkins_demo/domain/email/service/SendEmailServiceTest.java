@@ -1,7 +1,7 @@
 package com.gmail.apach.jenkins_demo.domain.email.service;
 
 import com.gmail.apach.jenkins_demo.application.output.email.CreateEmailOutputPort;
-import com.gmail.apach.jenkins_demo.common.config.email.EmailConfigProperties;
+import com.gmail.apach.jenkins_demo.common.config.admin.DefaultAdminConfigProperties;
 import com.gmail.apach.jenkins_demo.data.CreateUserTestData;
 import com.gmail.apach.jenkins_demo.domain.email.model.Email;
 import jakarta.mail.internet.MimeMessage;
@@ -36,7 +36,7 @@ class SendEmailServiceTest {
     @Mock
     private MessageSource messageSource;
     @Mock
-    private EmailConfigProperties emailConfigProperties;
+    private DefaultAdminConfigProperties defaultAdminConfigProperties;
 
 
     @Test
@@ -44,7 +44,7 @@ class SendEmailServiceTest {
         final var emailData = CreateUserTestData.emailData();
 
         final var message = mock(MimeMessage.class);
-        when(emailConfigProperties.getAdminEmail()).thenReturn("admin@gmail.com");
+        when(defaultAdminConfigProperties.getEmail()).thenReturn("admin@gmail.com");
         when(templateEngine.process(any(String.class), any(IContext.class))).thenReturn("payload");
         when(emailSender.createMimeMessage()).thenReturn(message);
 
@@ -58,7 +58,7 @@ class SendEmailServiceTest {
         final var emailData = CreateUserTestData.emailData();
 
         final var message = mock(MimeMessage.class);
-        when(emailConfigProperties.getAdminEmail()).thenReturn("admin@gmail.com");
+        when(defaultAdminConfigProperties.getEmail()).thenReturn("admin@gmail.com");
         when(templateEngine.process(any(String.class), any(IContext.class))).thenReturn("payload");
         when(emailSender.createMimeMessage()).thenReturn(message);
         doThrow(new MailSendException("error"))
