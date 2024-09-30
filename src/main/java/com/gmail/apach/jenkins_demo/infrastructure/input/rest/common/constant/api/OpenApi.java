@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum OpenApi {
 
-    OPEN_API_INFO_TITLE("Tool REST API documentation");
+    OPEN_API_INFO_TITLE("Backend application REST API documentation");
 
     private final String value;
 }

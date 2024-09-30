@@ -2,7 +2,7 @@ package com.gmail.apach.jenkins_demo.domain.email.service;
 
 import com.gmail.apach.jenkins_demo.application.input.email.SendEmailInputPort;
 import com.gmail.apach.jenkins_demo.application.output.email.CreateEmailOutputPort;
-import com.gmail.apach.jenkins_demo.common.config.email.EmailConfigProperties;
+import com.gmail.apach.jenkins_demo.common.config.admin.DefaultAdminConfigProperties;
 import com.gmail.apach.jenkins_demo.common.config.mq.process.EmailProcessingConfig;
 import com.gmail.apach.jenkins_demo.common.constant.CommonConstant;
 import com.gmail.apach.jenkins_demo.common.constant.message.Error;
@@ -39,7 +39,7 @@ public class SendEmailService implements SendEmailInputPort {
     private final SpringTemplateEngine templateEngine;
     private final CreateEmailOutputPort createEmailOutputPort;
     private final MessageSource messageSource;
-    private final EmailConfigProperties emailConfigProperties;
+    private final DefaultAdminConfigProperties defaultAdminConfigProperties;
 
     @Override
     @RabbitListener(queues = EmailProcessingConfig.EMAIL_QUEUE)
@@ -80,7 +80,7 @@ public class SendEmailService implements SendEmailInputPort {
         MimeMessageHelper helper;
         try {
             helper = new MimeMessageHelper(message, true, CommonConstant.DEFAULT_CHARSET.getValue());
-            helper.setFrom(emailConfigProperties.getAdminEmail());
+            helper.setFrom(defaultAdminConfigProperties.getEmail());
             helper.setTo(wrapper.sendTo());
             if (CollectionUtils.isNotEmpty(wrapper.cc())) {
                 helper.setCc(wrapper.cc().toArray(String[]::new));

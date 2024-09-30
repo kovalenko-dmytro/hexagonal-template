@@ -1,7 +1,8 @@
 version: '3'
+name: jenkins-demo-backend
 services:
-  jenkins-demo-database:
-    container_name: jenkins-demo-database
+  database:
+    container_name: database
     image: postgres:16-alpine
     hostname: ${DB_HOST}
     ports:
@@ -22,8 +23,8 @@ services:
       - "postgres_backup:/data/postgres/backup"
     env_file: .env
 
-  jenkins-demo-message-broker:
-    container_name: jenkins-demo-message-broker
+  message-broker:
+    container_name: message-broker
     image: rabbitmq:3-management
     hostname: ${MESSAGE_BROKER_HOST}
     ports:
@@ -39,8 +40,8 @@ services:
       retries: 3
     env_file: .env
 
-  jenkins-demo-cache-storage:
-    container_name: jenkins-demo-cache-storage
+  cache-storage:
+    container_name: cache-storage
     image: redis:7.0.5-alpine
     hostname: ${REDIS_HOST}
     ports:
@@ -49,8 +50,8 @@ services:
     command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
     env_file: .env
 
-  jenkins-demo-localstack:
-    container_name: jenkins-demo-localstack
+  file-storage:
+    container_name: file-storage
     image: localstack/localstack
     ports:
       - "${LOCALSTACK_EXTERNAL_PORT}:${LOCALSTACK_INTERNAL_PORT}"
