@@ -42,7 +42,7 @@ public abstract class AbstractIntegrationTest {
     protected static final LocalStackContainer LOCAL_STACK_CONTAINER =
         new LocalStackContainer(DockerImageName.parse("localstack/localstack"))
             .withCopyFileToContainer(
-                MountableFile.forClasspathResource("init-s3-bucket.sh"),
+                MountableFile.forClasspathResource("script/init-s3-bucket.sh"),
                 "/etc/localstack/init/ready.d/init-s3-bucket.sh")
             .withServices(LocalStackContainer.Service.S3)
             .waitingFor(Wait.forLogMessage(".*Executed init-s3-bucket.sh.*", 1));

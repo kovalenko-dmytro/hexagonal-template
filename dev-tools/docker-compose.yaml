@@ -54,7 +54,7 @@ services:
     container_name: file-storage
     image: localstack/localstack
     ports:
-      - "${LOCALSTACK_EXTERNAL_PORT}:${LOCALSTACK_INTERNAL_PORT}"
+      - "${AWS_S3_EXTERNAL_PORT}:${AWS_S3_INTERNAL_PORT}"
     environment:
       - DOCKER_HOST=unix:///var/run/docker.sock
     volumes:

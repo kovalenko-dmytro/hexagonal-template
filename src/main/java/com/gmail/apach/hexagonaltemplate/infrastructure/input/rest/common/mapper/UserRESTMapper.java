@@ -19,7 +19,8 @@ import java.util.stream.Collectors;
 @Mapper(
     componentModel = "spring",
     injectionStrategy = InjectionStrategy.CONSTRUCTOR,
-    nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL)
+    nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL,
+    unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserRESTMapper {
 
     CurrentUserResponse toCurrentUserResponse(User user);
