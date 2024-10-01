@@ -1,1 +1,1 @@
-# jenkins-demo-app
+# Hexagonal architecture template application
