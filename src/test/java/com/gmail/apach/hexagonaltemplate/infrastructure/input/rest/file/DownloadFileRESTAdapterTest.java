@@ -2,8 +2,8 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.file;
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.gmail.apach.hexagonaltemplate.AbstractControllerIntegrationTest;
-import com.gmail.apach.hexagonaltemplate.common.constant.CommonConstant;
 import com.gmail.apach.hexagonaltemplate.data.FilesTestData;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.constant.CommonConstant;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.file.dto.FileResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;

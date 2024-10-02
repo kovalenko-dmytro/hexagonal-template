@@ -1,10 +1,10 @@
 package com.gmail.apach.hexagonaltemplate.domain.file.service;
 
 import com.gmail.apach.hexagonaltemplate.application.output.file.GetFileOutputPort;
-import com.gmail.apach.hexagonaltemplate.common.exception.ApplicationServerException;
-import com.gmail.apach.hexagonaltemplate.common.exception.ResourceNotFoundException;
-import com.gmail.apach.hexagonaltemplate.common.util.AwsS3Util;
 import com.gmail.apach.hexagonaltemplate.data.FilesTestData;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ApplicationServerException;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ResourceNotFoundException;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.util.AwsS3Util;
 import io.awspring.cloud.s3.S3Resource;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -2,10 +2,10 @@ package com.gmail.apach.hexagonaltemplate.domain.user.service;
 
 import com.gmail.apach.hexagonaltemplate.application.output.user.DeleteUserOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.output.user.GetUserOutputPort;
-import com.gmail.apach.hexagonaltemplate.common.exception.ForbiddenException;
-import com.gmail.apach.hexagonaltemplate.common.exception.ResourceNotFoundException;
 import com.gmail.apach.hexagonaltemplate.data.UsersTestData;
 import com.gmail.apach.hexagonaltemplate.domain.user.validator.DeleteUserPermissionsValidator;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ForbiddenException;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

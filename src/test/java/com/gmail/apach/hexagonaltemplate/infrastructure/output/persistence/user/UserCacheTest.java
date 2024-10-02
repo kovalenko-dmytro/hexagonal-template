@@ -2,12 +2,12 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.gmail.apach.hexagonaltemplate.AbstractIntegrationTest;
-import com.gmail.apach.hexagonaltemplate.common.constant.cache.UserCacheConstant;
-import com.gmail.apach.hexagonaltemplate.common.dto.CurrentUserContext;
 import com.gmail.apach.hexagonaltemplate.data.AuthoritiesTestData;
 import com.gmail.apach.hexagonaltemplate.data.UsersTestData;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
 import com.gmail.apach.hexagonaltemplate.domain.user.wrapper.GetUsersRequestWrapper;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.constant.UserCacheConstant;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserContext;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

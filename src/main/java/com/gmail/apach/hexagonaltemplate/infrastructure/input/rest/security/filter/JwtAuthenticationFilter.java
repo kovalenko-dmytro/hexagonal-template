@@ -1,7 +1,7 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gmail.apach.hexagonaltemplate.common.constant.CommonConstant;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.constant.CommonConstant;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.dto.ErrorResponse;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.security.service.JWTService;
 import jakarta.servlet.FilterChain;

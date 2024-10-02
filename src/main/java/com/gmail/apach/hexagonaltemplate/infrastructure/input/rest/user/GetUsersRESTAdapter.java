@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 
-@Tag(name = "Users REST API")
+@Tag(name = "User REST API")
 @RestController
 @RequestMapping(value = "/api/v1/users")
 @RequiredArgsConstructor

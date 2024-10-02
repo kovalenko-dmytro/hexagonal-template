@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.init;
 
-import com.gmail.apach.hexagonaltemplate.common.config.admin.DefaultAdminConfigProperties;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.admin.DefaultAdminConfigProperties;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.entity.UserEntity;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.repository.RoleRepository;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.repository.UserRepository;

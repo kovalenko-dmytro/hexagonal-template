@@ -2,10 +2,10 @@ package com.gmail.apach.hexagonaltemplate.domain.user.service;
 
 import com.gmail.apach.hexagonaltemplate.application.input.user.GetUsersInputPort;
 import com.gmail.apach.hexagonaltemplate.application.output.user.GetUsersOutputPort;
-import com.gmail.apach.hexagonaltemplate.common.util.CurrentUserContextUtil;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
 import com.gmail.apach.hexagonaltemplate.domain.user.validator.GetUsersPermissionsValidator;
 import com.gmail.apach.hexagonaltemplate.domain.user.wrapper.GetUsersRequestWrapper;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.util.CurrentUserContextUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;

@@ -2,10 +2,10 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.file
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.gmail.apach.hexagonaltemplate.AbstractIntegrationTest;
-import com.gmail.apach.hexagonaltemplate.common.constant.cache.FileCacheConstant;
 import com.gmail.apach.hexagonaltemplate.data.FilesTestData;
 import com.gmail.apach.hexagonaltemplate.domain.file.model.StoredFile;
 import com.gmail.apach.hexagonaltemplate.domain.file.wrapper.GetFilesRequestWrapper;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.constant.FileCacheConstant;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

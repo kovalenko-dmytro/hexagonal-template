@@ -2,8 +2,8 @@ package com.gmail.apach.hexagonaltemplate.domain.file.service;
 
 import com.gmail.apach.hexagonaltemplate.application.input.file.UploadFileInputPort;
 import com.gmail.apach.hexagonaltemplate.application.output.file.CreateFileOutputPort;
-import com.gmail.apach.hexagonaltemplate.common.util.AwsS3Util;
 import com.gmail.apach.hexagonaltemplate.domain.file.model.StoredFile;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.util.AwsS3Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

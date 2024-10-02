@@ -2,8 +2,8 @@ package com.gmail.apach.hexagonaltemplate.domain.email.service;
 
 import com.gmail.apach.hexagonaltemplate.application.output.email.DeleteEmailOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.output.email.GetEmailOutputPort;
-import com.gmail.apach.hexagonaltemplate.common.exception.ResourceNotFoundException;
 import com.gmail.apach.hexagonaltemplate.data.EmailsTestData;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
