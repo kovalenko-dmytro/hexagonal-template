@@ -1,8 +1,8 @@
-package com.gmail.apach.hexagonaltemplate.application.input.email;
+package com.gmail.apach.hexagonaltemplate.application.output.email;
 
 import com.gmail.apach.hexagonaltemplate.domain.email.wrapper.SendEmailWrapper;
 
-public interface SendEmailInputPort {
+public interface SendEmailOutputPort {
 
     void sendEmail(SendEmailWrapper sendEmailWrapper);
 }

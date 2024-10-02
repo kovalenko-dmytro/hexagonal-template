@@ -6,8 +6,7 @@ import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CreateEmailPersistenceAdapterTest extends AbstractIntegrationTest {
 
@@ -20,13 +19,15 @@ class CreateEmailPersistenceAdapterTest extends AbstractIntegrationTest {
     void createEmail_success() {
         final var expected = EmailsTestData.email();
 
-        final var actual = createEmailPersistenceAdapter.createEmail(expected);
+        createEmailPersistenceAdapter.createEmail(expected);
+        final var actual = emailRepository.findBySendBy(expected.getSendBy());
 
-        assertNotNull(actual);
-        assertNotNull(actual.getEmailId());
-        assertEquals(expected.getSendBy(), actual.getSendBy());
-        assertEquals(expected.getEmailType(), actual.getEmailType());
-        assertEquals(expected.getEmailStatus(), actual.getEmailStatus());
+        assertTrue(actual.isPresent());
+        final var savedEmail = actual.get();
+        assertNotNull(savedEmail.getEmailId());
+        assertEquals(expected.getSendBy(), savedEmail.getSendBy());
+        assertEquals(expected.getEmailType(), savedEmail.getEmailType());
+        assertEquals(expected.getEmailStatus(), savedEmail.getEmailStatus());
 
         emailRepository.deleteAll();
     }

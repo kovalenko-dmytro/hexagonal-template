@@ -1,8 +1,8 @@
 package com.gmail.apach.hexagonaltemplate.application.output.email;
 
-import com.gmail.apach.hexagonaltemplate.domain.email.wrapper.SendEmailWrapper;
+import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
 
 public interface SendEmailPublisher {
 
-    void publish(SendEmailWrapper wrapper);
+    void publishInviteEmail(User user);
 }
