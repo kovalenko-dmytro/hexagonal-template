@@ -1,4 +1,4 @@
-package com.gmail.apach.hexagonaltemplate.domain.email.wrapper;
+package com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt.dto;
 
 import com.gmail.apach.hexagonaltemplate.domain.email.model.EmailType;
 import jakarta.validation.constraints.Email;

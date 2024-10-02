@@ -1,4 +1,7 @@
 spring:
+  main:
+    banner-mode: off
+    log-startup-info: false
   profiles:
     active: test
   autoconfigure:
@@ -46,6 +49,10 @@ spring:
 aws:
   s3:
     bucket-name: test
+
+logging:
+  level:
+    root: ERROR
 
 application:
   default-admin:
