@@ -1,10 +1,10 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.security.service;
 
 import com.gmail.apach.hexagonaltemplate.application.input.user.GetUserInputPort;
-import com.gmail.apach.hexagonaltemplate.common.dto.CurrentUserContext;
-import com.gmail.apach.hexagonaltemplate.common.exception.ResourceNotFoundException;
-import com.gmail.apach.hexagonaltemplate.common.util.CurrentUserContextUtil;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ResourceNotFoundException;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.util.CurrentUserContextUtil;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserContext;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.mapper.UserRESTMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.security.dto.CurrentUserResponse;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.security.dto.SignInRequest;

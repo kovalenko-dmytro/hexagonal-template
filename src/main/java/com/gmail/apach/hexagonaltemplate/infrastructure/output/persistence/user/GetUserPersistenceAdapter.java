@@ -1,11 +1,11 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user;
 
 import com.gmail.apach.hexagonaltemplate.application.output.user.GetUserOutputPort;
-import com.gmail.apach.hexagonaltemplate.common.constant.cache.UserCacheConstant;
-import com.gmail.apach.hexagonaltemplate.common.constant.message.AttributeForModel;
-import com.gmail.apach.hexagonaltemplate.common.constant.message.Error;
-import com.gmail.apach.hexagonaltemplate.common.exception.ResourceNotFoundException;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.constant.UserCacheConstant;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.constant.AttributeForModel;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.constant.Error;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ResourceNotFoundException;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.mapper.UserPersistenceMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,10 +1,10 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email;
 
 import com.gmail.apach.hexagonaltemplate.application.output.email.GetEmailsOutputPort;
-import com.gmail.apach.hexagonaltemplate.common.constant.cache.EmailCacheConstant;
-import com.gmail.apach.hexagonaltemplate.common.util.PageableUtil;
 import com.gmail.apach.hexagonaltemplate.domain.email.model.Email;
 import com.gmail.apach.hexagonaltemplate.domain.email.wrapper.GetEmailsWrapper;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.constant.EmailCacheConstant;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.util.PageableUtil;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email.mapper.EmailPersistenceMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email.repository.EmailRepository;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email.specification.EmailSpecifications;

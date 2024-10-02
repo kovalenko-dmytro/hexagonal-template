@@ -1,13 +1,13 @@
 package com.gmail.apach.hexagonaltemplate.domain.user.service;
 
 import com.gmail.apach.hexagonaltemplate.application.output.user.GetUsersOutputPort;
-import com.gmail.apach.hexagonaltemplate.common.dto.CurrentUserContext;
-import com.gmail.apach.hexagonaltemplate.common.exception.ForbiddenException;
-import com.gmail.apach.hexagonaltemplate.common.util.CurrentUserContextUtil;
 import com.gmail.apach.hexagonaltemplate.data.AuthoritiesTestData;
 import com.gmail.apach.hexagonaltemplate.data.UsersTestData;
 import com.gmail.apach.hexagonaltemplate.domain.user.validator.GetUsersPermissionsValidator;
 import com.gmail.apach.hexagonaltemplate.domain.user.wrapper.GetUsersRequestWrapper;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ForbiddenException;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.util.CurrentUserContextUtil;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserContext;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

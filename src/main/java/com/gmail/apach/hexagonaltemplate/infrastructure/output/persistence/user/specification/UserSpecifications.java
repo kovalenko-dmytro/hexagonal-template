@@ -1,7 +1,7 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.specification;
 
-import com.gmail.apach.hexagonaltemplate.common.dto.CurrentUserContext;
 import com.gmail.apach.hexagonaltemplate.domain.user.wrapper.GetUsersRequestWrapper;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserContext;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.entity.UserEntity;
 import jakarta.persistence.criteria.Predicate;
 import lombok.AccessLevel;

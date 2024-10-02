@@ -1,9 +1,9 @@
 package com.gmail.apach.hexagonaltemplate.domain.user.validator;
 
-import com.gmail.apach.hexagonaltemplate.common.constant.message.Error;
-import com.gmail.apach.hexagonaltemplate.common.exception.ForbiddenException;
-import com.gmail.apach.hexagonaltemplate.common.util.CurrentUserContextUtil;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.constant.Error;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ForbiddenException;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.util.CurrentUserContextUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;

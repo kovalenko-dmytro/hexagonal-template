@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "Users REST API")
+@Tag(name = "User REST API")
 @RestController
 @RequestMapping(value = "/api/v1/users")
 @RequiredArgsConstructor

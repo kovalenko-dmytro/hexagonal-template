@@ -1,10 +1,10 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email;
 
 import com.gmail.apach.hexagonaltemplate.AbstractIntegrationTest;
-import com.gmail.apach.hexagonaltemplate.common.constant.cache.EmailCacheConstant;
 import com.gmail.apach.hexagonaltemplate.data.EmailsTestData;
 import com.gmail.apach.hexagonaltemplate.domain.email.model.Email;
 import com.gmail.apach.hexagonaltemplate.domain.email.wrapper.GetEmailsWrapper;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.constant.EmailCacheConstant;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email.repository.EmailRepository;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Test;

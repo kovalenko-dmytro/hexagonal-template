@@ -2,10 +2,10 @@ package com.gmail.apach.hexagonaltemplate.domain.file.service;
 
 import com.gmail.apach.hexagonaltemplate.application.input.file.DownloadFileInputPort;
 import com.gmail.apach.hexagonaltemplate.application.output.file.GetFileOutputPort;
-import com.gmail.apach.hexagonaltemplate.common.constant.message.Error;
-import com.gmail.apach.hexagonaltemplate.common.exception.ApplicationServerException;
-import com.gmail.apach.hexagonaltemplate.common.util.AwsS3Util;
 import com.gmail.apach.hexagonaltemplate.domain.file.wrapper.FilePayloadWrapper;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.constant.Error;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ApplicationServerException;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.util.AwsS3Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;

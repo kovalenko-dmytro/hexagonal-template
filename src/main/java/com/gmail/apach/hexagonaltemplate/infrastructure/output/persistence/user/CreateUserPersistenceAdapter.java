@@ -1,9 +1,9 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user;
 
 import com.gmail.apach.hexagonaltemplate.application.output.user.CreateUserOutputPort;
-import com.gmail.apach.hexagonaltemplate.common.constant.cache.UserCacheConstant;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.RoleType;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.constant.UserCacheConstant;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.entity.RoleEntity;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.entity.UserEntity;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.mapper.UserPersistenceMapper;

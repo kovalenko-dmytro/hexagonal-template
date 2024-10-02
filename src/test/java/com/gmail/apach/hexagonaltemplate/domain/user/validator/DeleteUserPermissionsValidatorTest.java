@@ -1,10 +1,10 @@
 package com.gmail.apach.hexagonaltemplate.domain.user.validator;
 
-import com.gmail.apach.hexagonaltemplate.common.dto.CurrentUserContext;
-import com.gmail.apach.hexagonaltemplate.common.exception.ForbiddenException;
-import com.gmail.apach.hexagonaltemplate.common.util.CurrentUserContextUtil;
 import com.gmail.apach.hexagonaltemplate.data.AuthoritiesTestData;
 import com.gmail.apach.hexagonaltemplate.data.UsersTestData;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ForbiddenException;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.util.CurrentUserContextUtil;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
