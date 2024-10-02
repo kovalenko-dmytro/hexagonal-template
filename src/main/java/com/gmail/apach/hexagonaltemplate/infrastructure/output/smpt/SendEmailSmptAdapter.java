@@ -1,13 +1,12 @@
-package com.gmail.apach.hexagonaltemplate.domain.email.service;
+package com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt;
 
-import com.gmail.apach.hexagonaltemplate.application.input.email.SendEmailInputPort;
-import com.gmail.apach.hexagonaltemplate.application.output.email.CreateEmailOutputPort;
+import com.gmail.apach.hexagonaltemplate.application.output.email.CreateEmailPublisher;
+import com.gmail.apach.hexagonaltemplate.application.output.email.SendEmailOutputPort;
 import com.gmail.apach.hexagonaltemplate.common.config.admin.DefaultAdminConfigProperties;
 import com.gmail.apach.hexagonaltemplate.common.config.mq.process.EmailProcessingConfig;
 import com.gmail.apach.hexagonaltemplate.common.constant.CommonConstant;
 import com.gmail.apach.hexagonaltemplate.common.constant.message.Error;
 import com.gmail.apach.hexagonaltemplate.common.exception.ResourceNotFoundException;
-import com.gmail.apach.hexagonaltemplate.domain.email.model.Email;
 import com.gmail.apach.hexagonaltemplate.domain.email.model.EmailStatus;
 import com.gmail.apach.hexagonaltemplate.domain.email.wrapper.SendEmailWrapper;
 import jakarta.mail.MessagingException;
@@ -21,44 +20,33 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Service
+@Component
 @RequiredArgsConstructor
 @Slf4j
-public class SendEmailService implements SendEmailInputPort {
+public class SendEmailSmptAdapter implements SendEmailOutputPort {
 
     private final JavaMailSender emailSender;
     private final SpringTemplateEngine templateEngine;
-    private final CreateEmailOutputPort createEmailOutputPort;
+    private final CreateEmailPublisher createEmailPublisher;
     private final MessageSource messageSource;
     private final DefaultAdminConfigProperties defaultAdminConfigProperties;
 
     @Override
-    @RabbitListener(queues = EmailProcessingConfig.EMAIL_QUEUE)
+    @RabbitListener(queues = EmailProcessingConfig.SEND_EMAIL_QUEUE)
     public void sendEmail(SendEmailWrapper wrapper) {
         final var payload = obtainPayload(wrapper);
 
         final var emailStatus = sendPreparedEmail(payload, wrapper);
 
-        final var email = Email.builder()
-            .sendBy(wrapper.sendBy())
-            .sendTo(wrapper.sendTo())
-            .cc(wrapper.cc())
-            .subject(wrapper.subject())
-            .sendTime(LocalDateTime.now())
-            .emailType(wrapper.emailType())
-            .emailStatus(emailStatus)
-            .build();
-
-        createEmailOutputPort.createEmail(email);
+        createEmailPublisher.publishCreateEmail(wrapper, emailStatus);
     }
 
     private String obtainPayload(SendEmailWrapper wrapper) {

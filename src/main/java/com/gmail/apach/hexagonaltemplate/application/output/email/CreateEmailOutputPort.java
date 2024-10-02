@@ -4,5 +4,5 @@ import com.gmail.apach.hexagonaltemplate.domain.email.model.Email;
 
 public interface CreateEmailOutputPort {
 
-    Email createEmail(Email email);
+    void createEmail(Email email);
 }
