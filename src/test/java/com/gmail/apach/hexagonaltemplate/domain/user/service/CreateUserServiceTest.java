@@ -7,8 +7,6 @@ import com.gmail.apach.hexagonaltemplate.common.exception.ForbiddenException;
 import com.gmail.apach.hexagonaltemplate.common.util.CurrentUserContextUtil;
 import com.gmail.apach.hexagonaltemplate.data.AuthoritiesTestData;
 import com.gmail.apach.hexagonaltemplate.data.CreateUserTestData;
-import com.gmail.apach.hexagonaltemplate.domain.email.model.EmailType;
-import com.gmail.apach.hexagonaltemplate.domain.email.wrapper.SendEmailWrapper;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.Role;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.RoleType;
 import com.gmail.apach.hexagonaltemplate.domain.user.validator.CreateUserPermissionsValidator;
@@ -19,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -52,16 +49,6 @@ class CreateUserServiceTest {
             .username(CURRENT_USER_USERNAME)
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
-        final var emailData = SendEmailWrapper.builder()
-            .sendBy(context.username())
-            .sendTo(savedUser.getEmail())
-            .subject("Hello")
-            .properties(Map.of(
-                EmailType.Property.RECIPIENT_NAME.getProperty(), savedUser.getUsername(),
-                EmailType.Property.SENDER_NAME.getProperty(), context.username()
-            ))
-            .emailType(EmailType.INVITE)
-            .build();
 
         when(passwordEncoder.encode(user.getPassword())).thenReturn(ENCODED_PASSWORD);
         when(currentUserContextUtil.getContext()).thenReturn(context);
@@ -70,7 +57,7 @@ class CreateUserServiceTest {
 
         final var actual = createUserService.createUser(user);
 
-        verify(sendEmailPublisher, times(1)).publish(emailData);
+        verify(sendEmailPublisher, times(1)).publishInviteEmail(actual);
         assertNotNull(actual);
         assertNotNull(actual.getUserId());
     }
@@ -84,16 +71,6 @@ class CreateUserServiceTest {
             .username(CURRENT_USER_USERNAME)
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
-        final var emailData = SendEmailWrapper.builder()
-            .sendBy(context.username())
-            .sendTo(savedUser.getEmail())
-            .subject("Hello")
-            .properties(Map.of(
-                EmailType.Property.RECIPIENT_NAME.getProperty(), savedUser.getUsername(),
-                EmailType.Property.SENDER_NAME.getProperty(), context.username()
-            ))
-            .emailType(EmailType.INVITE)
-            .build();
 
         when(passwordEncoder.encode(user.getPassword())).thenReturn(ENCODED_PASSWORD);
         when(currentUserContextUtil.getContext()).thenReturn(context);
@@ -101,7 +78,7 @@ class CreateUserServiceTest {
 
         final var actual = createUserService.createUser(userWithNoRoles);
 
-        verify(sendEmailPublisher, times(1)).publish(emailData);
+        verify(sendEmailPublisher, times(1)).publishInviteEmail(actual);
         assertNotNull(actual);
         assertNotNull(actual.getUserId());
         assertFalse(actual.getRoles().isEmpty());

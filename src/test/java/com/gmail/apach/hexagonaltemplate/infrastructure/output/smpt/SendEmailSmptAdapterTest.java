@@ -1,9 +1,9 @@
-package com.gmail.apach.hexagonaltemplate.domain.email.service;
+package com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt;
 
-import com.gmail.apach.hexagonaltemplate.application.output.email.CreateEmailOutputPort;
+import com.gmail.apach.hexagonaltemplate.application.output.email.CreateEmailPublisher;
 import com.gmail.apach.hexagonaltemplate.common.config.admin.DefaultAdminConfigProperties;
 import com.gmail.apach.hexagonaltemplate.data.CreateUserTestData;
-import com.gmail.apach.hexagonaltemplate.domain.email.model.Email;
+import com.gmail.apach.hexagonaltemplate.domain.email.model.EmailStatus;
 import jakarta.mail.internet.MimeMessage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,16 +23,16 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class SendEmailServiceTest {
+class SendEmailSmptAdapterTest {
 
     @InjectMocks
-    private SendEmailService sendEmailService;
+    private SendEmailSmptAdapter sendEmailSmptAdapter;
     @Mock
     private JavaMailSender emailSender;
     @Mock
     private SpringTemplateEngine templateEngine;
     @Mock
-    private CreateEmailOutputPort createEmailOutputPort;
+    private CreateEmailPublisher createEmailPublisher;
     @Mock
     private MessageSource messageSource;
     @Mock
@@ -48,9 +48,9 @@ class SendEmailServiceTest {
         when(templateEngine.process(any(String.class), any(IContext.class))).thenReturn("payload");
         when(emailSender.createMimeMessage()).thenReturn(message);
 
-        assertDoesNotThrow(() -> sendEmailService.sendEmail(emailData));
+        assertDoesNotThrow(() -> sendEmailSmptAdapter.sendEmail(emailData));
 
-        verify(createEmailOutputPort, times(1)).createEmail(any(Email.class));
+        verify(createEmailPublisher, times(1)).publishCreateEmail(emailData, EmailStatus.SEND);
     }
 
     @Test
@@ -64,9 +64,9 @@ class SendEmailServiceTest {
         doThrow(new MailSendException("error"))
             .when(emailSender).send(message);
 
-        sendEmailService.sendEmail(emailData);
+        sendEmailSmptAdapter.sendEmail(emailData);
 
-        verify(createEmailOutputPort, times(1)).createEmail(any(Email.class));
+        verify(createEmailPublisher, times(1)).publishCreateEmail(emailData, EmailStatus.ERROR);
         verify(messageSource, times(1)).getMessage(any(String.class), any(), any(Locale.class));
     }
 }

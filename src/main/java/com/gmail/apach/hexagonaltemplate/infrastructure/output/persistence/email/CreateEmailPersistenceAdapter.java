@@ -1,11 +1,13 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email;
 
 import com.gmail.apach.hexagonaltemplate.application.output.email.CreateEmailOutputPort;
+import com.gmail.apach.hexagonaltemplate.common.config.mq.process.EmailProcessingConfig;
 import com.gmail.apach.hexagonaltemplate.common.constant.cache.EmailCacheConstant;
 import com.gmail.apach.hexagonaltemplate.domain.email.model.Email;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email.mapper.EmailPersistenceMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email.repository.EmailRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Component;
 
@@ -20,10 +22,10 @@ public class CreateEmailPersistenceAdapter implements CreateEmailOutputPort {
         value = EmailCacheConstant.LIST_CACHE_NAME,
         allEntries = true
     )
+    @RabbitListener(queues = EmailProcessingConfig.CREATE_EMAIL_QUEUE)
     @Override
-    public Email createEmail(Email email) {
+    public void createEmail(Email email) {
         final var emailEntity = emailPersistenceMapper.toEmailEntity(email);
-        final var savedEmail = emailRepository.save(emailEntity);
-        return emailPersistenceMapper.toEmail(savedEmail);
+        emailRepository.save(emailEntity);
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.test.context.ActiveProfiles;
+import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.RabbitMQContainer;
 import org.testcontainers.containers.localstack.LocalStackContainer;
@@ -47,12 +48,21 @@ public abstract class AbstractIntegrationTest {
             .withServices(LocalStackContainer.Service.S3)
             .waitingFor(Wait.forLogMessage(".*Executed init-s3-bucket.sh.*", 1));
 
+    protected static final GenericContainer<?> EMAIL_CONTAINER =
+        new GenericContainer<>(DockerImageName.parse("greenmail/standalone:1.6.1"))
+            .waitingFor(Wait.forLogMessage(".*Starting GreenMail standalone.*", 1))
+            .withEnv(
+                "GREENMAIL_OPTS",
+                "-Dgreenmail.setup.test.smtp -Dgreenmail.hostname=0.0.0.0 -Dgreenmail.users=user:password")
+            .withExposedPorts(3025);
+
 
     static {
         POSTGRESQL_CONTAINER.start();
         REDIS_CONTAINER.start();
         RABBIT_CONTAINER.start();
         LOCAL_STACK_CONTAINER.start();
+        EMAIL_CONTAINER.start();
     }
 
     @BeforeAll
@@ -74,6 +84,9 @@ public abstract class AbstractIntegrationTest {
         System.setProperty("spring.cloud.aws.s3.region", LOCAL_STACK_CONTAINER.getRegion());
         System.setProperty("spring.cloud.aws.s3.endpoint", String.valueOf(LOCAL_STACK_CONTAINER.getEndpoint()));
         System.setProperty("aws.s3.bucket-name", BUCKET_NAME);
+
+        System.setProperty("spring.mail.host", EMAIL_CONTAINER.getHost());
+        System.setProperty("spring.mail.port", String.valueOf(EMAIL_CONTAINER.getFirstMappedPort()));
     }
 
     @BeforeEach

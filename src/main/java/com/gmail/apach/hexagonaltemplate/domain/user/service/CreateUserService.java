@@ -4,8 +4,6 @@ import com.gmail.apach.hexagonaltemplate.application.input.user.CreateUserInputP
 import com.gmail.apach.hexagonaltemplate.application.output.email.SendEmailPublisher;
 import com.gmail.apach.hexagonaltemplate.application.output.user.CreateUserOutputPort;
 import com.gmail.apach.hexagonaltemplate.common.util.CurrentUserContextUtil;
-import com.gmail.apach.hexagonaltemplate.domain.email.model.EmailType;
-import com.gmail.apach.hexagonaltemplate.domain.email.wrapper.SendEmailWrapper;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.Role;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.RoleType;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
@@ -16,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -46,22 +43,8 @@ public class CreateUserService implements CreateUserInputPort {
 
         final var createdUser = createUserOutputPort.createUser(user);
 
-        final var emailData = prepareEmailData(createdUser, createdBy);
-        sendEmailPublisher.publish(emailData);
+        sendEmailPublisher.publishInviteEmail(createdUser);
 
         return createdUser;
-    }
-
-    private SendEmailWrapper prepareEmailData(User createdUser, String createdBy) {
-        return SendEmailWrapper.builder()
-            .sendBy(createdBy)
-            .sendTo(createdUser.getEmail())
-            .properties(Map.of(
-                EmailType.Property.RECIPIENT_NAME.getProperty(), createdUser.getUsername(),
-                EmailType.Property.SENDER_NAME.getProperty(), createdBy
-            ))
-            .subject("Hello")
-            .emailType(EmailType.INVITE)
-            .build();
     }
 }
