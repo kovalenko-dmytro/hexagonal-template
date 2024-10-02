@@ -108,6 +108,11 @@ logbook:
 logging:
   level:
     org:
+      springframework:
+        data: WARN
+        security: WARN
+        amqp: WARN
+      hibernate: WARN
       zalando:
         logbook:
           Logbook: TRACE

@@ -8,7 +8,7 @@ import com.gmail.apach.hexagonaltemplate.common.constant.CommonConstant;
 import com.gmail.apach.hexagonaltemplate.common.constant.message.Error;
 import com.gmail.apach.hexagonaltemplate.common.exception.ResourceNotFoundException;
 import com.gmail.apach.hexagonaltemplate.domain.email.model.EmailStatus;
-import com.gmail.apach.hexagonaltemplate.domain.email.wrapper.SendEmailWrapper;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt.dto.SendEmailWrapper;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
