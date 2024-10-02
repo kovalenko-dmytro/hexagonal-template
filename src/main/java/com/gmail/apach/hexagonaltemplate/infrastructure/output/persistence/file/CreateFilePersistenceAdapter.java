@@ -1,8 +1,8 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.file;
 
 import com.gmail.apach.hexagonaltemplate.application.output.file.CreateFileOutputPort;
-import com.gmail.apach.hexagonaltemplate.common.constant.cache.FileCacheConstant;
 import com.gmail.apach.hexagonaltemplate.domain.file.model.StoredFile;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.constant.FileCacheConstant;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.file.mapper.FilePersistenceMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.file.repository.FileRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,9 +1,9 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.handler;
 
-import com.gmail.apach.hexagonaltemplate.common.constant.CommonConstant;
-import com.gmail.apach.hexagonaltemplate.common.constant.message.Error;
-import com.gmail.apach.hexagonaltemplate.common.exception.ApplicationServerException;
-import com.gmail.apach.hexagonaltemplate.common.exception.ResourceNotFoundException;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.constant.Error;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.constant.CommonConstant;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ApplicationServerException;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ResourceNotFoundException;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.dto.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;

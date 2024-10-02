@@ -1,10 +1,10 @@
 package com.gmail.apach.hexagonaltemplate.domain.file.service;
 
 import com.gmail.apach.hexagonaltemplate.application.output.file.CreateFileOutputPort;
-import com.gmail.apach.hexagonaltemplate.common.exception.ApplicationServerException;
-import com.gmail.apach.hexagonaltemplate.common.util.AwsS3Util;
 import com.gmail.apach.hexagonaltemplate.data.FilesTestData;
 import com.gmail.apach.hexagonaltemplate.domain.file.model.StoredFile;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ApplicationServerException;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.util.AwsS3Util;
 import io.awspring.cloud.s3.Location;
 import io.awspring.cloud.s3.S3Resource;
 import org.junit.jupiter.api.Test;

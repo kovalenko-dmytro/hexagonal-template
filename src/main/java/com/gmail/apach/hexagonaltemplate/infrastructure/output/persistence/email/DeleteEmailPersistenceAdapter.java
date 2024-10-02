@@ -1,7 +1,7 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email;
 
 import com.gmail.apach.hexagonaltemplate.application.output.email.DeleteEmailOutputPort;
-import com.gmail.apach.hexagonaltemplate.common.constant.cache.EmailCacheConstant;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.constant.EmailCacheConstant;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email.repository.EmailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;

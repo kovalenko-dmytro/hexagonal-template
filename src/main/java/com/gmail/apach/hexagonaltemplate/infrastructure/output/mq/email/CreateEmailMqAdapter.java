@@ -1,9 +1,9 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.mq.email;
 
 import com.gmail.apach.hexagonaltemplate.application.output.email.CreateEmailPublisher;
-import com.gmail.apach.hexagonaltemplate.common.config.mq.process.EmailProcessingConfig;
 import com.gmail.apach.hexagonaltemplate.domain.email.model.Email;
 import com.gmail.apach.hexagonaltemplate.domain.email.model.EmailStatus;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.mq.process.EmailProcessingConfig;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt.dto.SendEmailWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

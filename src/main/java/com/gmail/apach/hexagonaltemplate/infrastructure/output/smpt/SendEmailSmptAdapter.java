@@ -2,12 +2,12 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt;
 
 import com.gmail.apach.hexagonaltemplate.application.output.email.CreateEmailPublisher;
 import com.gmail.apach.hexagonaltemplate.application.output.email.SendEmailOutputPort;
-import com.gmail.apach.hexagonaltemplate.common.config.admin.DefaultAdminConfigProperties;
-import com.gmail.apach.hexagonaltemplate.common.config.mq.process.EmailProcessingConfig;
-import com.gmail.apach.hexagonaltemplate.common.constant.CommonConstant;
-import com.gmail.apach.hexagonaltemplate.common.constant.message.Error;
-import com.gmail.apach.hexagonaltemplate.common.exception.ResourceNotFoundException;
 import com.gmail.apach.hexagonaltemplate.domain.email.model.EmailStatus;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.admin.DefaultAdminConfigProperties;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.constant.Error;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.mq.process.EmailProcessingConfig;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.constant.CommonConstant;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ResourceNotFoundException;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt.dto.SendEmailWrapper;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

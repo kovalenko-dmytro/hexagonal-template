@@ -1,8 +1,8 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.security.service.impl;
 
 import com.gmail.apach.hexagonaltemplate.application.input.user.GetUserInputPort;
-import com.gmail.apach.hexagonaltemplate.common.constant.CommonConstant;
-import com.gmail.apach.hexagonaltemplate.common.util.CurrentUserContextUtil;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.constant.CommonConstant;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.util.CurrentUserContextUtil;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.mapper.UserRESTMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.security.dto.CurrentUserResponse;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.security.dto.SignInRequest;

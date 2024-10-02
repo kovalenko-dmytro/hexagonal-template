@@ -1,9 +1,9 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email;
 
 import com.gmail.apach.hexagonaltemplate.application.output.email.CreateEmailOutputPort;
-import com.gmail.apach.hexagonaltemplate.common.config.mq.process.EmailProcessingConfig;
-import com.gmail.apach.hexagonaltemplate.common.constant.cache.EmailCacheConstant;
 import com.gmail.apach.hexagonaltemplate.domain.email.model.Email;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.constant.EmailCacheConstant;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.mq.process.EmailProcessingConfig;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email.mapper.EmailPersistenceMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email.repository.EmailRepository;
 import lombok.RequiredArgsConstructor;

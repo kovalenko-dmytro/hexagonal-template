@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Users REST API")
+@Tag(name = "User REST API")
 @RestController
 @RequestMapping(value = "/api/v1/users/{userId}")
 @RequiredArgsConstructor

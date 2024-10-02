@@ -1,9 +1,9 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt;
 
 import com.gmail.apach.hexagonaltemplate.application.output.email.CreateEmailPublisher;
-import com.gmail.apach.hexagonaltemplate.common.config.admin.DefaultAdminConfigProperties;
 import com.gmail.apach.hexagonaltemplate.data.CreateUserTestData;
 import com.gmail.apach.hexagonaltemplate.domain.email.model.EmailStatus;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.admin.DefaultAdminConfigProperties;
 import jakarta.mail.internet.MimeMessage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
