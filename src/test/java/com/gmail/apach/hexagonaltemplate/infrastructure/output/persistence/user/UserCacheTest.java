@@ -7,7 +7,7 @@ import com.gmail.apach.hexagonaltemplate.data.UsersTestData;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
 import com.gmail.apach.hexagonaltemplate.domain.user.wrapper.GetUsersRequestWrapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.constant.UserCacheConstant;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserContext;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserAuthContext;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,7 +98,7 @@ class UserCacheTest extends AbstractIntegrationTest {
         getUsersCache().ifPresent(usersCache -> assertTrue(usersCache.isEmpty()));
 
         final var requestWrapper = getUsersRequestWrapper();
-        final var currentUserContext = CurrentUserContext.builder()
+        final var currentUserContext = CurrentUserAuthContext.builder()
             .username("admin")
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
@@ -157,8 +157,8 @@ class UserCacheTest extends AbstractIntegrationTest {
             .build();
     }
 
-    private static CurrentUserContext getContext() {
-        return CurrentUserContext.builder()
+    private static CurrentUserAuthContext getContext() {
+        return CurrentUserAuthContext.builder()
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
     }

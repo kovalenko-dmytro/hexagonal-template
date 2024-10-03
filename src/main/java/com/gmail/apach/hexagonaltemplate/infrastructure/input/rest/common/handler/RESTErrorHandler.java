@@ -4,7 +4,7 @@ import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.co
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.constant.CommonConstant;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ApplicationServerException;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ResourceNotFoundException;
-import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.dto.ErrorResponse;
+import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.wrapper.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;

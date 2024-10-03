@@ -5,7 +5,7 @@ import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
 import com.gmail.apach.hexagonaltemplate.domain.user.wrapper.GetUsersRequestWrapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.constant.UserCacheConstant;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.util.PageableUtil;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserContext;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserAuthContext;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.mapper.UserPersistenceMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.repository.UserRepository;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.specification.UserSpecifications;
@@ -28,7 +28,7 @@ public class GetUsersPersistenceAdapter implements GetUsersOutputPort {
         key = UserCacheConstant.Key.SEARCH,
         condition = UserCacheConstant.Condition.SEARCH
     )
-    public Page<User> getUsers(GetUsersRequestWrapper wrapper, CurrentUserContext context) {
+    public Page<User> getUsers(GetUsersRequestWrapper wrapper, CurrentUserAuthContext context) {
         final var pageable = pageableUtil.obtainPageable(wrapper.page(), wrapper.size(), wrapper.sort());
         return userRepository
             .findAll(UserSpecifications.specification(wrapper, context), pageable)

@@ -3,7 +3,7 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.common.util;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.constant.Error;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ForbiddenException;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.UnauthorizedException;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserContext;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserAuthContext;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.MessageSource;
@@ -21,7 +21,7 @@ public class CurrentUserContextUtil {
 
     private final MessageSource messageSource;
 
-    public CurrentUserContext getContext() {
+    public CurrentUserAuthContext getContext() {
         final var authentication = SecurityContextHolder.getContext().getAuthentication();
         if (Objects.isNull(authentication)) {
             throw new UnauthorizedException(messageSource.getMessage(
@@ -33,7 +33,7 @@ public class CurrentUserContextUtil {
             throw new ForbiddenException(messageSource.getMessage(
                 Error.FORBIDDEN_AUTHORITIES_NOT_FOUND.getKey(), null, LocaleContextHolder.getLocale()));
         }
-        return CurrentUserContext.builder()
+        return CurrentUserAuthContext.builder()
             .username(authentication.getName())
             .authorities(
                 authorities

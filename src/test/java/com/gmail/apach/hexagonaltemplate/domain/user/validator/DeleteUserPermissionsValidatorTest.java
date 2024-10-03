@@ -4,7 +4,7 @@ import com.gmail.apach.hexagonaltemplate.data.AuthoritiesTestData;
 import com.gmail.apach.hexagonaltemplate.data.UsersTestData;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ForbiddenException;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.util.CurrentUserContextUtil;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserContext;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserAuthContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,7 +28,7 @@ class DeleteUserPermissionsValidatorTest {
 
     @Test
     void validateAdminDeleteAnyOtherUsers_success() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
 
@@ -44,7 +44,7 @@ class DeleteUserPermissionsValidatorTest {
 
     @Test
     void validateAdminDeleteSelf_fail() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
 
@@ -56,7 +56,7 @@ class DeleteUserPermissionsValidatorTest {
 
     @Test
     void validateManagerDeleteAnyOtherUsers_fail() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .authorities(AuthoritiesTestData.managerAuthorities())
             .build();
 
@@ -78,7 +78,7 @@ class DeleteUserPermissionsValidatorTest {
 
     @Test
     void validateUserDeleteAnyOtherUsers_fail() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .authorities(AuthoritiesTestData.userAuthorities())
             .build();
 

@@ -9,7 +9,7 @@ import com.gmail.apach.hexagonaltemplate.domain.user.model.RoleType;
 import com.gmail.apach.hexagonaltemplate.domain.user.validator.CreateUserPermissionsValidator;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ForbiddenException;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.util.CurrentUserContextUtil;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserContext;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserAuthContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -45,7 +45,7 @@ class CreateUserServiceTest {
     void createUser_success() {
         final var user = CreateUserTestData.user();
         final var savedUser = CreateUserTestData.savedUser();
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .username(CURRENT_USER_USERNAME)
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
@@ -67,7 +67,7 @@ class CreateUserServiceTest {
         final var user = CreateUserTestData.user();
         final var userWithNoRoles = CreateUserTestData.userWithNoRoles();
         final var savedUser = CreateUserTestData.savedUser();
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .username(CURRENT_USER_USERNAME)
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
@@ -90,7 +90,7 @@ class CreateUserServiceTest {
     @Test
     void createUser_forbidden() {
         final var user = CreateUserTestData.user();
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .authorities(AuthoritiesTestData.userAuthorities())
             .build();
 
