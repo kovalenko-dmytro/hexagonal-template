@@ -6,7 +6,7 @@ import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.co
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.constant.CommonConstant;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ForbiddenException;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.util.CurrentUserContextUtil;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserContext;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserAuthContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -23,15 +23,15 @@ public class CreateUserPermissionsValidator {
     private final MessageSource messageSource;
 
     public void validate(Set<Role> roles) {
-        CurrentUserContext currentUserContext = currentUserContextUtil.getContext();
+        CurrentUserAuthContext currentUserAuthContext = currentUserContextUtil.getContext();
 
         final var requestRoleTypes = roles.stream()
             .map(Role::getRole)
             .collect(Collectors.toSet());
 
-        final var isAdmin = currentUserContext.isAdmin();
+        final var isAdmin = currentUserAuthContext.isAdmin();
         final var isManagerCreateUser =
-            currentUserContext.isManager()
+            currentUserAuthContext.isManager()
                 && requestRoleTypes.contains(RoleType.USER)
                 && !requestRoleTypes.contains(RoleType.MANAGER);
         if (!(isAdmin || isManagerCreateUser)) {

@@ -4,7 +4,7 @@ import com.gmail.apach.hexagonaltemplate.data.AuthoritiesTestData;
 import com.gmail.apach.hexagonaltemplate.data.UsersTestData;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ForbiddenException;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.util.CurrentUserContextUtil;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserContext;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserAuthContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,7 +28,7 @@ class GetUserByIdPermissionsValidatorTest {
 
     @Test
     void validateAdminGetAnyUser_success() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .username("admin")
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
@@ -42,7 +42,7 @@ class GetUserByIdPermissionsValidatorTest {
 
     @Test
     void validateManagerGetAnyExceptAdmin_success() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .username("manager")
             .authorities(AuthoritiesTestData.managerAuthorities())
             .build();
@@ -57,7 +57,7 @@ class GetUserByIdPermissionsValidatorTest {
 
     @Test
     void validateManagerNotGetAdmin_fail() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .username("manager")
             .authorities(AuthoritiesTestData.managerAuthorities())
             .build();
@@ -70,7 +70,7 @@ class GetUserByIdPermissionsValidatorTest {
 
     @Test
     void validateUserGetSelf_success() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .username("userCreatedByAdmin")
             .authorities(AuthoritiesTestData.userAuthorities())
             .build();
@@ -82,7 +82,7 @@ class GetUserByIdPermissionsValidatorTest {
 
     @Test
     void validateUserNotGetSelf_fail() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .username("userCreatedByAdmin")
             .authorities(AuthoritiesTestData.userAuthorities())
             .build();

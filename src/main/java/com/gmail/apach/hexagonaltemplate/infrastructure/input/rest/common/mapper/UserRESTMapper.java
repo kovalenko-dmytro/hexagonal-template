@@ -3,10 +3,8 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.mappe
 import com.gmail.apach.hexagonaltemplate.domain.user.model.Role;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.RoleType;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
-import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.security.dto.CurrentUserResponse;
-import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user.dto.CreateUserRequest;
-import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user.dto.UpdateUserRequest;
-import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user.dto.UserResponse;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.AuthTokenDetails;
+import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user.dto.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.mapstruct.*;
 
@@ -64,4 +62,6 @@ public interface UserRESTMapper {
             }
         }
     }
+
+    SignInResponse toSignInResponse(AuthTokenDetails authTokenDetails);
 }

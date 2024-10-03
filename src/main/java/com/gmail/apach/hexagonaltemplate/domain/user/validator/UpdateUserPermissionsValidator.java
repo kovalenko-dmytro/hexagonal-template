@@ -4,7 +4,7 @@ import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.constant.Error;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ForbiddenException;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.util.CurrentUserContextUtil;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserContext;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserAuthContext;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.context.MessageSource;
@@ -21,12 +21,12 @@ public class UpdateUserPermissionsValidator {
     private final MessageSource messageSource;
 
     public void validate(User requestedUser, User updatedData) {
-        CurrentUserContext currentUserContext = currentUserContextUtil.getContext();
-        validateUpdatePermissions(requestedUser, currentUserContext);
-        validateRequestedChanges(requestedUser, updatedData, currentUserContext);
+        CurrentUserAuthContext currentUserAuthContext = currentUserContextUtil.getContext();
+        validateUpdatePermissions(requestedUser, currentUserAuthContext);
+        validateRequestedChanges(requestedUser, updatedData, currentUserAuthContext);
     }
 
-    private void validateUpdatePermissions(User requestedUser, CurrentUserContext context) {
+    private void validateUpdatePermissions(User requestedUser, CurrentUserAuthContext context) {
         final var isAdmin = context.isAdmin();
 
         final var managerTriesToUpdateSelfOrAnyUsers =
@@ -46,7 +46,7 @@ public class UpdateUserPermissionsValidator {
         }
     }
 
-    private void validateRequestedChanges(User requestedUser, User updatedData, CurrentUserContext context) {
+    private void validateRequestedChanges(User requestedUser, User updatedData, CurrentUserAuthContext context) {
         if (Objects.nonNull(updatedData.getEnabled()) && !requestedUser.getEnabled().equals(updatedData.getEnabled())) {
             final var isAdmin = context.isAdmin() && !requestedUser.isAdmin();
             final var managerTriesToUpdateEnabledToAnyUsers = context.isManager() && requestedUser.isUser();
