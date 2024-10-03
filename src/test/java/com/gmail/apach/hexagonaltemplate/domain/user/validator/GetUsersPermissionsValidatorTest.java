@@ -2,7 +2,7 @@ package com.gmail.apach.hexagonaltemplate.domain.user.validator;
 
 import com.gmail.apach.hexagonaltemplate.data.AuthoritiesTestData;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ForbiddenException;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserContext;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserAuthContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,10 +23,10 @@ class GetUsersPermissionsValidatorTest {
 
     @Test
     void validateAdminOrManagerGetUsers_success() {
-        final var adminContext = CurrentUserContext.builder()
+        final var adminContext = CurrentUserAuthContext.builder()
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
-        final var managerContext = CurrentUserContext.builder()
+        final var managerContext = CurrentUserAuthContext.builder()
             .authorities(AuthoritiesTestData.managerAuthorities())
             .build();
 
@@ -37,7 +37,7 @@ class GetUsersPermissionsValidatorTest {
 
     @Test
     void validateUserGetUsers_forbidden() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .authorities(AuthoritiesTestData.userAuthorities())
             .build();
 

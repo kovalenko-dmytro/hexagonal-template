@@ -5,7 +5,7 @@ import com.gmail.apach.hexagonaltemplate.AbstractIntegrationTest;
 import com.gmail.apach.hexagonaltemplate.data.AuthoritiesTestData;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
 import com.gmail.apach.hexagonaltemplate.domain.user.wrapper.GetUsersRequestWrapper;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserContext;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserAuthContext;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ class GetUsersPersistenceAdapterTest extends AbstractIntegrationTest {
             .size(5)
             .sort(new String[]{"created"})
             .build();
-        final var currentUserContext = CurrentUserContext.builder()
+        final var currentUserContext = CurrentUserAuthContext.builder()
             .username("admin")
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
@@ -54,7 +54,7 @@ class GetUsersPersistenceAdapterTest extends AbstractIntegrationTest {
             .size(6)
             .sort(new String[]{"created"})
             .build();
-        final var currentUserContext = CurrentUserContext.builder()
+        final var currentUserContext = CurrentUserAuthContext.builder()
             .username("manager1")
             .authorities(AuthoritiesTestData.managerAuthorities())
             .build();
@@ -77,7 +77,7 @@ class GetUsersPersistenceAdapterTest extends AbstractIntegrationTest {
             .page(1)
             .size(5)
             .build();
-        final var currentUserContext = CurrentUserContext.builder()
+        final var currentUserContext = CurrentUserAuthContext.builder()
             .username("admin")
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
@@ -100,7 +100,7 @@ class GetUsersPersistenceAdapterTest extends AbstractIntegrationTest {
             .page(1)
             .size(5)
             .build();
-        final var currentUserContext = CurrentUserContext.builder()
+        final var currentUserContext = CurrentUserAuthContext.builder()
             .username("admin")
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
@@ -123,7 +123,7 @@ class GetUsersPersistenceAdapterTest extends AbstractIntegrationTest {
             .page(1)
             .size(5)
             .build();
-        final var currentUserContext = CurrentUserContext.builder()
+        final var currentUserContext = CurrentUserAuthContext.builder()
             .username("admin")
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
@@ -147,7 +147,7 @@ class GetUsersPersistenceAdapterTest extends AbstractIntegrationTest {
             .page(1)
             .size(5)
             .build();
-        final var currentUserContext = CurrentUserContext.builder()
+        final var currentUserContext = CurrentUserAuthContext.builder()
             .username("admin")
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
@@ -171,7 +171,7 @@ class GetUsersPersistenceAdapterTest extends AbstractIntegrationTest {
             .page(1)
             .size(5)
             .build();
-        final var currentUserContext = CurrentUserContext.builder()
+        final var currentUserContext = CurrentUserAuthContext.builder()
             .username("admin")
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
@@ -193,7 +193,7 @@ class GetUsersPersistenceAdapterTest extends AbstractIntegrationTest {
             .page(1)
             .size(5)
             .build();
-        final var currentUserContext = CurrentUserContext.builder()
+        final var currentUserContext = CurrentUserAuthContext.builder()
             .username("admin")
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
@@ -216,7 +216,7 @@ class GetUsersPersistenceAdapterTest extends AbstractIntegrationTest {
             .page(1)
             .size(5)
             .build();
-        final var currentUserContext = CurrentUserContext.builder()
+        final var currentUserContext = CurrentUserAuthContext.builder()
             .username("admin")
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
@@ -238,7 +238,7 @@ class GetUsersPersistenceAdapterTest extends AbstractIntegrationTest {
             .page(1)
             .size(5)
             .build();
-        final var currentUserContext = CurrentUserContext.builder()
+        final var currentUserContext = CurrentUserAuthContext.builder()
             .username("admin")
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();

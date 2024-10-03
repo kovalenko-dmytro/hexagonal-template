@@ -4,7 +4,7 @@ import com.gmail.apach.hexagonaltemplate.data.AuthoritiesTestData;
 import com.gmail.apach.hexagonaltemplate.data.UsersTestData;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ForbiddenException;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.util.CurrentUserContextUtil;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserContext;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserAuthContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,7 +28,7 @@ class UpdateUserPermissionsValidatorTest {
 
     @Test
     void validateAdminUpdateAnyUser_success() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .username("admin")
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
@@ -50,7 +50,7 @@ class UpdateUserPermissionsValidatorTest {
 
     @Test
     void validateAdminUpdateOwnRolesAndEnabled_fail() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .username("admin")
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
@@ -68,7 +68,7 @@ class UpdateUserPermissionsValidatorTest {
 
     @Test
     void validateManagerUpdateSelfOrAnyUser_success() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .username("manager")
             .authorities(AuthoritiesTestData.managerAuthorities())
             .build();
@@ -90,7 +90,7 @@ class UpdateUserPermissionsValidatorTest {
 
     @Test
     void validateManagerUpdateAnotherManagerOrAdmin_fail() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .username("manager")
             .authorities(AuthoritiesTestData.managerAuthorities())
             .build();
@@ -108,7 +108,7 @@ class UpdateUserPermissionsValidatorTest {
 
     @Test
     void validateManagerUpdateEnabledToSelfOrAnotherManagerOrAdmin_fail() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .username("manager")
             .authorities(AuthoritiesTestData.managerAuthorities())
             .build();
@@ -130,7 +130,7 @@ class UpdateUserPermissionsValidatorTest {
 
     @Test
     void validateManagerUpdateRoles_fail() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .username("manager")
             .authorities(AuthoritiesTestData.managerAuthorities())
             .build();
@@ -152,7 +152,7 @@ class UpdateUserPermissionsValidatorTest {
 
     @Test
     void validateUserUpdateSelf_success() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .username("userCreatedByAdmin")
             .authorities(AuthoritiesTestData.userAuthorities())
             .build();
@@ -166,7 +166,7 @@ class UpdateUserPermissionsValidatorTest {
 
     @Test
     void validateUserUpdateNotSelf_fail() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .username("userCreatedByAdmin")
             .authorities(AuthoritiesTestData.userAuthorities())
             .build();
@@ -196,7 +196,7 @@ class UpdateUserPermissionsValidatorTest {
 
     @Test
     void validateUserUpdateEnabledOrRoles_fail() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .username("userCreatedByAdmin")
             .authorities(AuthoritiesTestData.userAuthorities())
             .build();

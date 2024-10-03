@@ -4,7 +4,7 @@ import com.gmail.apach.hexagonaltemplate.data.AuthoritiesTestData;
 import com.gmail.apach.hexagonaltemplate.data.RolesTestData;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ForbiddenException;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.util.CurrentUserContextUtil;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserContext;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserAuthContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,7 +28,7 @@ class CreateUserPermissionsValidatorTest {
 
     @Test
     void validateAdminCreatesUserOrManager_success() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
 
@@ -40,7 +40,7 @@ class CreateUserPermissionsValidatorTest {
 
     @Test
     void validateManagerCreatesUser_success() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .authorities(AuthoritiesTestData.managerAuthorities())
             .build();
 
@@ -51,7 +51,7 @@ class CreateUserPermissionsValidatorTest {
 
     @Test
     void validateManagerCreatesManager_fail() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .authorities(AuthoritiesTestData.managerAuthorities())
             .build();
 
@@ -63,7 +63,7 @@ class CreateUserPermissionsValidatorTest {
 
     @Test
     void validateUserCreatesAny_fail() {
-        final var context = CurrentUserContext.builder()
+        final var context = CurrentUserAuthContext.builder()
             .authorities(AuthoritiesTestData.userAuthorities())
             .build();
 
