@@ -13,14 +13,26 @@ services:
       POSTGRES_DB: ${DB_NAME}
     healthcheck:
       test: [ "CMD-SHELL", "sh -c 'pg_isready -U ${DB_USERNAME}'" ]
-      timeout: 45s
-      interval: 10s
-      retries: 2
+      timeout: 5s
+      interval: 2s
+      retries: 3
     restart: always
     volumes:
       - "./db-init:/docker-entrypoint-initdb.d"
       - "postgres_data:/data/postgres"
       - "postgres_backup:/data/postgres/backup"
+    env_file: .env
+
+  db-migration-tool:
+    container_name: db-migration-tool
+    image: liquibase/liquibase
+    command: update --changelog-file=db.changelog.xml --username=${DB_USERNAME} --password=${DB_PASSWORD} --url=jdbc:postgresql://database:${DB_INTERNAL_PORT}/${DB_NAME}
+    volumes:
+      - ./db-init/db.changelog.xml:/liquibase/db.changelog.xml
+      - ./db-init/sql:/liquibase/sql
+    restart: on-failure
+    depends_on:
+      - database
     env_file: .env
 
   message-broker:
@@ -60,6 +72,31 @@ services:
     volumes:
       - ./bucket-init:/etc/localstack/init/ready.d
       - '/var/run/docker.sock:/var/run/docker.sock'
+    env_file: .env
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    hostname: ${PROMETHEUS_HOST}
+    ports:
+      - "${PROMETHEUS_EXTERNAL_PORT}:${PROMETHEUS_INTERNAL_PORT}"
+    volumes:
+      - ./monitoring/prometheus/:/etc/prometheus/
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yaml"
+    env_file: .env
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:9.5.2
+    hostname: ${GRAFANA_HOST}
+    ports:
+      - "${GRAFANA_EXTERNAL_PORT}:${GRAFANA_INTERNAL_PORT}"
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_USER_PASSWORD}
+    restart: unless-stopped
+    volumes:
+      - ./monitoring/grafana/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
     env_file: .env
 
 volumes:
