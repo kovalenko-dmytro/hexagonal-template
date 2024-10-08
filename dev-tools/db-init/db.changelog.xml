@@ -7,27 +7,27 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
 
     <changeSet id="db-change-set-1" author="hexagonal-template">
-        <sqlFile path="db/sql/2024-07-25-0838_create_table_users.sql"/>
+        <sqlFile path="sql/2024-07-25-0838_create_table_users.sql"/>
     </changeSet>
 
     <changeSet id="db-change-set-2" author="hexagonal-template">
-        <sqlFile path="db/sql/2024-07-25-0840_create_table_roles.sql"/>
+        <sqlFile path="sql/2024-07-25-0840_create_table_roles.sql"/>
     </changeSet>
 
     <changeSet id="db-change-set-3" author="hexagonal-template">
-        <sqlFile path="db/sql/2024-07-25-0842_create_table_users_roles.sql"/>
+        <sqlFile path="sql/2024-07-25-0842_create_table_users_roles.sql"/>
     </changeSet>
 
     <changeSet id="db-change-set-4" author="hexagonal-template">
-        <sqlFile path="db/sql/2024-07-25-0844_insert_table_roles.sql"/>
+        <sqlFile path="sql/2024-07-25-0844_insert_table_roles.sql"/>
     </changeSet>
 
     <changeSet id="db-change-set-5" author="hexagonal-template">
-        <sqlFile path="db/sql/2024-09-03-0942_create_table_emails.sql"/>
+        <sqlFile path="sql/2024-09-03-0942_create_table_emails.sql"/>
     </changeSet>
 
     <changeSet id="db-change-set-6" author="hexagonal-template">
-        <sqlFile path="db/sql/2024-09-16-1523_create_table_files.sql"/>
+        <sqlFile path="sql/2024-09-16-1523_create_table_files.sql"/>
     </changeSet>
 
 
