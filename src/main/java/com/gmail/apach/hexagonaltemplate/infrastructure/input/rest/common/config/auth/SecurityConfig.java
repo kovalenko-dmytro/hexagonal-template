@@ -1,8 +1,10 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.config.auth;
 
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.constant.ApplicationProfile;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.config.api.OpenApiAsset;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,6 +27,9 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationEntryPoint appAuthenticationEntryPoint;
 
+    @Value("${spring.profiles.active}")
+    private String activeProfile;
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
@@ -32,10 +37,15 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers(OpenApiAsset.getAssets()).permitAll()
+        http.csrf(AbstractHttpConfigurer::disable);
+
+        if (activeProfile.contentEquals(ApplicationProfile.LOCAL)
+            || activeProfile.contentEquals(ApplicationProfile.DEVELOP)) {
+            http.authorizeHttpRequests(
+                auth -> auth.requestMatchers(OpenApiAsset.getAssets()).permitAll());
+        }
+
+        http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/v1/auth/sign-in").permitAll()
                 .requestMatchers("/actuator/**").permitAll()
                 .anyRequest().authenticated())

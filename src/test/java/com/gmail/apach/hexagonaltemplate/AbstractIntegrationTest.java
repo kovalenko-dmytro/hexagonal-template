@@ -4,6 +4,7 @@ import com.github.database.rider.core.api.configuration.DBUnit;
 import com.github.database.rider.core.api.configuration.Orthography;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.junit5.api.DBRider;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.constant.ApplicationProfile;
 import com.redis.testcontainers.RedisContainer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -24,7 +25,7 @@ import org.testcontainers.utility.MountableFile;
 import java.util.Optional;
 
 @SpringBootTest(classes = HexagonalTemplateApplication.class)
-@ActiveProfiles("test")
+@ActiveProfiles(ApplicationProfile.TEST)
 @DBRider
 @DBUnit(caseInsensitiveStrategy = Orthography.LOWERCASE)
 public abstract class AbstractIntegrationTest {

@@ -20,26 +20,26 @@
         </logger>
     </springProfile>
     <springProfile name="develop">
-        <root level="trace">
+        <root level="info">
             <appender-ref ref="STDOUT" />
         </root>
-        <logger name="org.zalando.logbook" level="trace" additivity="false">
+        <logger name="org.zalando.logbook" level="info" additivity="false">
             <appender-ref ref="STDOUT" />
         </logger>
     </springProfile>
     <springProfile name="staging">
-        <root level="trace">
+        <root level="info">
             <appender-ref ref="STDOUT" />
         </root>
-        <logger name="org.zalando.logbook" level="trace" additivity="false">
+        <logger name="org.zalando.logbook" level="info" additivity="false">
             <appender-ref ref="STDOUT" />
         </logger>
     </springProfile>
     <springProfile name="production">
-        <root level="trace">
+        <root level="info">
             <appender-ref ref="STDOUT" />
         </root>
-        <logger name="org.zalando.logbook" level="trace" additivity="false">
+        <logger name="org.zalando.logbook" level="info" additivity="false">
             <appender-ref ref="STDOUT" />
         </logger>
     </springProfile>
