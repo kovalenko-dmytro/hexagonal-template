@@ -1,6 +1,4 @@
 spring:
-  config:
-    import: optional:file:dev-tools/.env[.properties]
   profiles:
     active: ${APPLICATION_PROFILE}
   cache:
