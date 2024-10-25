@@ -1,8 +1,8 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.mapper;
 
 import com.gmail.apach.hexagonaltemplate.domain.user.model.Role;
-import com.gmail.apach.hexagonaltemplate.domain.user.model.RoleType;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
+import com.gmail.apach.hexagonaltemplate.domain.user.vo.RoleType;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.AuthTokenDetails;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user.dto.*;
 import org.apache.commons.collections4.CollectionUtils;

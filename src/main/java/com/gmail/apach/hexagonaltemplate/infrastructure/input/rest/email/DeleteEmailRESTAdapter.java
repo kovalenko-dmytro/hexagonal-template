@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.email;
 
-import com.gmail.apach.hexagonaltemplate.application.input.email.DeleteEmailInputPort;
+import com.gmail.apach.hexagonaltemplate.application.usecase.email.DeleteEmailUseCase;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class DeleteEmailRESTAdapter {
 
-    private final DeleteEmailInputPort deleteEmailInputPort;
+    private final DeleteEmailUseCase deleteEmailUseCase;
 
     @DeleteMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public ResponseEntity<Void> deleteByEmailId(@PathVariable(value = "emailId") String emailId) {
-        deleteEmailInputPort.deleteByEmailId(emailId);
+        deleteEmailUseCase.deleteByEmailId(emailId);
         return ResponseEntity.noContent().build();
     }
 }

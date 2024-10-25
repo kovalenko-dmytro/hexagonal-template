@@ -13,7 +13,7 @@ public final class UserCacheConstant {
 
         public static final String ID = "#userId";
         public static final String USER__ID = "#user.userId";
-        public static final String SEARCH = "{#wrapper.page, #wrapper.size, #context.username}";
+        public static final String SEARCH = "{#wrapper.page, #wrapper.size, #wrapper.isAdmin}";
 
     }
 

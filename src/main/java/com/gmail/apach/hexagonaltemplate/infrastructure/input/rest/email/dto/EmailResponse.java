@@ -1,7 +1,7 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.email.dto;
 
-import com.gmail.apach.hexagonaltemplate.domain.email.model.EmailStatus;
-import com.gmail.apach.hexagonaltemplate.domain.email.model.EmailType;
+import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailStatus;
+import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailType;
 import lombok.Builder;
 
 import java.time.LocalDateTime;

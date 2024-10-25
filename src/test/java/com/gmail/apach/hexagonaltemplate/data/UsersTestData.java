@@ -1,8 +1,8 @@
 package com.gmail.apach.hexagonaltemplate.data;
 
 import com.gmail.apach.hexagonaltemplate.domain.user.model.Role;
-import com.gmail.apach.hexagonaltemplate.domain.user.model.RoleType;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
+import com.gmail.apach.hexagonaltemplate.domain.user.vo.RoleType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

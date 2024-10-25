@@ -1,8 +1,8 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt;
 
-import com.gmail.apach.hexagonaltemplate.application.output.email.CreateEmailPublisher;
+import com.gmail.apach.hexagonaltemplate.application.port.output.email.PublishEmailOutputPort;
 import com.gmail.apach.hexagonaltemplate.data.CreateUserTestData;
-import com.gmail.apach.hexagonaltemplate.domain.email.model.EmailStatus;
+import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailStatus;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.admin.DefaultAdminConfigProperties;
 import jakarta.mail.internet.MimeMessage;
 import org.junit.jupiter.api.Test;
@@ -15,8 +15,6 @@ import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.thymeleaf.context.IContext;
 import org.thymeleaf.spring6.SpringTemplateEngine;
-
-import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.any;
@@ -32,12 +30,11 @@ class SendEmailSmptAdapterTest {
     @Mock
     private SpringTemplateEngine templateEngine;
     @Mock
-    private CreateEmailPublisher createEmailPublisher;
+    private PublishEmailOutputPort publishEmailOutputPort;
     @Mock
     private MessageSource messageSource;
     @Mock
     private DefaultAdminConfigProperties defaultAdminConfigProperties;
-
 
     @Test
     void sendEmail_success() {
@@ -50,7 +47,7 @@ class SendEmailSmptAdapterTest {
 
         assertDoesNotThrow(() -> sendEmailSmptAdapter.sendEmail(emailData));
 
-        verify(createEmailPublisher, times(1)).publishCreateEmail(emailData, EmailStatus.SEND);
+        verify(publishEmailOutputPort, times(1)).publishCreateEmail(emailData, EmailStatus.SEND);
     }
 
     @Test
@@ -61,12 +58,11 @@ class SendEmailSmptAdapterTest {
         when(defaultAdminConfigProperties.getEmail()).thenReturn("admin@gmail.com");
         when(templateEngine.process(any(String.class), any(IContext.class))).thenReturn("payload");
         when(emailSender.createMimeMessage()).thenReturn(message);
-        doThrow(new MailSendException("error"))
-            .when(emailSender).send(message);
+        when(messageSource.getMessage(any(), any(), any())).thenReturn("Unable to send email");
+        doThrow(new MailSendException("error")).when(emailSender).send(message);
 
         sendEmailSmptAdapter.sendEmail(emailData);
 
-        verify(createEmailPublisher, times(1)).publishCreateEmail(emailData, EmailStatus.ERROR);
-        verify(messageSource, times(1)).getMessage(any(String.class), any(), any(Locale.class));
+        verify(publishEmailOutputPort, times(1)).publishCreateEmail(emailData, EmailStatus.ERROR);
     }
 }

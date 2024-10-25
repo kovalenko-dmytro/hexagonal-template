@@ -1,7 +1,7 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email.entity;
 
-import com.gmail.apach.hexagonaltemplate.domain.email.model.EmailStatus;
-import com.gmail.apach.hexagonaltemplate.domain.email.model.EmailType;
+import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailStatus;
+import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

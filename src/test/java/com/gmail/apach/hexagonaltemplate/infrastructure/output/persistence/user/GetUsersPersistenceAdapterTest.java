@@ -2,10 +2,8 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.gmail.apach.hexagonaltemplate.AbstractIntegrationTest;
-import com.gmail.apach.hexagonaltemplate.data.AuthoritiesTestData;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
-import com.gmail.apach.hexagonaltemplate.domain.user.wrapper.GetUsersRequestWrapper;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserAuthContext;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.wrapper.GetUsersFilterWrapper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
@@ -24,17 +22,14 @@ class GetUsersPersistenceAdapterTest extends AbstractIntegrationTest {
     @Test
     @DataSet("datasets/infrastructure/output/persistence/user/get_users_setup.yml")
     void getUsers_Admin_withoutFilter() {
-        final var requestWrapper = GetUsersRequestWrapper.builder()
+        final var filterWrapper = GetUsersFilterWrapper.builder()
             .page(1)
             .size(5)
+            .isAdmin(true)
             .sort(new String[]{"created"})
             .build();
-        final var currentUserContext = CurrentUserAuthContext.builder()
-            .username("admin")
-            .authorities(AuthoritiesTestData.adminAuthorities())
-            .build();
 
-        final var actual = getUsersPersistenceAdapter.getUsers(requestWrapper, currentUserContext);
+        final var actual = getUsersPersistenceAdapter.getUsers(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -49,17 +44,14 @@ class GetUsersPersistenceAdapterTest extends AbstractIntegrationTest {
     @Test
     @DataSet("datasets/infrastructure/output/persistence/user/get_users_setup.yml")
     void getUsers_Manager_withoutFilter() {
-        final var requestWrapper = GetUsersRequestWrapper.builder()
+        final var filterWrapper = GetUsersFilterWrapper.builder()
             .page(1)
             .size(6)
+            .isAdmin(false)
             .sort(new String[]{"created"})
             .build();
-        final var currentUserContext = CurrentUserAuthContext.builder()
-            .username("manager1")
-            .authorities(AuthoritiesTestData.managerAuthorities())
-            .build();
 
-        final var actual = getUsersPersistenceAdapter.getUsers(requestWrapper, currentUserContext);
+        final var actual = getUsersPersistenceAdapter.getUsers(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -72,17 +64,14 @@ class GetUsersPersistenceAdapterTest extends AbstractIntegrationTest {
     @Test
     @DataSet("datasets/infrastructure/output/persistence/user/get_users_setup.yml")
     void getUsers_Admin_searchByUsername() {
-        final var requestWrapper = GetUsersRequestWrapper.builder()
+        final var filterWrapper = GetUsersFilterWrapper.builder()
             .username("user")
             .page(1)
             .size(5)
-            .build();
-        final var currentUserContext = CurrentUserAuthContext.builder()
-            .username("admin")
-            .authorities(AuthoritiesTestData.adminAuthorities())
+            .isAdmin(true)
             .build();
 
-        final var actual = getUsersPersistenceAdapter.getUsers(requestWrapper, currentUserContext);
+        final var actual = getUsersPersistenceAdapter.getUsers(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -94,18 +83,15 @@ class GetUsersPersistenceAdapterTest extends AbstractIntegrationTest {
     @Test
     @DataSet("datasets/infrastructure/output/persistence/user/get_users_setup.yml")
     void getUsers_Admin_searchByUsernameAndFirsName() {
-        final var requestWrapper = GetUsersRequestWrapper.builder()
+        final var filterWrapper = GetUsersFilterWrapper.builder()
             .username("user")
             .firstName("some")
             .page(1)
             .size(5)
-            .build();
-        final var currentUserContext = CurrentUserAuthContext.builder()
-            .username("admin")
-            .authorities(AuthoritiesTestData.adminAuthorities())
+            .isAdmin(true)
             .build();
 
-        final var actual = getUsersPersistenceAdapter.getUsers(requestWrapper, currentUserContext);
+        final var actual = getUsersPersistenceAdapter.getUsers(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -117,18 +103,15 @@ class GetUsersPersistenceAdapterTest extends AbstractIntegrationTest {
     @Test
     @DataSet("datasets/infrastructure/output/persistence/user/get_users_setup.yml")
     void getUsers_Admin_searchByUsernameAndLastName() {
-        final var requestWrapper = GetUsersRequestWrapper.builder()
+        final var filterWrapper = GetUsersFilterWrapper.builder()
             .username("user")
             .lastName("some")
             .page(1)
             .size(5)
-            .build();
-        final var currentUserContext = CurrentUserAuthContext.builder()
-            .username("admin")
-            .authorities(AuthoritiesTestData.adminAuthorities())
+            .isAdmin(true)
             .build();
 
-        final var actual = getUsersPersistenceAdapter.getUsers(requestWrapper, currentUserContext);
+        final var actual = getUsersPersistenceAdapter.getUsers(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -140,19 +123,16 @@ class GetUsersPersistenceAdapterTest extends AbstractIntegrationTest {
     @Test
     @DataSet("datasets/infrastructure/output/persistence/user/get_users_setup.yml")
     void getUsers_Admin_searchByUsernameAndLastNameAndEmail() {
-        final var requestWrapper = GetUsersRequestWrapper.builder()
+        final var filterWrapper = GetUsersFilterWrapper.builder()
             .username("user")
             .lastName("some")
             .email("gmail")
             .page(1)
             .size(5)
-            .build();
-        final var currentUserContext = CurrentUserAuthContext.builder()
-            .username("admin")
-            .authorities(AuthoritiesTestData.adminAuthorities())
+            .isAdmin(true)
             .build();
 
-        final var actual = getUsersPersistenceAdapter.getUsers(requestWrapper, currentUserContext);
+        final var actual = getUsersPersistenceAdapter.getUsers(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -164,19 +144,16 @@ class GetUsersPersistenceAdapterTest extends AbstractIntegrationTest {
     @Test
     @DataSet("datasets/infrastructure/output/persistence/user/get_users_setup.yml")
     void getUsers_Admin_searchByUsernameAndEnabled() {
-        final var requestWrapper = GetUsersRequestWrapper.builder()
+        final var filterWrapper = GetUsersFilterWrapper.builder()
             .username("user")
             .firstName("some")
             .enabled(false)
             .page(1)
             .size(5)
-            .build();
-        final var currentUserContext = CurrentUserAuthContext.builder()
-            .username("admin")
-            .authorities(AuthoritiesTestData.adminAuthorities())
+            .isAdmin(true)
             .build();
 
-        final var actual = getUsersPersistenceAdapter.getUsers(requestWrapper, currentUserContext);
+        final var actual = getUsersPersistenceAdapter.getUsers(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -188,17 +165,14 @@ class GetUsersPersistenceAdapterTest extends AbstractIntegrationTest {
     @Test
     @DataSet("datasets/infrastructure/output/persistence/user/get_users_setup.yml")
     void getUsers_Admin_searchByDateFrom() {
-        final var requestWrapper = GetUsersRequestWrapper.builder()
+        final var filterWrapper = GetUsersFilterWrapper.builder()
             .createdFrom(LocalDate.of(2024, 8, 24))
             .page(1)
             .size(5)
-            .build();
-        final var currentUserContext = CurrentUserAuthContext.builder()
-            .username("admin")
-            .authorities(AuthoritiesTestData.adminAuthorities())
+            .isAdmin(true)
             .build();
 
-        final var actual = getUsersPersistenceAdapter.getUsers(requestWrapper, currentUserContext);
+        final var actual = getUsersPersistenceAdapter.getUsers(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -210,18 +184,15 @@ class GetUsersPersistenceAdapterTest extends AbstractIntegrationTest {
     @Test
     @DataSet("datasets/infrastructure/output/persistence/user/get_users_setup.yml")
     void getUsers_Admin_searchByDateFromAndDateTo() {
-        final var requestWrapper = GetUsersRequestWrapper.builder()
+        final var filterWrapper = GetUsersFilterWrapper.builder()
             .createdFrom(LocalDate.of(2024, 8, 20))
             .createdTo(LocalDate.of(2024, 8, 25))
             .page(1)
             .size(5)
-            .build();
-        final var currentUserContext = CurrentUserAuthContext.builder()
-            .username("admin")
-            .authorities(AuthoritiesTestData.adminAuthorities())
+            .isAdmin(true)
             .build();
 
-        final var actual = getUsersPersistenceAdapter.getUsers(requestWrapper, currentUserContext);
+        final var actual = getUsersPersistenceAdapter.getUsers(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -233,17 +204,14 @@ class GetUsersPersistenceAdapterTest extends AbstractIntegrationTest {
     @Test
     @DataSet("datasets/infrastructure/output/persistence/user/get_users_setup.yml")
     void getUsers_Admin_sortByCreatedDesc() {
-        final var requestWrapper = GetUsersRequestWrapper.builder()
+        final var filterWrapper = GetUsersFilterWrapper.builder()
             .sort(new String[]{"created desc"})
             .page(1)
             .size(5)
-            .build();
-        final var currentUserContext = CurrentUserAuthContext.builder()
-            .username("admin")
-            .authorities(AuthoritiesTestData.adminAuthorities())
+            .isAdmin(true)
             .build();
 
-        final var actual = getUsersPersistenceAdapter.getUsers(requestWrapper, currentUserContext);
+        final var actual = getUsersPersistenceAdapter.getUsers(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));

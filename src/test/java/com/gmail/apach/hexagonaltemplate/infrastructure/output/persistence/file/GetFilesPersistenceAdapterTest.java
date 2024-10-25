@@ -3,7 +3,7 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.file
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.gmail.apach.hexagonaltemplate.AbstractIntegrationTest;
 import com.gmail.apach.hexagonaltemplate.domain.file.model.StoredFile;
-import com.gmail.apach.hexagonaltemplate.domain.file.wrapper.GetFilesRequestWrapper;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.file.wrapper.GetFilesFilterWrapper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
@@ -22,13 +22,13 @@ class GetFilesPersistenceAdapterTest extends AbstractIntegrationTest {
     @Test
     @DataSet("datasets/infrastructure/output/persistence/file/get_files_setup.yml")
     void getFiles_withoutFilter() {
-        final var requestWrapper = GetFilesRequestWrapper.builder()
+        final var filterWrapper = GetFilesFilterWrapper.builder()
             .page(1)
             .size(5)
             .sort(new String[]{"created"})
             .build();
 
-        final var actual = getFilesPersistenceAdapter.getFiles(requestWrapper);
+        final var actual = getFilesPersistenceAdapter.getFiles(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -42,13 +42,13 @@ class GetFilesPersistenceAdapterTest extends AbstractIntegrationTest {
     @Test
     @DataSet("datasets/infrastructure/output/persistence/file/get_files_setup.yml")
     void getFiles_searchByFileName() {
-        final var requestWrapper = GetFilesRequestWrapper.builder()
+        final var filterWrapper = GetFilesFilterWrapper.builder()
             .fileName("file4")
             .page(1)
             .size(5)
             .build();
 
-        final var actual = getFilesPersistenceAdapter.getFiles(requestWrapper);
+        final var actual = getFilesPersistenceAdapter.getFiles(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -60,13 +60,13 @@ class GetFilesPersistenceAdapterTest extends AbstractIntegrationTest {
     @Test
     @DataSet("datasets/infrastructure/output/persistence/file/get_files_setup.yml")
     void getFiles_searchByCreatedFrom() {
-        final var requestWrapper = GetFilesRequestWrapper.builder()
+        final var filterWrapper = GetFilesFilterWrapper.builder()
             .createdFrom(LocalDate.of(2024, 8, 19))
             .page(1)
             .size(5)
             .build();
 
-        final var actual = getFilesPersistenceAdapter.getFiles(requestWrapper);
+        final var actual = getFilesPersistenceAdapter.getFiles(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -78,14 +78,14 @@ class GetFilesPersistenceAdapterTest extends AbstractIntegrationTest {
     @Test
     @DataSet("datasets/infrastructure/output/persistence/file/get_files_setup.yml")
     void getFiles_searchByCreatedFromAndCreatedTo() {
-        final var requestWrapper = GetFilesRequestWrapper.builder()
+        final var filterWrapper = GetFilesFilterWrapper.builder()
             .createdFrom(LocalDate.of(2024, 8, 23))
             .createdTo(LocalDate.of(2024, 8, 25))
             .page(1)
             .size(5)
             .build();
 
-        final var actual = getFilesPersistenceAdapter.getFiles(requestWrapper);
+        final var actual = getFilesPersistenceAdapter.getFiles(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -97,13 +97,13 @@ class GetFilesPersistenceAdapterTest extends AbstractIntegrationTest {
     @Test
     @DataSet("datasets/infrastructure/output/persistence/file/get_files_setup.yml")
     void getFiles_sortByCreatedDesc() {
-        final var requestWrapper = GetFilesRequestWrapper.builder()
+        final var filterWrapper = GetFilesFilterWrapper.builder()
             .sort(new String[]{"created desc"})
             .page(1)
             .size(5)
             .build();
 
-        final var actual = getFilesPersistenceAdapter.getFiles(requestWrapper);
+        final var actual = getFilesPersistenceAdapter.getFiles(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));

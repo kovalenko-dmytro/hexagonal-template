@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email;
 
-import com.gmail.apach.hexagonaltemplate.application.output.email.GetEmailOutputPort;
+import com.gmail.apach.hexagonaltemplate.application.port.output.email.GetEmailOutputPort;
 import com.gmail.apach.hexagonaltemplate.domain.email.model.Email;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.constant.AttributeForModel;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.constant.Error;

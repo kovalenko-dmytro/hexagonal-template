@@ -1,9 +1,8 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.email;
 
-import com.gmail.apach.hexagonaltemplate.application.input.email.GetEmailsInputPort;
-import com.gmail.apach.hexagonaltemplate.domain.email.model.EmailStatus;
-import com.gmail.apach.hexagonaltemplate.domain.email.model.EmailType;
-import com.gmail.apach.hexagonaltemplate.domain.email.wrapper.GetEmailsWrapper;
+import com.gmail.apach.hexagonaltemplate.application.usecase.email.GetEmailsUseCase;
+import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailStatus;
+import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailType;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.mapper.EmailRESTMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.email.dto.EmailResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,7 +25,7 @@ import java.time.LocalDate;
 @Validated
 public class GetEmailsRESTAdapter {
 
-    private final GetEmailsInputPort getEmailsInputPort;
+    private final GetEmailsUseCase getEmailsUseCase;
     private final EmailRESTMapper emailRESTMapper;
 
 
@@ -43,19 +42,8 @@ public class GetEmailsRESTAdapter {
         @RequestParam(defaultValue = "10") int size,
         @RequestParam(defaultValue = "sendBy") String[] sort
     ) {
-        final var wrapper = GetEmailsWrapper.builder()
-            .sendBy(sendBy)
-            .sendTo(sendTo)
-            .dateSendFrom(dateSendFrom)
-            .dateSendTo(dateSendTo)
-            .emailType(emailType)
-            .emailStatus(emailStatus)
-            .page(page)
-            .size(size)
-            .sort(sort)
-            .build();
-
-        final var emails = getEmailsInputPort.getEmails(wrapper);
+        final var emails = getEmailsUseCase.getEmails(
+            sendBy, sendTo, dateSendFrom, dateSendTo, emailType, emailStatus, page, size, sort);
         final var response = emails.map(emailRESTMapper::toEmailResponse);
         return ResponseEntity.ok().body(new PagedModel<>(response));
     }

@@ -1,7 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.file;
 
-import com.gmail.apach.hexagonaltemplate.application.input.file.GetFilesInputPort;
-import com.gmail.apach.hexagonaltemplate.domain.file.wrapper.GetFilesRequestWrapper;
+import com.gmail.apach.hexagonaltemplate.application.usecase.file.GetFilesUseCase;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.mapper.FileRESTMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.file.dto.FileResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,9 +23,8 @@ import java.time.LocalDate;
 @Validated
 public class GetFilesRESTAdapter {
 
-    private final GetFilesInputPort getFilesInputPort;
+    private final GetFilesUseCase getFilesUseCase;
     private final FileRESTMapper fileRESTMapper;
-
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
@@ -38,16 +36,7 @@ public class GetFilesRESTAdapter {
         @RequestParam(defaultValue = "10") int size,
         @RequestParam(defaultValue = "created") String[] sort
     ) {
-        final var wrapper = GetFilesRequestWrapper.builder()
-            .fileName(fileName)
-            .createdFrom(createdFrom)
-            .createdTo(createdTo)
-            .page(page)
-            .size(size)
-            .sort(sort)
-            .build();
-
-        final var files = getFilesInputPort.getFiles(wrapper);
+        final var files = getFilesUseCase.getFiles(fileName, createdFrom, createdTo, page, size, sort);
         final var response = files.map(fileRESTMapper::toFileResponse);
         return ResponseEntity.ok().body(new PagedModel<>(response));
     }
