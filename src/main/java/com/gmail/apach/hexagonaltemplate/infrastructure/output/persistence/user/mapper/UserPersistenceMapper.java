@@ -16,12 +16,8 @@ import org.mapstruct.ReportingPolicy;
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL,
     unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserPersistenceMapper {
-
     UserEntity toUserEntity(User user);
-
     User toUser(UserEntity userEntity);
-
     RoleEntity toRoleEntity(Role role);
-
     Role toRole(RoleEntity roleEntity);
 }

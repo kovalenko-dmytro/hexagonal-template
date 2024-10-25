@@ -2,12 +2,10 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.gmail.apach.hexagonaltemplate.AbstractIntegrationTest;
-import com.gmail.apach.hexagonaltemplate.data.AuthoritiesTestData;
 import com.gmail.apach.hexagonaltemplate.data.UsersTestData;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
-import com.gmail.apach.hexagonaltemplate.domain.user.wrapper.GetUsersRequestWrapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.constant.UserCacheConstant;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserAuthContext;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.wrapper.GetUsersFilterWrapper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +38,7 @@ class UserCacheTest extends AbstractIntegrationTest {
     void createUser_evictUsersCacheLists_success() {
         getUsersCache().ifPresent(usersCache -> assertTrue(usersCache.isEmpty()));
 
-        final var requestWrapper = getUsersRequestWrapper();
-        final var currentUserContext = getContext();
-
-        final var users = getUsersPersistenceAdapter.getUsers(requestWrapper, currentUserContext);
+        final var users = getUsersPersistenceAdapter.getUsers(getUsersRequestWrapper());
 
         assertNotNull(users);
         assertTrue(CollectionUtils.isNotEmpty(users.getContent()));
@@ -66,10 +61,7 @@ class UserCacheTest extends AbstractIntegrationTest {
         assertFalse(cachedUser.isEmpty());
         assertEquals(userFromDB, cachedUser.get());
 
-        final var requestWrapper = getUsersRequestWrapper();
-        final var currentUserContext = getContext();
-
-        final var users = getUsersPersistenceAdapter.getUsers(requestWrapper, currentUserContext);
+        final var users = getUsersPersistenceAdapter.getUsers(getUsersRequestWrapper());
 
         assertNotNull(users);
         getUsersCache().ifPresent(usersCache -> assertFalse(usersCache.isEmpty()));
@@ -98,20 +90,16 @@ class UserCacheTest extends AbstractIntegrationTest {
         getUsersCache().ifPresent(usersCache -> assertTrue(usersCache.isEmpty()));
 
         final var requestWrapper = getUsersRequestWrapper();
-        final var currentUserContext = CurrentUserAuthContext.builder()
-            .username("admin")
-            .authorities(AuthoritiesTestData.adminAuthorities())
-            .build();
 
-        final var users = getUsersPersistenceAdapter.getUsers(requestWrapper, currentUserContext);
+        final var users = getUsersPersistenceAdapter.getUsers(requestWrapper);
 
         getUsersCache().ifPresent(usersCache -> {
             assertFalse(usersCache.isEmpty());
             var cachedPage = (Page) usersCache.get(
                 List.of(
-                    requestWrapper.page(),
-                    requestWrapper.size(),
-                    currentUserContext.username()));
+                    requestWrapper.getPage(),
+                    requestWrapper.getSize(),
+                    true));
             assertEquals(users.getContent().size(), cachedPage.getContent().size());
         });
     }
@@ -124,10 +112,7 @@ class UserCacheTest extends AbstractIntegrationTest {
         assertTrue(getCachedUser(USER_ID).isEmpty());
         getUsersCache().ifPresent(usersCache -> assertTrue(usersCache.isEmpty()));
 
-        final var requestWrapper = getUsersRequestWrapper();
-        final var currentUserContext = getContext();
-
-        getUsersPersistenceAdapter.getUsers(requestWrapper, currentUserContext);
+        getUsersPersistenceAdapter.getUsers(getUsersRequestWrapper());
         getUsersCache().ifPresent(usersCache -> assertFalse(usersCache.isEmpty()));
 
         final var userFromDB = getUserPersistenceAdapter.getByUserId(userId);
@@ -149,17 +134,12 @@ class UserCacheTest extends AbstractIntegrationTest {
         assertEquals(updatedUser, updatedCachedUser.get());
     }
 
-    private static GetUsersRequestWrapper getUsersRequestWrapper() {
-        return GetUsersRequestWrapper.builder()
+    private static GetUsersFilterWrapper getUsersRequestWrapper() {
+        return GetUsersFilterWrapper.builder()
             .page(1)
             .size(5)
+            .isAdmin(true)
             .sort(new String[]{"created"})
-            .build();
-    }
-
-    private static CurrentUserAuthContext getContext() {
-        return CurrentUserAuthContext.builder()
-            .authorities(AuthoritiesTestData.adminAuthorities())
             .build();
     }
 

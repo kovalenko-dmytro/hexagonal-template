@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.file;
 
-import com.gmail.apach.hexagonaltemplate.application.input.file.UploadFileInputPort;
+import com.gmail.apach.hexagonaltemplate.application.usecase.file.UploadFileUseCase;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.mapper.FileRESTMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.file.dto.FileResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,13 +23,13 @@ import org.springframework.web.multipart.MultipartFile;
 @Validated
 public class UploadFileRESTAdapter {
 
-    private final UploadFileInputPort uploadFileInputPort;
+    private final UploadFileUseCase uploadFileUseCase;
     private final FileRESTMapper fileRESTMapper;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public ResponseEntity<FileResponse> uploadFile(@RequestParam(value = "file") MultipartFile file) {
-        final var storedFile = uploadFileInputPort.uploadFile(file);
+        final var storedFile = uploadFileUseCase.uploadFile(file);
         final var response = fileRESTMapper.toFileResponse(storedFile);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

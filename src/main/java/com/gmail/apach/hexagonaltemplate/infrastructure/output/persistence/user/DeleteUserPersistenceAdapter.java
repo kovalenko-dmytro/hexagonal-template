@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user;
 
-import com.gmail.apach.hexagonaltemplate.application.output.user.DeleteUserOutputPort;
+import com.gmail.apach.hexagonaltemplate.application.port.output.user.DeleteUserOutputPort;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.constant.UserCacheConstant;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

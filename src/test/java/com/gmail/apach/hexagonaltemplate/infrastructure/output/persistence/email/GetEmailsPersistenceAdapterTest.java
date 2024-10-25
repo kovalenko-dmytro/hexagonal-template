@@ -3,10 +3,10 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.emai
 import com.gmail.apach.hexagonaltemplate.AbstractIntegrationTest;
 import com.gmail.apach.hexagonaltemplate.data.EmailsTestData;
 import com.gmail.apach.hexagonaltemplate.domain.email.model.Email;
-import com.gmail.apach.hexagonaltemplate.domain.email.model.EmailStatus;
-import com.gmail.apach.hexagonaltemplate.domain.email.model.EmailType;
-import com.gmail.apach.hexagonaltemplate.domain.email.wrapper.GetEmailsWrapper;
+import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailStatus;
+import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailType;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email.repository.EmailRepository;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email.wrapper.GetEmailsFilterWrapper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Test;
@@ -28,13 +28,13 @@ class GetEmailsPersistenceAdapterTest extends AbstractIntegrationTest {
     void getEmails_withoutFilter() {
         emailRepository.saveAll(EmailsTestData.emails());
 
-        final var requestWrapper = GetEmailsWrapper.builder()
+        final var filterWrapper = GetEmailsFilterWrapper.builder()
             .page(1)
             .size(5)
             .sort(new String[]{"sendBy"})
             .build();
 
-        final var actual = getEmailsPersistenceAdapter.getEmails(requestWrapper);
+        final var actual = getEmailsPersistenceAdapter.getEmails(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -51,13 +51,13 @@ class GetEmailsPersistenceAdapterTest extends AbstractIntegrationTest {
     void getEmails_searchBy_SendBy() {
         emailRepository.saveAll(EmailsTestData.emails());
 
-        final var requestWrapper = GetEmailsWrapper.builder()
+        final var filterWrapper = GetEmailsFilterWrapper.builder()
             .sendBy("admin")
             .page(1)
             .size(5)
             .build();
 
-        final var actual = getEmailsPersistenceAdapter.getEmails(requestWrapper);
+        final var actual = getEmailsPersistenceAdapter.getEmails(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -72,14 +72,14 @@ class GetEmailsPersistenceAdapterTest extends AbstractIntegrationTest {
     void getEmails_searchBy_SendByAndSendTo() {
         emailRepository.saveAll(EmailsTestData.emails());
 
-        final var requestWrapper = GetEmailsWrapper.builder()
+        final var filterWrapper = GetEmailsFilterWrapper.builder()
             .sendBy("admin")
             .sendTo("email1")
             .page(1)
             .size(5)
             .build();
 
-        final var actual = getEmailsPersistenceAdapter.getEmails(requestWrapper);
+        final var actual = getEmailsPersistenceAdapter.getEmails(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -94,7 +94,7 @@ class GetEmailsPersistenceAdapterTest extends AbstractIntegrationTest {
     void getEmails_searchBy_SendByAndSendToAndEmailType() {
         emailRepository.saveAll(EmailsTestData.emails());
 
-        final var requestWrapper = GetEmailsWrapper.builder()
+        final var filterWrapper = GetEmailsFilterWrapper.builder()
             .sendBy("admin")
             .sendTo("email1")
             .emailType(EmailType.INVITE)
@@ -102,7 +102,7 @@ class GetEmailsPersistenceAdapterTest extends AbstractIntegrationTest {
             .size(5)
             .build();
 
-        final var actual = getEmailsPersistenceAdapter.getEmails(requestWrapper);
+        final var actual = getEmailsPersistenceAdapter.getEmails(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -117,7 +117,7 @@ class GetEmailsPersistenceAdapterTest extends AbstractIntegrationTest {
     void getEmails_searchBy_SendByAndSendToAndEmailTypeAndEmailStatus() {
         emailRepository.saveAll(EmailsTestData.emails());
 
-        final var requestWrapper = GetEmailsWrapper.builder()
+        final var filterWrapper = GetEmailsFilterWrapper.builder()
             .sendBy("admin")
             .sendTo("email1")
             .emailType(EmailType.INVITE)
@@ -126,7 +126,7 @@ class GetEmailsPersistenceAdapterTest extends AbstractIntegrationTest {
             .size(5)
             .build();
 
-        final var actual = getEmailsPersistenceAdapter.getEmails(requestWrapper);
+        final var actual = getEmailsPersistenceAdapter.getEmails(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -141,13 +141,13 @@ class GetEmailsPersistenceAdapterTest extends AbstractIntegrationTest {
     void getEmails_searchBy_DateFrom() {
         emailRepository.saveAll(EmailsTestData.emails());
 
-        final var requestWrapper = GetEmailsWrapper.builder()
+        final var filterWrapper = GetEmailsFilterWrapper.builder()
             .dateSendFrom(LocalDate.of(2024, 8, 24))
             .page(1)
             .size(5)
             .build();
 
-        final var actual = getEmailsPersistenceAdapter.getEmails(requestWrapper);
+        final var actual = getEmailsPersistenceAdapter.getEmails(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -162,14 +162,14 @@ class GetEmailsPersistenceAdapterTest extends AbstractIntegrationTest {
     void getEmails_searchBy_DateFromAndDateTo() {
         emailRepository.saveAll(EmailsTestData.emails());
 
-        final var requestWrapper = GetEmailsWrapper.builder()
+        final var filterWrapper = GetEmailsFilterWrapper.builder()
             .dateSendFrom(LocalDate.of(2024, 8, 24))
             .dateSendTo(LocalDate.of(2024, 8, 28))
             .page(1)
             .size(5)
             .build();
 
-        final var actual = getEmailsPersistenceAdapter.getEmails(requestWrapper);
+        final var actual = getEmailsPersistenceAdapter.getEmails(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -184,13 +184,13 @@ class GetEmailsPersistenceAdapterTest extends AbstractIntegrationTest {
     void getEmails_sortBy_SubjectDesc() {
         emailRepository.saveAll(EmailsTestData.emails());
 
-        final var requestWrapper = GetEmailsWrapper.builder()
+        final var filterWrapper = GetEmailsFilterWrapper.builder()
             .sort(new String[]{"subject desc"})
             .page(1)
             .size(5)
             .build();
 
-        final var actual = getEmailsPersistenceAdapter.getEmails(requestWrapper);
+        final var actual = getEmailsPersistenceAdapter.getEmails(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));

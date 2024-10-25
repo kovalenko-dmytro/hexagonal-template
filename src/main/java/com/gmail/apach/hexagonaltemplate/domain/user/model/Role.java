@@ -1,5 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.domain.user.model;
 
+import com.gmail.apach.hexagonaltemplate.domain.user.vo.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

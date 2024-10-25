@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt.dto;
 
-import com.gmail.apach.hexagonaltemplate.domain.email.model.EmailType;
+import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

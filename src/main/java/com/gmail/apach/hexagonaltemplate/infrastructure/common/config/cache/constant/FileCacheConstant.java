@@ -12,6 +12,7 @@ public final class FileCacheConstant {
     public static class Key {
 
         public static final String ID = "#fileId";
+        public static final String FILE__ID = "#file.fileId";
         public static final String SEARCH = "{#wrapper.page, #wrapper.size}";
 
     }

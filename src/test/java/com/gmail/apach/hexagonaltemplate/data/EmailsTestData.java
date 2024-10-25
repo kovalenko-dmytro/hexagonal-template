@@ -1,8 +1,8 @@
 package com.gmail.apach.hexagonaltemplate.data;
 
 import com.gmail.apach.hexagonaltemplate.domain.email.model.Email;
-import com.gmail.apach.hexagonaltemplate.domain.email.model.EmailStatus;
-import com.gmail.apach.hexagonaltemplate.domain.email.model.EmailType;
+import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailStatus;
+import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailType;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email.entity.EmailEntity;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

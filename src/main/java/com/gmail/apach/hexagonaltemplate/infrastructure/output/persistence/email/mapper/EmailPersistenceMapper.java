@@ -13,8 +13,6 @@ import org.mapstruct.ReportingPolicy;
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL,
     unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface EmailPersistenceMapper {
-
     Email toEmail(EmailEntity emailEntity);
-
     EmailEntity toEmailEntity(Email email);
 }

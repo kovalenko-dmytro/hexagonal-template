@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.entity;
 
-import com.gmail.apach.hexagonaltemplate.domain.user.model.RoleType;
+import com.gmail.apach.hexagonaltemplate.domain.user.vo.RoleType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

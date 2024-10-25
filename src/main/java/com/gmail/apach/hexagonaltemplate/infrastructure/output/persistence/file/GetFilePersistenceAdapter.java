@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.file;
 
-import com.gmail.apach.hexagonaltemplate.application.output.file.GetFileOutputPort;
+import com.gmail.apach.hexagonaltemplate.application.port.output.file.GetFileOutputPort;
 import com.gmail.apach.hexagonaltemplate.domain.file.model.StoredFile;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.constant.FileCacheConstant;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.constant.AttributeForModel;

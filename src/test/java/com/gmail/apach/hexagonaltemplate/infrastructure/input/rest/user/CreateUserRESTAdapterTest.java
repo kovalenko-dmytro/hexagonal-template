@@ -3,7 +3,7 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.gmail.apach.hexagonaltemplate.AbstractControllerIntegrationTest;
-import com.gmail.apach.hexagonaltemplate.domain.user.model.RoleType;
+import com.gmail.apach.hexagonaltemplate.domain.user.vo.RoleType;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user.dto.CreateUserRequest;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user.dto.UserResponse;
 import org.junit.jupiter.api.Test;

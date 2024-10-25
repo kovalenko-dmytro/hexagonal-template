@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.file;
 
-import com.gmail.apach.hexagonaltemplate.application.input.file.DownloadFileInputPort;
+import com.gmail.apach.hexagonaltemplate.application.usecase.file.DownloadFileUseCase;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -16,17 +16,17 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class DownloadFileRESTAdapter {
 
-    private final DownloadFileInputPort downloadFileInputPort;
+    private final DownloadFileUseCase downloadFileUseCase;
 
     @GetMapping
     @ResponseBody
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public ResponseEntity<byte[]> downloadFile(@PathVariable("fileId") String fileId) {
-        final var filePayload = downloadFileInputPort.downloadFile(fileId);
-        final var headerValues = "attachment; filename=\"" + filePayload.fileName() + "\"";
+        final var file = downloadFileUseCase.downloadFile(fileId);
+        final var headerValues = "attachment; filename=\"" + file.getFileName() + "\"";
         return ResponseEntity
             .ok()
             .header(HttpHeaders.CONTENT_DISPOSITION, headerValues)
-            .body(filePayload.payload());
+            .body(file.getPayload());
     }
 }
