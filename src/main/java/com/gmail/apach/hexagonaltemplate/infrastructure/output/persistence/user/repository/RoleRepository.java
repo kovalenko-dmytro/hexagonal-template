@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.repository;
 
-import com.gmail.apach.hexagonaltemplate.domain.user.model.RoleType;
+import com.gmail.apach.hexagonaltemplate.domain.user.vo.RoleType;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.entity.RoleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

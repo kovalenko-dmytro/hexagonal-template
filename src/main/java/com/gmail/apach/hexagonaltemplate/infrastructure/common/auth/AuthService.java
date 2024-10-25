@@ -1,9 +1,8 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.common.auth;
 
-import com.gmail.apach.hexagonaltemplate.application.input.user.GetUserInputPort;
+import com.gmail.apach.hexagonaltemplate.application.usecase.user.GetUserUseCase;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.constant.CommonConstant;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.util.CurrentUserContextUtil;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.AuthTokenDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,10 +14,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final GetUserInputPort getUserInputPort;
-
+    private final GetUserUseCase getUserUseCase;
     private final AuthenticationManager authenticationManager;
-    private final CurrentUserContextUtil currentUserContextUtil;
     private final JWTService jwtService;
 
     public AuthTokenDetails signIn(String username, String password) {
@@ -26,7 +23,7 @@ public class AuthService {
         final var authentication = authenticationManager.authenticate(authToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        final var authenticatedUser = getUserInputPort.getByUsername(authentication.getName());
+        final var authenticatedUser = getUserUseCase.getByUsername(authentication.getName());
         final var accessToken = jwtService.generateAccessToken(authenticatedUser);
         return AuthTokenDetails.builder()
             .tokenType(CommonConstant.BEARER_AUTH_HEADER_PREFIX.getValue().trim())
@@ -36,7 +33,7 @@ public class AuthService {
     }
 
     public User getCurrentUser() {
-        final var context = currentUserContextUtil.getContext();
-        return getUserInputPort.getByUsername(context.username());
+        final var authentication = SecurityContextHolder.getContext().getAuthentication();
+        return getUserUseCase.getByUsername(authentication.getName());
     }
 }

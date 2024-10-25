@@ -1,8 +1,8 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt;
 
-import com.gmail.apach.hexagonaltemplate.application.output.email.CreateEmailPublisher;
-import com.gmail.apach.hexagonaltemplate.application.output.email.SendEmailOutputPort;
-import com.gmail.apach.hexagonaltemplate.domain.email.model.EmailStatus;
+import com.gmail.apach.hexagonaltemplate.application.port.output.email.PublishEmailOutputPort;
+import com.gmail.apach.hexagonaltemplate.application.port.output.email.SendEmailOutputPort;
+import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailStatus;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.admin.DefaultAdminConfigProperties;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.constant.Error;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.mq.process.EmailProcessingConfig;
@@ -35,7 +35,7 @@ public class SendEmailSmptAdapter implements SendEmailOutputPort {
 
     private final JavaMailSender emailSender;
     private final SpringTemplateEngine templateEngine;
-    private final CreateEmailPublisher createEmailPublisher;
+    private final PublishEmailOutputPort publishEmailOutputPort;
     private final MessageSource messageSource;
     private final DefaultAdminConfigProperties defaultAdminConfigProperties;
 
@@ -43,10 +43,8 @@ public class SendEmailSmptAdapter implements SendEmailOutputPort {
     @RabbitListener(queues = EmailProcessingConfig.SEND_EMAIL_QUEUE)
     public void sendEmail(SendEmailWrapper wrapper) {
         final var payload = obtainPayload(wrapper);
-
         final var emailStatus = sendPreparedEmail(payload, wrapper);
-
-        createEmailPublisher.publishCreateEmail(wrapper, emailStatus);
+        publishEmailOutputPort.publishCreateEmail(wrapper, emailStatus);
     }
 
     private String obtainPayload(SendEmailWrapper wrapper) {
@@ -82,7 +80,7 @@ public class SendEmailSmptAdapter implements SendEmailOutputPort {
             return EmailStatus.SEND;
         } catch (MailSendException | MessagingException | IOException e) {
             Object[] params = new Object[]{wrapper.sendTo(), e.getMessage()};
-            log.error(messageSource.getMessage(
+            log.warn(messageSource.getMessage(
                 Error.EMAIL_SEND_ERROR.getKey(), params, LocaleContextHolder.getLocale()));
             return EmailStatus.ERROR;
         }

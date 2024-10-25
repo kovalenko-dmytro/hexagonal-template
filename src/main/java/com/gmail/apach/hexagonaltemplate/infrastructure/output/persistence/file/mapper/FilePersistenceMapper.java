@@ -13,7 +13,6 @@ import org.mapstruct.ReportingPolicy;
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL,
     unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface FilePersistenceMapper {
-
     FileEntity toFileEntity(StoredFile file);
     StoredFile toStoredFile(FileEntity fileEntity);
 }

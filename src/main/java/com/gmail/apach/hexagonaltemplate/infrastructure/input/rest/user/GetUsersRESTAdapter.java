@@ -1,7 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user;
 
-import com.gmail.apach.hexagonaltemplate.application.input.user.GetUsersInputPort;
-import com.gmail.apach.hexagonaltemplate.domain.user.wrapper.GetUsersRequestWrapper;
+import com.gmail.apach.hexagonaltemplate.application.usecase.user.GetUsersUseCase;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.mapper.UserRESTMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user.dto.UserResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,7 +22,7 @@ import java.time.LocalDate;
 @Validated
 public class GetUsersRESTAdapter {
 
-    private final GetUsersInputPort getUsersInputPort;
+    private final GetUsersUseCase getUsersUseCase;
     private final UserRESTMapper userRESTMapper;
 
     @GetMapping
@@ -40,20 +39,8 @@ public class GetUsersRESTAdapter {
         @RequestParam(defaultValue = "10") int size,
         @RequestParam(defaultValue = "created") String[] sort
     ) {
-        final var wrapper = GetUsersRequestWrapper.builder()
-            .username(username)
-            .firstName(firstName)
-            .lastName(lastName)
-            .email(email)
-            .enabled(enabled)
-            .createdFrom(createdFrom)
-            .createdTo(createdTo)
-            .createdBy(createdBy)
-            .page(page)
-            .size(size)
-            .sort(sort)
-            .build();
-        final var users = getUsersInputPort.getUsers(wrapper);
+        final var users = getUsersUseCase.getUsers(username, firstName, lastName, email, enabled,
+            createdFrom, createdTo, createdBy, page, size, sort);
         final var response = users.map(userRESTMapper::toUserResponse);
         return ResponseEntity.ok().body(new PagedModel<>(response));
     }

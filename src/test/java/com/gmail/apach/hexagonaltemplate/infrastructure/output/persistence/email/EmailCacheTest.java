@@ -2,10 +2,9 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.emai
 
 import com.gmail.apach.hexagonaltemplate.AbstractIntegrationTest;
 import com.gmail.apach.hexagonaltemplate.data.EmailsTestData;
-import com.gmail.apach.hexagonaltemplate.domain.email.model.Email;
-import com.gmail.apach.hexagonaltemplate.domain.email.wrapper.GetEmailsWrapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.constant.EmailCacheConstant;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email.repository.EmailRepository;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email.wrapper.GetEmailsFilterWrapper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +38,7 @@ class EmailCacheTest extends AbstractIntegrationTest {
 
         getEmailsCache().ifPresent(cache -> assertTrue(cache.isEmpty()));
 
-        final var requestWrapper = GetEmailsWrapper.builder()
+        final var requestWrapper = GetEmailsFilterWrapper.builder()
             .page(PAGE)
             .size(SIZE)
             .sort(new String[]{SORT_ORDER})
@@ -65,7 +64,7 @@ class EmailCacheTest extends AbstractIntegrationTest {
 
         getEmailsCache().ifPresent(cache -> assertTrue(cache.isEmpty()));
 
-        final var requestWrapper = GetEmailsWrapper.builder()
+        final var requestWrapper = GetEmailsFilterWrapper.builder()
             .page(PAGE)
             .size(SIZE)
             .sort(new String[]{SORT_ORDER})
@@ -90,7 +89,7 @@ class EmailCacheTest extends AbstractIntegrationTest {
 
         getEmailsCache().ifPresent(cache -> assertTrue(cache.isEmpty()));
 
-        final var requestWrapper = GetEmailsWrapper.builder()
+        final var requestWrapper = GetEmailsFilterWrapper.builder()
             .page(PAGE)
             .size(SIZE)
             .sort(new String[]{SORT_ORDER})
@@ -103,8 +102,8 @@ class EmailCacheTest extends AbstractIntegrationTest {
             assertFalse(cache.isEmpty());
             var cachedPage = (Page) cache.get(
                 List.of(
-                    requestWrapper.page(),
-                    requestWrapper.size()));
+                    requestWrapper.getPage(),
+                    requestWrapper.getSize()));
             assertEquals(emails.getContent().size(), cachedPage.getContent().size());
         });
 
@@ -115,10 +114,5 @@ class EmailCacheTest extends AbstractIntegrationTest {
         return Optional
             .ofNullable(cacheManager.getCache(EmailCacheConstant.LIST_CACHE_NAME))
             .map(cache -> ((ConcurrentMapCache) cache).getNativeCache());
-    }
-
-    private Optional<Email> getCachedEmail(String emailId) {
-        return Optional.ofNullable(cacheManager.getCache(EmailCacheConstant.CACHE_NAME))
-            .map(cache -> cache.get(emailId, Email.class));
     }
 }

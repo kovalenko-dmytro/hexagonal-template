@@ -1,5 +1,7 @@
 package com.gmail.apach.hexagonaltemplate.domain.email.model;
 
+import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailStatus;
+import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

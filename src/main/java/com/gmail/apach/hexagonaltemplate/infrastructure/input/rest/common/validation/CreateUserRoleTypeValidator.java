@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.validation;
 
-import com.gmail.apach.hexagonaltemplate.domain.user.model.RoleType;
+import com.gmail.apach.hexagonaltemplate.domain.user.vo.RoleType;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

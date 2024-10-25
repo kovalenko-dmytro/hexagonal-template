@@ -4,8 +4,8 @@ import com.github.database.rider.core.api.dataset.DataSet;
 import com.gmail.apach.hexagonaltemplate.AbstractIntegrationTest;
 import com.gmail.apach.hexagonaltemplate.data.FilesTestData;
 import com.gmail.apach.hexagonaltemplate.domain.file.model.StoredFile;
-import com.gmail.apach.hexagonaltemplate.domain.file.wrapper.GetFilesRequestWrapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.constant.FileCacheConstant;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.file.wrapper.GetFilesFilterWrapper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,14 +99,14 @@ class FileCacheTest extends AbstractIntegrationTest {
             assertFalse(cache.isEmpty());
             var cachedPage = (Page) cache.get(
                 List.of(
-                    requestWrapper.page(),
-                    requestWrapper.size()));
+                    requestWrapper.getPage(),
+                    requestWrapper.getSize()));
             assertEquals(files.getContent().size(), cachedPage.getContent().size());
         });
     }
 
-    private static GetFilesRequestWrapper getFilesRequestWrapper() {
-        return GetFilesRequestWrapper.builder()
+    private static GetFilesFilterWrapper getFilesRequestWrapper() {
+        return GetFilesFilterWrapper.builder()
             .page(1)
             .size(5)
             .sort(new String[]{"created"})

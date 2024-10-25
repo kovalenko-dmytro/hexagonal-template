@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user;
 
-import com.gmail.apach.hexagonaltemplate.application.input.user.UpdateUserInputPort;
+import com.gmail.apach.hexagonaltemplate.application.usecase.user.UpdateUserUseCase;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.mapper.UserRESTMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user.dto.UpdateUserRequest;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user.dto.UserResponse;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class UpdateUserRESTAdapter {
 
-    private final UpdateUserInputPort updateUserInputPort;
+    private final UpdateUserUseCase updateUserUseCase;
     private final UserRESTMapper userRESTMapper;
 
     @PatchMapping
@@ -27,7 +27,7 @@ public class UpdateUserRESTAdapter {
         @Valid @RequestBody UpdateUserRequest request
     ) {
         final var requestedUser = userRESTMapper.toUser(userId, request);
-        final var updatedUser = updateUserInputPort.update(requestedUser);
+        final var updatedUser = updateUserUseCase.update(requestedUser);
         final var response = userRESTMapper.toUserResponse(updatedUser);
         return ResponseEntity.ok().body(response);
     }

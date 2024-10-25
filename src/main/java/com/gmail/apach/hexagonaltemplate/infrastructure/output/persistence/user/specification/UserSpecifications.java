@@ -1,8 +1,7 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.specification;
 
-import com.gmail.apach.hexagonaltemplate.domain.user.wrapper.GetUsersRequestWrapper;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.CurrentUserAuthContext;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.entity.UserEntity;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.wrapper.GetUsersFilterWrapper;
 import jakarta.persistence.criteria.Predicate;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -16,46 +15,43 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class UserSpecifications {
 
-    public static Specification<UserEntity> specification(
-        GetUsersRequestWrapper wrapper,
-        CurrentUserAuthContext context)
-    {
+    public static Specification<UserEntity> specification(GetUsersFilterWrapper wrapper) {
         return (root, criteriaQuery, criteriaBuilder) -> {
             final var predicates = new ArrayList<Predicate>();
 
-            if (Objects.nonNull(wrapper.username())) {
-                predicates.add(criteriaBuilder.like(root.get("username"), "%" + wrapper.username() + "%"));
+            if (Objects.nonNull(wrapper.getUsername())) {
+                predicates.add(criteriaBuilder.like(root.get("username"), "%" + wrapper.getUsername() + "%"));
             }
 
-            if (Objects.nonNull(wrapper.firstName())) {
-                predicates.add(criteriaBuilder.like(root.get("firstName"), "%" + wrapper.firstName() + "%"));
+            if (Objects.nonNull(wrapper.getFirstName())) {
+                predicates.add(criteriaBuilder.like(root.get("firstName"), "%" + wrapper.getFirstName() + "%"));
             }
 
-            if (Objects.nonNull(wrapper.lastName())) {
-                predicates.add(criteriaBuilder.like(root.get("lastName"), "%" + wrapper.lastName() + "%"));
+            if (Objects.nonNull(wrapper.getLastName())) {
+                predicates.add(criteriaBuilder.like(root.get("lastName"), "%" + wrapper.getLastName() + "%"));
             }
 
-            if (Objects.nonNull(wrapper.email())) {
-                predicates.add(criteriaBuilder.like(root.get("email"), "%" + wrapper.email() + "%"));
+            if (Objects.nonNull(wrapper.getEmail())) {
+                predicates.add(criteriaBuilder.like(root.get("email"), "%" + wrapper.getEmail() + "%"));
             }
 
-            if (Objects.nonNull(wrapper.createdBy())) {
-                predicates.add(criteriaBuilder.like(root.get("createdBy"), "%" + wrapper.createdBy() + "%"));
+            if (Objects.nonNull(wrapper.getCreatedBy())) {
+                predicates.add(criteriaBuilder.like(root.get("createdBy"), "%" + wrapper.getCreatedBy() + "%"));
             }
 
-            if (Objects.nonNull(wrapper.enabled())) {
-                predicates.add(criteriaBuilder.equal(root.get("enabled"), wrapper.enabled()));
+            if (Objects.nonNull(wrapper.getEnabled())) {
+                predicates.add(criteriaBuilder.equal(root.get("enabled"), wrapper.getEnabled()));
             }
 
-            if (Objects.nonNull(wrapper.createdFrom())) {
-                final var timeFrom = LocalDateTime.of(wrapper.createdFrom(), LocalTime.MIN);
-                final var timeTo = Objects.nonNull(wrapper.createdTo())
-                    ? LocalDateTime.of(wrapper.createdTo(), LocalTime.MAX)
-                    : LocalDateTime.of(wrapper.createdFrom(), LocalTime.MAX);
+            if (Objects.nonNull(wrapper.getCreatedFrom())) {
+                final var timeFrom = LocalDateTime.of(wrapper.getCreatedFrom(), LocalTime.MIN);
+                final var timeTo = Objects.nonNull(wrapper.getCreatedTo())
+                    ? LocalDateTime.of(wrapper.getCreatedTo(), LocalTime.MAX)
+                    : LocalDateTime.of(wrapper.getCreatedFrom(), LocalTime.MAX);
                 predicates.add(criteriaBuilder.between(root.get("created"), timeFrom, timeTo));
             }
 
-            if (!context.isAdmin()) {
+            if (!wrapper.isAdmin()) {
                 predicates.add(criteriaBuilder.notEqual(root.get("isAdmin"), true));
             }
 
