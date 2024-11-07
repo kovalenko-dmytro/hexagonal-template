@@ -1,4 +1,4 @@
-package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user.dto;
+package com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.gmail.apach.hexagonaltemplate.domain.user.vo.RoleType;
@@ -9,7 +9,7 @@ import lombok.Builder;
 
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record UpdateUserRequest(
+public record UpdateUserInputType(
     @Size(min = 2, max = 50)
     String firstName,
 

@@ -1,0 +1,37 @@
+enum EmailType {
+  INVITE
+}
+
+enum EmailStatus {
+  SEND
+  ERROR
+}
+
+type EmailOutputType {
+  emailId: ID
+  sendBy: String
+  sendTo: String
+  cc: [String]
+  subject: String
+  sendTime: LocalDateTime
+  emailType: EmailType
+  emailStatus: EmailStatus
+}
+
+extend type Query {
+  getEmails(
+    sendBy: String
+    sendTo: String
+    dateSendFrom: LocalDate
+    dateSendTo: LocalDate
+    emailType: EmailType
+    emailStatus: EmailStatus
+    page: Int = 1
+    size: Int = 10
+    sort: [String] = ["sendBy"]
+    ): PageOutputType
+}
+
+extend type Mutation {
+  deleteByEmailId(emailId: String!): Void
+}

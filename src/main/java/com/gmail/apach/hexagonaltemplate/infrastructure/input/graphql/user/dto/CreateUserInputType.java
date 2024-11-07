@@ -1,4 +1,4 @@
-package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user.dto;
+package com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.user.dto;
 
 import com.gmail.apach.hexagonaltemplate.domain.user.vo.RoleType;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.validation.CreateUserRoleTypeConstraint;
@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 
 @Builder
-public record CreateUserRequest(
+public record CreateUserInputType(
     @NotBlank
     @Size(min = 2, max = 255)
     String username,
