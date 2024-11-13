@@ -2,7 +2,7 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.common.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.constant.Error;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.ErrorResponse;
+import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.wrapper.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

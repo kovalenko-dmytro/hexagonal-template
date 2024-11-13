@@ -1,0 +1,23 @@
+type FileOutputType {
+  fileId: ID
+  storageKey: String
+  fileName: String
+  contentType: String
+  size: Long
+  created: LocalDateTime
+}
+
+extend type Query {
+  getFiles(
+    fileName: String
+    createdFrom: LocalDate
+    createdTo: LocalDate
+    page: Int = 1
+    size: Int = 10
+    sort: [String] = ["created"]
+    ): PageOutputType
+}
+
+extend type Mutation {
+  deleteByFileId(fileId: String!): Void
+}

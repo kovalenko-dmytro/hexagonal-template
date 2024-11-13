@@ -22,8 +22,8 @@ public class DeleteFileRESTAdapter {
 
     @DeleteMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public ResponseEntity<Void> deleteFile(@PathVariable(value = "fileId") String fileId) {
-        deleteFileUseCase.deleteFile(fileId);
+    public ResponseEntity<Void> deleteByFileId(@PathVariable(value = "fileId") String fileId) {
+        deleteFileUseCase.deleteByFileId(fileId);
         return ResponseEntity.noContent().build();
     }
 }

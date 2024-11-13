@@ -3,7 +3,7 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.common.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.auth.JWTService;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.constant.CommonConstant;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.ErrorResponse;
+import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.wrapper.ErrorResponse;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

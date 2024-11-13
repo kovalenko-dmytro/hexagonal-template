@@ -1,4 +1,4 @@
-union Pageable = UserOutputType | EmailOutputType
+union Pageable = UserOutputType | EmailOutputType | FileOutputType
 
 type PageOutputType {
   content: [Pageable]

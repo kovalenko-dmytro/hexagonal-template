@@ -16,7 +16,7 @@ public class DeleteFileInputPort implements DeleteFileUseCase {
     private final PublishFileOutputPort publishFileOutputPort;
 
     @Override
-    public void deleteFile(String fileId) {
+    public void deleteByFileId(String fileId) {
         final var file = getFileOutputPort.getByFileId(fileId);
         deleteFileOutputPort.deleteFile(file.getFileId());
         publishFileOutputPort.publishDeleteFile(file.getStorageKey());

@@ -2,7 +2,7 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.email;
 
 import com.gmail.apach.hexagonaltemplate.AbstractControllerIntegrationTest;
 import com.gmail.apach.hexagonaltemplate.data.EmailsTestData;
-import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email.repository.EmailRepository;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.email.repository.EmailRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -5,7 +5,7 @@ import com.gmail.apach.hexagonaltemplate.application.usecase.user.GetUsersUseCas
 import com.gmail.apach.hexagonaltemplate.domain.user.model.AuthPrincipal;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
 import com.gmail.apach.hexagonaltemplate.domain.user.policy.GetUsersPermissionPolicy;
-import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.user.wrapper.GetUsersFilterWrapper;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.wrapper.GetUsersFilterWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
