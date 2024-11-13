@@ -2,7 +2,7 @@ package com.gmail.apach.hexagonaltemplate.application.port.input.email;
 
 import com.gmail.apach.hexagonaltemplate.application.port.output.email.GetEmailsOutputPort;
 import com.gmail.apach.hexagonaltemplate.data.EmailsTestData;
-import com.gmail.apach.hexagonaltemplate.infrastructure.output.persistence.email.wrapper.GetEmailsFilterWrapper;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.email.wrapper.GetEmailsFilterWrapper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

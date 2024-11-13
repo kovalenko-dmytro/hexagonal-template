@@ -4,7 +4,7 @@ import com.gmail.apach.hexagonaltemplate.application.port.output.file.CreateFile
 import com.gmail.apach.hexagonaltemplate.data.FilesTestData;
 import com.gmail.apach.hexagonaltemplate.domain.file.model.StoredFile;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ApplicationServerException;
-import com.gmail.apach.hexagonaltemplate.infrastructure.output.oss.AwsS3Adapter;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.oss.AwsS3StorageServiceAdapter;
 import io.awspring.cloud.s3.Location;
 import io.awspring.cloud.s3.S3Resource;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ class UploadFileInputPortTest {
     @InjectMocks
     private UploadFileInputPort uploadFileInputPort;
     @Mock
-    private AwsS3Adapter awsS3Adapter;
+    private AwsS3StorageServiceAdapter awsS3Adapter;
     @Mock
     private CreateFileOutputPort createFileOutputPort;
 

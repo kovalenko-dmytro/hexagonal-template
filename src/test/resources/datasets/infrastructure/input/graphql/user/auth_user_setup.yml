@@ -1,0 +1,16 @@
+users:
+  - user_: "5a8d68c8-2f28-4b53-ac5a-2db586512440"
+    user_name: "username"
+    password: "$2a$10$TOrym9dni4W4w7D1McotFOycpFLww0Dj7tGAqwo3QLe5EZL3UNTNG"
+    first_name: "first_name"
+    last_name: "last_name"
+    email: "email@email"
+    enabled: "true"
+    created: "2024-07-31 00:00:00.000"
+    created_by: "admin"
+roles:
+  - role_: "6a8d68c8-2f28-4b53-ac5a-2db586512438"
+    role: "USER"
+users_roles:
+  - user_: "5a8d68c8-2f28-4b53-ac5a-2db586512440"
+    role_: "6a8d68c8-2f28-4b53-ac5a-2db586512438"

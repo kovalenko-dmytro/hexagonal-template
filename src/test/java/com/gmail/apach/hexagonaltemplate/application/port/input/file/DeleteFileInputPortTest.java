@@ -30,20 +30,20 @@ class DeleteFileInputPortTest {
     private PublishFileOutputPort publishFileOutputPort;
 
     @Test
-    void deleteFile_success() {
+    void deleteByFileId_success() {
         final var storedFile = FilesTestData.storedFile();
         when(getFileOutputPort.getByFileId(FILE_ID)).thenReturn(storedFile);
         doNothing().when(deleteFileOutputPort).deleteFile(storedFile.getFileId());
         doNothing().when(publishFileOutputPort).publishDeleteFile(storedFile.getStorageKey());
 
-        assertDoesNotThrow(() -> deleteFileInputPort.deleteFile(storedFile.getFileId()));
+        assertDoesNotThrow(() -> deleteFileInputPort.deleteByFileId(storedFile.getFileId()));
     }
 
     @Test
-    void deleteFile_notFound() {
+    void deleteByFileId_notFound() {
         doThrow(new ResourceNotFoundException("notFound"))
             .when(getFileOutputPort).getByFileId(FILE_ID);
 
-        assertThrows(ResourceNotFoundException.class, () -> deleteFileInputPort.deleteFile(FILE_ID));
+        assertThrows(ResourceNotFoundException.class, () -> deleteFileInputPort.deleteByFileId(FILE_ID));
     }
 }

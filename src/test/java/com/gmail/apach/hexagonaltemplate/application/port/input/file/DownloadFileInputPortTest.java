@@ -4,7 +4,7 @@ import com.gmail.apach.hexagonaltemplate.application.port.output.file.GetFileOut
 import com.gmail.apach.hexagonaltemplate.data.FilesTestData;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ApplicationServerException;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ResourceNotFoundException;
-import com.gmail.apach.hexagonaltemplate.infrastructure.output.oss.AwsS3Adapter;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.oss.AwsS3StorageServiceAdapter;
 import io.awspring.cloud.s3.S3Resource;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +31,7 @@ class DownloadFileInputPortTest {
     @Mock
     private GetFileOutputPort getFileOutputPort;
     @Mock
-    private AwsS3Adapter awsS3Adapter;
+    private AwsS3StorageServiceAdapter awsS3Adapter;
     @Mock
     private MessageSource messageSource;
 

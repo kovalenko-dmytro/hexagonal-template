@@ -1,0 +1,9 @@
+union Pageable = UserOutputType | EmailOutputType | FileOutputType
+
+type PageOutputType {
+  content: [Pageable]
+  size: Int
+  number: Int
+  totalElements: Long
+  totalPages: Int
+}
