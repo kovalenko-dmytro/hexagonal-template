@@ -21,7 +21,7 @@ class DeleteFileRESTAdapterTest extends AbstractControllerIntegrationTest {
     @WithMockUser(roles = {"ADMIN", "MANAGER", "USER"})
     @DataSet("datasets/infrastructure/input/rest/file/file_setup.yml")
     @ExpectedDataSet("datasets/infrastructure/input/rest/file/file_empty.yml")
-    void deleteFile_success() throws Exception {
+    void deleteByFileId_success() throws Exception {
         final var result = mvc.perform(
                 delete(BASE_PATH + CORRECT_FILE_ID)
                     .contentType(MediaType.APPLICATION_JSON))
@@ -33,7 +33,7 @@ class DeleteFileRESTAdapterTest extends AbstractControllerIntegrationTest {
     @Test
     @WithMockUser(roles = {"ADMIN", "MANAGER", "USER"})
     @DataSet("datasets/infrastructure/input/rest/file/file_setup.yml")
-    void deleteFile_notFound() throws Exception {
+    void deleteByFileId_notFound() throws Exception {
         final var result = mvc.perform(
                 delete(BASE_PATH + INCORRECT_FILE_ID)
                     .contentType(MediaType.APPLICATION_JSON))
@@ -44,7 +44,7 @@ class DeleteFileRESTAdapterTest extends AbstractControllerIntegrationTest {
 
     @Test
     @WithMockUser(roles = {"USER"})
-    void deleteFile_forbidden() throws Exception {
+    void deleteByFileId_forbidden() throws Exception {
         final var result = mvc.perform(
                 delete(BASE_PATH + CORRECT_FILE_ID)
                     .contentType(MediaType.APPLICATION_JSON))

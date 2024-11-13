@@ -1,0 +1,76 @@
+input SignInInputType {
+  username: String!
+  password: String!
+}
+
+type SignInOutputType {
+  tokenType: String
+  accessToken: String
+  accessTokenExpired: Long
+}
+
+type CurrentUserOutputType {
+  userId: ID
+  username: String
+  firstName: String
+  lastName: String
+  email: String
+  enabled: Boolean
+  created: LocalDateTime
+  createdBy: String
+  roles: [RoleType]
+}
+
+input CreateUserInputType {
+  username: String!
+  password: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+  roleType: RoleType!
+}
+
+type UserOutputType {
+  userId: ID
+  username: String
+  firstName: String
+  lastName: String
+  email: String
+  enabled: Boolean
+  created: LocalDateTime
+  createdBy: String
+  roles: [RoleType]
+}
+
+input UpdateUserInputType {
+  firstName: String
+  lastName: String
+  email: String
+  enabled: Boolean
+  roleType: RoleType
+}
+
+extend type Query {
+  signIn(inputType: SignInInputType!): SignInOutputType
+  getCurrentUser: CurrentUserOutputType
+  getByUserId(userId: String!): UserOutputType
+  getUsers(
+    username: String
+    firstName: String
+    lastName: String
+    email: String
+    enabled: Boolean
+    createdFrom: LocalDate
+    createdTo: LocalDate
+    createdBy: String
+    page: Int = 1
+    size: Int = 10
+    sort: [String] = ["created"]
+    ): PageOutputType
+}
+
+extend type Mutation {
+  createUser(inputType: CreateUserInputType!): UserOutputType
+  deleteByUserId(userId: String!): Void
+  updateUser(userId: String! inputType: UpdateUserInputType!): UserOutputType
+}

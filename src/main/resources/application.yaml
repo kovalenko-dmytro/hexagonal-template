@@ -39,6 +39,11 @@ spring:
         secret-key: ${AWS_S3_SECRET_KEY}
       region:
         static: ${AWS_S3_REGION}
+  graphql:
+    path: /graphql
+    graphiql:
+      enabled: true
+      path: /graphiql
   mail:
     protocol: smtp
     host: smtp.gmail.com
@@ -80,6 +85,9 @@ logbook:
           - PATCH
           - PUT
           - DELETE
+      - path: /${SERVER_CONTEXT_PATH}/graphql
+        methods:
+          - POST
   filter:
     enabled: true
   obfuscate:

@@ -11,6 +11,7 @@ public enum CommonConstant {
     AUTH_HEADER("Authorization"),
     BASIC_AUTH_HEADER_PREFIX("Basic "),
     BEARER_AUTH_HEADER_PREFIX("Bearer "),
+    ANONYMOUS_USER("anonymousUser"),
     EMAIL_TEMPLATES_PATH("/email-templates/"),
     EMAIL_PROPERTIES_SOURCE_PATH("classpath:email-properties/email_properties"),
     EMAIL_TEMPLATE_SUFFIX(".html"),
