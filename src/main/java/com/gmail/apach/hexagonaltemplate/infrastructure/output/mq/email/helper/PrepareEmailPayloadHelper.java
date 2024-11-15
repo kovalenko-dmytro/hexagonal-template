@@ -2,7 +2,7 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.output.mq.email.helper;
 
 import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailType;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
-import com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt.dto.SendEmailWrapper;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt.wrapper.SendEmailWrapper;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

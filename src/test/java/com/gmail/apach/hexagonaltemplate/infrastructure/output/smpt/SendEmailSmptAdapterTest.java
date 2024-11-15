@@ -2,7 +2,7 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt;
 
 import com.gmail.apach.hexagonaltemplate.application.port.output.email.PublishEmailOutputPort;
 import com.gmail.apach.hexagonaltemplate.data.CreateUserTestData;
-import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailStatus;
+import com.gmail.apach.hexagonaltemplate.domain.email.model.Email;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.admin.DefaultAdminConfigProperties;
 import jakarta.mail.internet.MimeMessage;
 import org.junit.jupiter.api.Test;
@@ -47,7 +47,7 @@ class SendEmailSmptAdapterTest {
 
         assertDoesNotThrow(() -> sendEmailSmptAdapter.sendEmail(emailData));
 
-        verify(publishEmailOutputPort, times(1)).publishCreateEmail(emailData, EmailStatus.SEND);
+        verify(publishEmailOutputPort, times(1)).publishSaveEmail(any(Email.class));
     }
 
     @Test
@@ -63,6 +63,6 @@ class SendEmailSmptAdapterTest {
 
         sendEmailSmptAdapter.sendEmail(emailData);
 
-        verify(publishEmailOutputPort, times(1)).publishCreateEmail(emailData, EmailStatus.ERROR);
+        verify(publishEmailOutputPort, times(1)).publishSaveEmail(any(Email.class));
     }
 }

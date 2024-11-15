@@ -2,13 +2,14 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt;
 
 import com.gmail.apach.hexagonaltemplate.application.port.output.email.PublishEmailOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.email.SendEmailOutputPort;
+import com.gmail.apach.hexagonaltemplate.domain.email.model.Email;
 import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailStatus;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.admin.DefaultAdminConfigProperties;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.constant.Error;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.mq.process.EmailProcessingConfig;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.constant.CommonConstant;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ResourceNotFoundException;
-import com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt.dto.SendEmailWrapper;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt.wrapper.SendEmailWrapper;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Component
@@ -43,8 +45,8 @@ public class SendEmailSmptAdapter implements SendEmailOutputPort {
     @RabbitListener(queues = EmailProcessingConfig.SEND_EMAIL_QUEUE)
     public void sendEmail(SendEmailWrapper wrapper) {
         final var payload = obtainPayload(wrapper);
-        final var emailStatus = sendPreparedEmail(payload, wrapper);
-        publishEmailOutputPort.publishCreateEmail(wrapper, emailStatus);
+        final var emailStatus = send(payload, wrapper);
+        publishEmailOutputPort.publishSaveEmail(toEmail(wrapper, emailStatus));
     }
 
     private String obtainPayload(SendEmailWrapper wrapper) {
@@ -61,7 +63,7 @@ public class SendEmailSmptAdapter implements SendEmailOutputPort {
         return templateEngine.process(emailType.getTemplate(), templateContext);
     }
 
-    private EmailStatus sendPreparedEmail(String payload, SendEmailWrapper wrapper) {
+    private EmailStatus send(String payload, SendEmailWrapper wrapper) {
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper;
         try {
@@ -93,5 +95,12 @@ public class SendEmailSmptAdapter implements SendEmailOutputPort {
                 helper.addAttachment(Objects.requireNonNull(attachment.getOriginalFilename()), attachment);
             }
         }
+    }
+
+    private Email toEmail(SendEmailWrapper wrapper, EmailStatus emailStatus) {
+        return Email.builder()
+            .sendBy(wrapper.sendBy()).sendTo(wrapper.sendTo()).cc(wrapper.cc()).subject(wrapper.subject())
+            .sendTime(LocalDateTime.now()).emailType(wrapper.emailType()).emailStatus(emailStatus)
+            .build();
     }
 }

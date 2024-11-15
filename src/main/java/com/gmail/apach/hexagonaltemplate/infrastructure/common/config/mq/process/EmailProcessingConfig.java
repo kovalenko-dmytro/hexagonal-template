@@ -13,13 +13,13 @@ import org.springframework.context.annotation.Configuration;
 public class EmailProcessingConfig {
 
     public static final String SEND_EMAIL_QUEUE = "send-email-queue";
-    public static final String CREATE_EMAIL_QUEUE = "create-email-queue";
+    public static final String SAVE_EMAIL_QUEUE = "save-email-queue";
 
     @RequiredArgsConstructor
     @Getter
     public enum Exchanges {
         SEND_EMAIL_DIRECT_EXCHANGE("send-email-direct-exchange"),
-        CREATE_EMAIL_DIRECT_EXCHANGE("create-email-direct-exchange");
+        SAVE_EMAIL_DIRECT_EXCHANGE("save-email-direct-exchange");
 
         private final String exchange;
     }
@@ -28,7 +28,7 @@ public class EmailProcessingConfig {
     @Getter
     public enum RoutingKeys {
         SEND_EMAIL_ROUTING_KEY("send-email"),
-        CREATE_EMAIL_ROUTING_KEY("create-email");
+        SAVE_EMAIL_ROUTING_KEY("save-email");
 
         private final String key;
     }
@@ -52,20 +52,20 @@ public class EmailProcessingConfig {
     }
 
     @Bean
-    public DirectExchange createEmailDirectExchange() {
-        return new DirectExchange(Exchanges.CREATE_EMAIL_DIRECT_EXCHANGE.getExchange());
+    public DirectExchange saveEmailDirectExchange() {
+        return new DirectExchange(Exchanges.SAVE_EMAIL_DIRECT_EXCHANGE.getExchange());
     }
 
     @Bean
-    public Queue createEmailQueue() {
-        return new Queue(CREATE_EMAIL_QUEUE);
+    public Queue saveEmailQueue() {
+        return new Queue(SAVE_EMAIL_QUEUE);
     }
 
     @Bean
-    public Binding createEmailBinding() {
+    public Binding saveEmailBinding() {
         return BindingBuilder
-            .bind(createEmailQueue())
-            .to(createEmailDirectExchange())
-            .with(RoutingKeys.CREATE_EMAIL_ROUTING_KEY.getKey());
+            .bind(saveEmailQueue())
+            .to(saveEmailDirectExchange())
+            .with(RoutingKeys.SAVE_EMAIL_ROUTING_KEY.getKey());
     }
 }

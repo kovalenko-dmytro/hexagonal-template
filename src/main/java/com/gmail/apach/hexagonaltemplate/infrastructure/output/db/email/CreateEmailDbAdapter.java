@@ -22,7 +22,7 @@ public class CreateEmailDbAdapter implements CreateEmailOutputPort {
         value = EmailCacheConstant.LIST_CACHE_NAME,
         allEntries = true
     )
-    @RabbitListener(queues = EmailProcessingConfig.CREATE_EMAIL_QUEUE)
+    @RabbitListener(queues = EmailProcessingConfig.SAVE_EMAIL_QUEUE)
     @Override
     public void createEmail(Email email) {
         final var emailEntity = emailPersistenceMapper.toEmailEntity(email);
