@@ -6,7 +6,7 @@ import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.cons
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.constant.AttributeForModel;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.constant.Error;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ResourceNotFoundException;
-import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.file.mapper.FilePersistenceMapper;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.file.mapper.FileDbMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.file.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 public class GetFileDbAdapter implements GetFileOutputPort {
 
     private final FileRepository fileRepository;
-    private final FilePersistenceMapper filePersistenceMapper;
+    private final FileDbMapper fileDbMapper;
     private final MessageSource messageSource;
 
     @Cacheable(
@@ -30,7 +30,7 @@ public class GetFileDbAdapter implements GetFileOutputPort {
     public StoredFile getByFileId(String fileId) {
         return fileRepository
             .findById(fileId)
-            .map(filePersistenceMapper::toStoredFile)
+            .map(fileDbMapper::toStoredFile)
             .orElseThrow(() -> new ResourceNotFoundException(getByFileIdErrorMessage(fileId)));
     }
 

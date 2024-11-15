@@ -6,7 +6,7 @@ import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.cons
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.constant.AttributeForModel;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.constant.Error;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ResourceNotFoundException;
-import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.mapper.UserPersistenceMapper;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.mapper.UserDbMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 public class GetUserDbAdapter implements GetUserOutputPort {
 
     private final UserRepository userRepository;
-    private final UserPersistenceMapper userMapper;
+    private final UserDbMapper userMapper;
     private final MessageSource messageSource;
 
     @Override

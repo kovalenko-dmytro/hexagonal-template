@@ -12,7 +12,7 @@ import org.mapstruct.ReportingPolicy;
     injectionStrategy = InjectionStrategy.CONSTRUCTOR,
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL,
     unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface EmailPersistenceMapper {
+public interface EmailDbMapper {
     Email toEmail(EmailEntity emailEntity);
     EmailEntity toEmailEntity(Email email);
 }

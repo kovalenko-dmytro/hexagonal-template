@@ -12,7 +12,7 @@ import org.mapstruct.ReportingPolicy;
     injectionStrategy = InjectionStrategy.CONSTRUCTOR,
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL,
     unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface FilePersistenceMapper {
+public interface FileDbMapper {
     FileEntity toFileEntity(StoredFile file);
     StoredFile toStoredFile(FileEntity fileEntity);
 }
