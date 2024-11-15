@@ -3,7 +3,7 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.output.db.file;
 import com.gmail.apach.hexagonaltemplate.application.port.output.file.GetFilesOutputPort;
 import com.gmail.apach.hexagonaltemplate.domain.file.model.StoredFile;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.constant.FileCacheConstant;
-import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.file.mapper.FilePersistenceMapper;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.file.mapper.FileDbMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.file.repository.FileRepository;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.file.specification.FileSpecifications;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.file.wrapper.GetFilesFilterWrapper;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class GetFilesDbAdapter implements GetFilesOutputPort {
 
     private final FileRepository fileRepository;
-    private final FilePersistenceMapper filePersistenceMapper;
+    private final FileDbMapper fileDbMapper;
 
     @Cacheable(
         value = FileCacheConstant.LIST_CACHE_NAME,
@@ -28,6 +28,6 @@ public class GetFilesDbAdapter implements GetFilesOutputPort {
     public Page<StoredFile> getFiles(GetFilesFilterWrapper wrapper) {
         return fileRepository
             .findAll(FileSpecifications.specification(wrapper), wrapper.toPageable())
-            .map(filePersistenceMapper::toStoredFile);
+            .map(fileDbMapper::toStoredFile);
     }
 }

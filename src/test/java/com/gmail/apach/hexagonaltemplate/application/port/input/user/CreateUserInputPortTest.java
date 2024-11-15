@@ -7,6 +7,7 @@ import com.gmail.apach.hexagonaltemplate.domain.user.model.Role;
 import com.gmail.apach.hexagonaltemplate.domain.user.policy.CreateUserPermissionPolicy;
 import com.gmail.apach.hexagonaltemplate.domain.user.vo.RoleType;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ForbiddenException;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt.wrapper.SendEmailWrapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -69,7 +70,7 @@ class CreateUserInputPortTest {
 
         final var actual = createUserInputPort.createUser(user);
 
-        verify(publishEmailOutputPort, times(1)).publishSendInviteEmail(actual);
+        verify(publishEmailOutputPort, times(1)).publishSendEmail(any(SendEmailWrapper.class));
         assertNotNull(actual);
         assertNotNull(actual.getUserId());
 
@@ -102,7 +103,7 @@ class CreateUserInputPortTest {
 
         final var actual = createUserInputPort.createUser(userWithNoRoles);
 
-        verify(publishEmailOutputPort, times(1)).publishSendInviteEmail(actual);
+        verify(publishEmailOutputPort, times(1)).publishSendEmail(any(SendEmailWrapper.class));
         assertNotNull(actual);
         assertNotNull(actual.getUserId());
         assertFalse(actual.getRoles().isEmpty());

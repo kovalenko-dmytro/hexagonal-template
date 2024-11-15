@@ -4,7 +4,7 @@ import com.gmail.apach.hexagonaltemplate.application.port.output.email.CreateEma
 import com.gmail.apach.hexagonaltemplate.domain.email.model.Email;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.constant.EmailCacheConstant;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.mq.process.EmailProcessingConfig;
-import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.email.mapper.EmailPersistenceMapper;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.email.mapper.EmailDbMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.email.repository.EmailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -16,16 +16,16 @@ import org.springframework.stereotype.Component;
 public class CreateEmailDbAdapter implements CreateEmailOutputPort {
 
     private final EmailRepository emailRepository;
-    private final EmailPersistenceMapper emailPersistenceMapper;
+    private final EmailDbMapper emailDbMapper;
 
     @CacheEvict(
         value = EmailCacheConstant.LIST_CACHE_NAME,
         allEntries = true
     )
-    @RabbitListener(queues = EmailProcessingConfig.CREATE_EMAIL_QUEUE)
+    @RabbitListener(queues = EmailProcessingConfig.SAVE_EMAIL_QUEUE)
     @Override
     public void createEmail(Email email) {
-        final var emailEntity = emailPersistenceMapper.toEmailEntity(email);
+        final var emailEntity = emailDbMapper.toEmailEntity(email);
         emailRepository.save(emailEntity);
     }
 }
