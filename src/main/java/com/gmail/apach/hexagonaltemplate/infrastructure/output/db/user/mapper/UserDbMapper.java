@@ -15,7 +15,7 @@ import org.mapstruct.ReportingPolicy;
     injectionStrategy = InjectionStrategy.CONSTRUCTOR,
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL,
     unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface UserPersistenceMapper {
+public interface UserDbMapper {
     UserEntity toUserEntity(User user);
     User toUser(UserEntity userEntity);
     RoleEntity toRoleEntity(Role role);

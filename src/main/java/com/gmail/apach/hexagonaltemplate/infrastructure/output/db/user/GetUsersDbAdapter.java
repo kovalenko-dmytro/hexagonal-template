@@ -3,7 +3,7 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user;
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.GetUsersOutputPort;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.constant.UserCacheConstant;
-import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.mapper.UserPersistenceMapper;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.mapper.UserDbMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.repository.UserRepository;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.specification.UserSpecifications;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.wrapper.GetUsersFilterWrapper;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class GetUsersDbAdapter implements GetUsersOutputPort {
 
     private final UserRepository userRepository;
-    private final UserPersistenceMapper userMapper;
+    private final UserDbMapper userMapper;
 
     @Override
     @Cacheable(

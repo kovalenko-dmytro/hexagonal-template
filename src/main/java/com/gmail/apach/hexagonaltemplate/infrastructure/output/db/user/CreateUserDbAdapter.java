@@ -6,7 +6,7 @@ import com.gmail.apach.hexagonaltemplate.domain.user.vo.RoleType;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.constant.UserCacheConstant;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.entity.RoleEntity;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.entity.UserEntity;
-import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.mapper.UserPersistenceMapper;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.mapper.UserDbMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.repository.RoleRepository;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class CreateUserDbAdapter implements CreateUserOutputPort {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final UserPersistenceMapper userMapper;
+    private final UserDbMapper userMapper;
 
     @Override
     @CacheEvict(

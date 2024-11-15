@@ -3,7 +3,7 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.output.db.file;
 import com.gmail.apach.hexagonaltemplate.application.port.output.file.CreateFileOutputPort;
 import com.gmail.apach.hexagonaltemplate.domain.file.model.StoredFile;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.constant.FileCacheConstant;
-import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.file.mapper.FilePersistenceMapper;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.file.mapper.FileDbMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.file.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class CreateFileDbAdapter implements CreateFileOutputPort {
 
     private final FileRepository fileRepository;
-    private final FilePersistenceMapper filePersistenceMapper;
+    private final FileDbMapper fileDbMapper;
 
     @CacheEvict(
         value = FileCacheConstant.LIST_CACHE_NAME,
@@ -22,8 +22,8 @@ public class CreateFileDbAdapter implements CreateFileOutputPort {
     )
     @Override
     public StoredFile createFile(StoredFile file) {
-        final var fileEntity = filePersistenceMapper.toFileEntity(file);
+        final var fileEntity = fileDbMapper.toFileEntity(file);
         final var savedFile = fileRepository.save(fileEntity);
-        return filePersistenceMapper.toStoredFile(savedFile);
+        return fileDbMapper.toStoredFile(savedFile);
     }
 }
