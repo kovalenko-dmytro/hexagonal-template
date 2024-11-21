@@ -19,7 +19,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collection;
 import java.util.List;
@@ -31,16 +30,12 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class CreateUserUseCaseTest {
 
-    private static final String ENCODED_PASSWORD = "encodedPassword";
-
     @InjectMocks
     private CreateUserUseCase createUserUseCase;
     @Mock
     private CreateUserOutputPort createUserOutputPort;
     @Mock
     private CreateUserPermissionPolicy createUserPermissionPolicy;
-    @Mock
-    private PasswordEncoder passwordEncoder;
     @Mock
     private PublishEmailOutputPort publishEmailOutputPort;
 
@@ -64,7 +59,6 @@ class CreateUserUseCaseTest {
         when(authentication.getName()).thenReturn("admin");
         when(authentication.getAuthorities()).thenReturn(authorities);
 
-        when(passwordEncoder.encode(user.getPassword())).thenReturn(ENCODED_PASSWORD);
         doNothing().when(createUserPermissionPolicy).check(user);
         when(createUserOutputPort.createUser(user)).thenReturn(savedUser);
 
@@ -79,7 +73,6 @@ class CreateUserUseCaseTest {
 
     @Test
     void createUserWithNoRoles_success() {
-        final var user = CreateUserTestData.user();
         final var userWithNoRoles = CreateUserTestData.userWithNoRoles();
         final var savedUser = CreateUserTestData.savedUser();
 
@@ -98,7 +91,6 @@ class CreateUserUseCaseTest {
         when(authentication.getName()).thenReturn("admin");
         when(authentication.getAuthorities()).thenReturn(authorities);
 
-        when(passwordEncoder.encode(user.getPassword())).thenReturn(ENCODED_PASSWORD);
         when(createUserOutputPort.createUser(userWithNoRoles)).thenReturn(savedUser);
 
         final var actual = createUserUseCase.createUser(userWithNoRoles);

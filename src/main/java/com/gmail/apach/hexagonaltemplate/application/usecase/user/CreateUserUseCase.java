@@ -11,7 +11,6 @@ import com.gmail.apach.hexagonaltemplate.domain.user.policy.CreateUserPermission
 import com.gmail.apach.hexagonaltemplate.domain.user.vo.RoleType;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt.wrapper.SendEmailWrapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -22,7 +21,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class CreateUserUseCase implements CreateUserInputPort {
 
-    private final PasswordEncoder passwordEncoder;
     private final CreateUserOutputPort createUserOutputPort;
     private final CreateUserPermissionPolicy createUserPermissionPolicy;
     private final PublishEmailOutputPort publishEmailOutputPort;
@@ -37,7 +35,6 @@ public class CreateUserUseCase implements CreateUserInputPort {
     }
 
     private void setUserAttributes(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
         user.setCreated(LocalDateTime.now());
         user.setCreatedBy(AuthPrincipal.getDetails().getUsername());

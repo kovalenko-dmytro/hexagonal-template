@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,11 +26,13 @@ public class CreateUserRESTAdapter {
 
     private final CreateUserInputPort createUserInputPort;
     private final UserRESTMapper userRESTMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
         final var requestedUser = userRESTMapper.toUser(request);
+        requestedUser.setPassword(passwordEncoder.encode(requestedUser.getPassword()));
         final var savedUser = createUserInputPort.createUser(requestedUser);
         final var response = userRESTMapper.toUserResponse(savedUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
