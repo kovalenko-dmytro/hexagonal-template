@@ -1,4 +1,4 @@
-package com.gmail.apach.hexagonaltemplate.application.port.input.file;
+package com.gmail.apach.hexagonaltemplate.application.usecase.file;
 
 import com.gmail.apach.hexagonaltemplate.application.port.output.file.CreateFileOutputPort;
 import com.gmail.apach.hexagonaltemplate.data.FilesTestData;
@@ -25,14 +25,14 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class UploadFileInputPortTest {
+class UploadFileUseCaseTest {
 
     private static final String FILE_PATH = "src/test/resources/file/test.txt";
     private static final String ORIGINAL_FILE_NAME = "test.txt";
     private static final MockMultipartFile multipartFile;
 
     @InjectMocks
-    private UploadFileInputPort uploadFileInputPort;
+    private UploadFileUseCase uploadFileUseCase;
     @Mock
     private AwsS3StorageServiceAdapter awsS3Adapter;
     @Mock
@@ -56,7 +56,7 @@ class UploadFileInputPortTest {
         when(s3Resource.getLocation()).thenReturn(location);
         when(createFileOutputPort.createFile(any(StoredFile.class))).thenReturn(FilesTestData.storedFile());
 
-        assertDoesNotThrow(() -> uploadFileInputPort.uploadFile(multipartFile));
+        assertDoesNotThrow(() -> uploadFileUseCase.uploadFile(multipartFile));
     }
 
     @Test
@@ -64,6 +64,6 @@ class UploadFileInputPortTest {
         doThrow(new ApplicationServerException("uploadError"))
             .when(awsS3Adapter).save(multipartFile);
 
-        assertThrows(ApplicationServerException.class, () -> uploadFileInputPort.uploadFile(multipartFile));
+        assertThrows(ApplicationServerException.class, () -> uploadFileUseCase.uploadFile(multipartFile));
     }
 }

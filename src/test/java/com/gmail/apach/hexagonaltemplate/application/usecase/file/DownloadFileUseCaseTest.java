@@ -1,4 +1,4 @@
-package com.gmail.apach.hexagonaltemplate.application.port.input.file;
+package com.gmail.apach.hexagonaltemplate.application.usecase.file;
 
 import com.gmail.apach.hexagonaltemplate.application.port.output.file.GetFileOutputPort;
 import com.gmail.apach.hexagonaltemplate.data.FilesTestData;
@@ -22,12 +22,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class DownloadFileInputPortTest {
+class DownloadFileUseCaseTest {
 
     private static final String FILE_ID = "qqed68c8-2f28-4b53-ac5a-2db586512eee";
 
     @InjectMocks
-    private DownloadFileInputPort downloadFileInputPort;
+    private DownloadFileUseCase downloadFileUseCase;
     @Mock
     private GetFileOutputPort getFileOutputPort;
     @Mock
@@ -46,7 +46,7 @@ class DownloadFileInputPortTest {
         when(s3Resource.getInputStream()).thenReturn(is);
         when(is.readAllBytes()).thenReturn(any());
 
-        assertDoesNotThrow(() -> downloadFileInputPort.downloadFile(FILE_ID));
+        assertDoesNotThrow(() -> downloadFileUseCase.downloadFile(FILE_ID));
     }
 
     @Test
@@ -54,7 +54,7 @@ class DownloadFileInputPortTest {
         doThrow(new ResourceNotFoundException("notFound"))
             .when(getFileOutputPort).getByFileId(FILE_ID);
 
-        assertThrows(ResourceNotFoundException.class, () -> downloadFileInputPort.downloadFile(FILE_ID));
+        assertThrows(ResourceNotFoundException.class, () -> downloadFileUseCase.downloadFile(FILE_ID));
     }
 
     @Test
@@ -68,6 +68,6 @@ class DownloadFileInputPortTest {
             .when(s3Resource).getInputStream();
         when(messageSource.getMessage(any(), any(), any())).thenReturn("error");
 
-        assertThrows(ApplicationServerException.class, () -> downloadFileInputPort.downloadFile(FILE_ID));
+        assertThrows(ApplicationServerException.class, () -> downloadFileUseCase.downloadFile(FILE_ID));
     }
 }

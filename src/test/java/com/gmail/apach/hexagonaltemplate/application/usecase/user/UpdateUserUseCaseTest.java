@@ -1,4 +1,4 @@
-package com.gmail.apach.hexagonaltemplate.application.port.input.user;
+package com.gmail.apach.hexagonaltemplate.application.usecase.user;
 
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.GetUserOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.UpdateUserOutputPort;
@@ -16,12 +16,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class UpdateUserInputPortTest {
+class UpdateUserUseCaseTest {
 
     private static final String USER_ID = "5a8d68c8-2f28-4b53-ac5a-2db586512433";
 
     @InjectMocks
-    UpdateUserInputPort updateUserInputPort;
+    UpdateUserUseCase updateUserUseCase;
     @Mock
     private GetUserOutputPort getUserOutputPort;
     @Mock
@@ -46,7 +46,7 @@ class UpdateUserInputPortTest {
         when(updateUserOutputPort.update(user))
             .thenReturn(updatedUser);
 
-        final var actual = updateUserInputPort.update(updatedData);
+        final var actual = updateUserUseCase.update(updatedData);
 
         assertNotNull(actual);
         assertEquals(USER_ID, actual.getUserId());
@@ -63,7 +63,7 @@ class UpdateUserInputPortTest {
         doThrow(new ResourceNotFoundException("notFound"))
             .when(getUserOutputPort).getByUserId(USER_ID);
 
-        assertThrows(ResourceNotFoundException.class, () -> updateUserInputPort.update(updatedData));
+        assertThrows(ResourceNotFoundException.class, () -> updateUserUseCase.update(updatedData));
     }
 
     @Test
@@ -78,6 +78,6 @@ class UpdateUserInputPortTest {
         doThrow(new ForbiddenException("forbidden"))
             .when(updateUserPermissionPolicy).check(user, updatedData);
 
-        assertThrows(ForbiddenException.class, () -> updateUserInputPort.update(updatedData));
+        assertThrows(ForbiddenException.class, () -> updateUserUseCase.update(updatedData));
     }
 }

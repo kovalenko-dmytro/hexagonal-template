@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.email;
 
-import com.gmail.apach.hexagonaltemplate.application.usecase.email.GetEmailsUseCase;
+import com.gmail.apach.hexagonaltemplate.application.port.input.email.GetEmailsInputPort;
 import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailStatus;
 import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailType;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.common.mapper.EmailGraphQlMapper;
@@ -21,7 +21,7 @@ import java.util.List;
 @Validated
 public class GetEmailsGraphQlAdapter {
 
-    private final GetEmailsUseCase getEmailsUseCase;
+    private final GetEmailsInputPort getEmailsInputPort;
     private final EmailGraphQlMapper emailGraphQlMapper;
 
     @QueryMapping
@@ -37,7 +37,7 @@ public class GetEmailsGraphQlAdapter {
         @Argument(value = "size") int size,
         @Argument(value = "sort") List<String> sort
     ) {
-        final var emails = getEmailsUseCase.getEmails(
+        final var emails = getEmailsInputPort.getEmails(
             sendBy, sendTo, dateSendFrom, dateSendTo, emailType, emailStatus, page, size, sort.toArray(String[]::new));
         final var emailsPage = emails.map(emailGraphQlMapper::toEmailOutputType);
 

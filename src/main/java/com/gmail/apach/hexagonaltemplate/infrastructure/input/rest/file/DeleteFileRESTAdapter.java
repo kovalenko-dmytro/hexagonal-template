@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.file;
 
-import com.gmail.apach.hexagonaltemplate.application.usecase.file.DeleteFileUseCase;
+import com.gmail.apach.hexagonaltemplate.application.port.input.file.DeleteFileInputPort;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class DeleteFileRESTAdapter {
 
-    private final DeleteFileUseCase deleteFileUseCase;
+    private final DeleteFileInputPort deleteFileInputPort;
 
     @DeleteMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public ResponseEntity<Void> deleteByFileId(@PathVariable(value = "fileId") String fileId) {
-        deleteFileUseCase.deleteByFileId(fileId);
+        deleteFileInputPort.deleteByFileId(fileId);
         return ResponseEntity.noContent().build();
     }
 }

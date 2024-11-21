@@ -1,4 +1,4 @@
-package com.gmail.apach.hexagonaltemplate.application.port.input.user;
+package com.gmail.apach.hexagonaltemplate.application.usecase.user;
 
 import com.gmail.apach.hexagonaltemplate.application.port.output.email.PublishEmailOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.CreateUserOutputPort;
@@ -29,12 +29,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class CreateUserInputPortTest {
+class CreateUserUseCaseTest {
 
     private static final String ENCODED_PASSWORD = "encodedPassword";
 
     @InjectMocks
-    private CreateUserInputPort createUserInputPort;
+    private CreateUserUseCase createUserUseCase;
     @Mock
     private CreateUserOutputPort createUserOutputPort;
     @Mock
@@ -68,7 +68,7 @@ class CreateUserInputPortTest {
         doNothing().when(createUserPermissionPolicy).check(user);
         when(createUserOutputPort.createUser(user)).thenReturn(savedUser);
 
-        final var actual = createUserInputPort.createUser(user);
+        final var actual = createUserUseCase.createUser(user);
 
         verify(publishEmailOutputPort, times(1)).publishSendEmail(any(SendEmailWrapper.class));
         assertNotNull(actual);
@@ -101,7 +101,7 @@ class CreateUserInputPortTest {
         when(passwordEncoder.encode(user.getPassword())).thenReturn(ENCODED_PASSWORD);
         when(createUserOutputPort.createUser(userWithNoRoles)).thenReturn(savedUser);
 
-        final var actual = createUserInputPort.createUser(userWithNoRoles);
+        final var actual = createUserUseCase.createUser(userWithNoRoles);
 
         verify(publishEmailOutputPort, times(1)).publishSendEmail(any(SendEmailWrapper.class));
         assertNotNull(actual);
@@ -134,7 +134,7 @@ class CreateUserInputPortTest {
         doThrow(new ForbiddenException("forbidden"))
             .when(createUserPermissionPolicy).check(user);
 
-        assertThrows(ForbiddenException.class, () -> createUserInputPort.createUser(user));
+        assertThrows(ForbiddenException.class, () -> createUserUseCase.createUser(user));
 
         Mockito.reset(authentication, securityContext);
     }

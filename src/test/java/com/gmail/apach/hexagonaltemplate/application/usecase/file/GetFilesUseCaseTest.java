@@ -1,4 +1,4 @@
-package com.gmail.apach.hexagonaltemplate.application.port.input.file;
+package com.gmail.apach.hexagonaltemplate.application.usecase.file;
 
 import com.gmail.apach.hexagonaltemplate.application.port.output.file.GetFilesOutputPort;
 import com.gmail.apach.hexagonaltemplate.data.FilesTestData;
@@ -16,10 +16,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class GetFilesInputPortTest {
+class GetFilesUseCaseTest {
 
     @InjectMocks
-    private GetFilesInputPort getFilesInputPort;
+    private GetFilesUseCase getFilesUseCase;
     @Mock
     private GetFilesOutputPort getFilesOutputPort;
 
@@ -29,7 +29,7 @@ class GetFilesInputPortTest {
 
         when(getFilesOutputPort.getFiles(any(GetFilesFilterWrapper.class))).thenReturn(files);
 
-        final var actual = getFilesInputPort.getFiles(null, null, null,
+        final var actual = getFilesUseCase.getFiles(null, null, null,
             1, 1, new String[]{"sendBy"});
 
         assertNotNull(actual);

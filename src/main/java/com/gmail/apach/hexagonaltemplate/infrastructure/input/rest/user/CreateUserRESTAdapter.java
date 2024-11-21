@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user;
 
-import com.gmail.apach.hexagonaltemplate.application.usecase.user.CreateUserUseCase;
+import com.gmail.apach.hexagonaltemplate.application.port.input.user.CreateUserInputPort;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.mapper.UserRESTMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user.dto.CreateUserRequest;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user.dto.UserResponse;
@@ -23,14 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class CreateUserRESTAdapter {
 
-    private final CreateUserUseCase createUserUseCase;
+    private final CreateUserInputPort createUserInputPort;
     private final UserRESTMapper userRESTMapper;
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
         final var requestedUser = userRESTMapper.toUser(request);
-        final var savedUser = createUserUseCase.createUser(requestedUser);
+        final var savedUser = createUserInputPort.createUser(requestedUser);
         final var response = userRESTMapper.toUserResponse(savedUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

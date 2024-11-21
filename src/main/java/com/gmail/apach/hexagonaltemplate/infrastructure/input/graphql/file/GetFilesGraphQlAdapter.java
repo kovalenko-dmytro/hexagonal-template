@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.file;
 
-import com.gmail.apach.hexagonaltemplate.application.usecase.file.GetFilesUseCase;
+import com.gmail.apach.hexagonaltemplate.application.port.input.file.GetFilesInputPort;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.common.mapper.FileGraphQlMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.common.wrapper.PageOutputType;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.file.dto.FileOutputType;
@@ -19,7 +19,7 @@ import java.util.List;
 @Validated
 public class GetFilesGraphQlAdapter {
 
-    private final GetFilesUseCase getFilesUseCase;
+    private final GetFilesInputPort getFilesInputPort;
     private final FileGraphQlMapper fileGraphQlMapper;
 
     @QueryMapping
@@ -32,7 +32,7 @@ public class GetFilesGraphQlAdapter {
         @Argument(value = "size") int size,
         @Argument(value = "sort") List<String> sort
     ) {
-        final var files = getFilesUseCase.getFiles(
+        final var files = getFilesInputPort.getFiles(
             fileName, createdFrom, createdTo, page, size, sort.toArray(String[]::new));
         final var filesPage = files.map(fileGraphQlMapper::toFileOutputType);
 

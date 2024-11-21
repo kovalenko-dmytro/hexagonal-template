@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.file;
 
-import com.gmail.apach.hexagonaltemplate.application.usecase.file.GetFilesUseCase;
+import com.gmail.apach.hexagonaltemplate.application.port.input.file.GetFilesInputPort;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.mapper.FileRESTMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.file.dto.FileResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,7 +23,7 @@ import java.time.LocalDate;
 @Validated
 public class GetFilesRESTAdapter {
 
-    private final GetFilesUseCase getFilesUseCase;
+    private final GetFilesInputPort getFilesInputPort;
     private final FileRESTMapper fileRESTMapper;
 
     @GetMapping
@@ -36,7 +36,7 @@ public class GetFilesRESTAdapter {
         @RequestParam(defaultValue = "10") int size,
         @RequestParam(defaultValue = "created") String[] sort
     ) {
-        final var files = getFilesUseCase.getFiles(fileName, createdFrom, createdTo, page, size, sort);
+        final var files = getFilesInputPort.getFiles(fileName, createdFrom, createdTo, page, size, sort);
         final var response = files.map(fileRESTMapper::toFileResponse);
         return ResponseEntity.ok().body(new PagedModel<>(response));
     }

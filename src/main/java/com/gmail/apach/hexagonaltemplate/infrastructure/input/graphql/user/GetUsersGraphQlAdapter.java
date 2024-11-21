@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.user;
 
-import com.gmail.apach.hexagonaltemplate.application.usecase.user.GetUsersUseCase;
+import com.gmail.apach.hexagonaltemplate.application.port.input.user.GetUsersInputPort;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.common.mapper.UserGraphQlMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.common.wrapper.PageOutputType;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.user.dto.UserOutputType;
@@ -19,7 +19,7 @@ import java.util.List;
 @Validated
 public class GetUsersGraphQlAdapter {
 
-    private final GetUsersUseCase getUsersUseCase;
+    private final GetUsersInputPort getUsersInputPort;
     private final UserGraphQlMapper userGraphQlMapper;
 
     @QueryMapping
@@ -37,7 +37,7 @@ public class GetUsersGraphQlAdapter {
         @Argument(value = "size") int size,
         @Argument(value = "sort") List<String> sort
     ) {
-        final var users = getUsersUseCase.getUsers(username, firstName, lastName, email, enabled,
+        final var users = getUsersInputPort.getUsers(username, firstName, lastName, email, enabled,
             createdFrom, createdTo, createdBy, page, size, sort.toArray(String[]::new));
         final var usersPage = users.map(userGraphQlMapper::toUserOutputType);
 

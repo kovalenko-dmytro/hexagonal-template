@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user;
 
-import com.gmail.apach.hexagonaltemplate.application.usecase.user.GetUsersUseCase;
+import com.gmail.apach.hexagonaltemplate.application.port.input.user.GetUsersInputPort;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.mapper.UserRESTMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user.dto.UserResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,7 +22,7 @@ import java.time.LocalDate;
 @Validated
 public class GetUsersRESTAdapter {
 
-    private final GetUsersUseCase getUsersUseCase;
+    private final GetUsersInputPort getUsersInputPort;
     private final UserRESTMapper userRESTMapper;
 
     @GetMapping
@@ -39,7 +39,7 @@ public class GetUsersRESTAdapter {
         @RequestParam(defaultValue = "10") int size,
         @RequestParam(defaultValue = "created") String[] sort
     ) {
-        final var users = getUsersUseCase.getUsers(username, firstName, lastName, email, enabled,
+        final var users = getUsersInputPort.getUsers(username, firstName, lastName, email, enabled,
             createdFrom, createdTo, createdBy, page, size, sort);
         final var response = users.map(userRESTMapper::toUserResponse);
         return ResponseEntity.ok().body(new PagedModel<>(response));
