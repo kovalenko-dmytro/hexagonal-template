@@ -27,7 +27,7 @@ public class DeleteFileDbAdapter implements DeleteFileOutputPort {
         }
     )
     @Override
-    public void deleteFile(String fileId) {
+    public void deleteByFileId(String fileId) {
         fileRepository.deleteById(fileId);
     }
 }

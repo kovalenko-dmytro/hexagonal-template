@@ -39,7 +39,7 @@ class CreateUserDbAdapterTest extends AbstractIntegrationTest {
             .enabled(true)
             .build();
 
-        final var actual = createUserDbAdapter.createUser(expected);
+        final var actual = createUserDbAdapter.create(expected);
 
         assertNotNull(actual);
         assertNotNull(actual.getUserId());
@@ -72,7 +72,7 @@ class CreateUserDbAdapterTest extends AbstractIntegrationTest {
             .enabled(true)
             .build();
 
-        final var actual = createUserDbAdapter.createUser(expected);
+        final var actual = createUserDbAdapter.create(expected);
 
         assertNotNull(actual);
         assertNotNull(actual.getUserId());

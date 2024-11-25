@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.email;
 
-import com.gmail.apach.hexagonaltemplate.application.usecase.email.GetEmailsUseCase;
+import com.gmail.apach.hexagonaltemplate.application.port.input.email.GetEmailsInputPort;
 import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailStatus;
 import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailType;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.mapper.EmailRESTMapper;
@@ -25,7 +25,7 @@ import java.time.LocalDate;
 @Validated
 public class GetEmailsRESTAdapter {
 
-    private final GetEmailsUseCase getEmailsUseCase;
+    private final GetEmailsInputPort getEmailsInputPort;
     private final EmailRESTMapper emailRESTMapper;
 
 
@@ -42,7 +42,7 @@ public class GetEmailsRESTAdapter {
         @RequestParam(defaultValue = "10") int size,
         @RequestParam(defaultValue = "sendBy") String[] sort
     ) {
-        final var emails = getEmailsUseCase.getEmails(
+        final var emails = getEmailsInputPort.get(
             sendBy, sendTo, dateSendFrom, dateSendTo, emailType, emailStatus, page, size, sort);
         final var response = emails.map(emailRESTMapper::toEmailResponse);
         return ResponseEntity.ok().body(new PagedModel<>(response));

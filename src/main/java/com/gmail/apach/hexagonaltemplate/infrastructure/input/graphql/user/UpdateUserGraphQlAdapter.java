@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.user;
 
-import com.gmail.apach.hexagonaltemplate.application.usecase.user.UpdateUserUseCase;
+import com.gmail.apach.hexagonaltemplate.application.port.input.user.UpdateUserInputPort;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.common.mapper.UserGraphQlMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.user.dto.UpdateUserInputType;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.user.dto.UserOutputType;
@@ -17,7 +17,7 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class UpdateUserGraphQlAdapter {
 
-    private final UpdateUserUseCase updateUserUseCase;
+    private final UpdateUserInputPort updateUserInputPort;
     private final UserGraphQlMapper userGraphQlMapper;
 
     @MutationMapping
@@ -27,7 +27,7 @@ public class UpdateUserGraphQlAdapter {
         @Argument(value = "inputType") @Valid UpdateUserInputType inputType
     ) {
         final var requestedUser = userGraphQlMapper.toUser(userId, inputType);
-        final var updatedUser = updateUserUseCase.update(requestedUser);
+        final var updatedUser = updateUserInputPort.update(requestedUser);
         return userGraphQlMapper.toUserOutputType(updatedUser);
     }
 }

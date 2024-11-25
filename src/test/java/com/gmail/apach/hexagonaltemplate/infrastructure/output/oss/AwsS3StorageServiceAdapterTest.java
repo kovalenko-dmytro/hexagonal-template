@@ -1,6 +1,7 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.oss;
 
 import com.gmail.apach.hexagonaltemplate.AbstractIntegrationTest;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.oss.s3.AwsS3StorageServiceAdapter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -39,9 +40,9 @@ class AwsS3StorageServiceAdapterTest extends AbstractIntegrationTest {
         final var actual = awsS3Adapter.save(multipartFile);
 
         assertNotNull(actual);
-        assertNotNull(actual.getLocation().getObject());
+        assertNotNull(actual.getStorageKey());
 
-        awsS3Adapter.delete(actual.getLocation().getObject());
+        awsS3Adapter.delete(actual.getStorageKey());
     }
 
     @Test
@@ -50,12 +51,12 @@ class AwsS3StorageServiceAdapterTest extends AbstractIntegrationTest {
 
         assertNotNull(saved);
 
-        final var actual = awsS3Adapter.get(saved.getLocation().getObject());
+        final var actual = awsS3Adapter.get(saved.getStorageKey());
 
         assertNotNull(actual);
-        assertEquals(saved.getLocation().getObject(), actual.getLocation().getObject());
+        assertEquals(saved.getStorageKey(), actual.getStorageKey());
 
-        awsS3Adapter.delete(actual.getLocation().getObject());
+        awsS3Adapter.delete(actual.getStorageKey());
     }
 
     @Test
@@ -64,6 +65,6 @@ class AwsS3StorageServiceAdapterTest extends AbstractIntegrationTest {
 
         assertNotNull(saved);
 
-        awsS3Adapter.delete(saved.getLocation().getObject());
+        awsS3Adapter.delete(saved.getStorageKey());
     }
 }

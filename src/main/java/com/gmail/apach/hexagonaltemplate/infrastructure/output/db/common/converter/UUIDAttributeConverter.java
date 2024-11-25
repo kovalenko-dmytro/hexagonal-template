@@ -1,4 +1,4 @@
-package com.gmail.apach.hexagonaltemplate.infrastructure.common.converter;
+package com.gmail.apach.hexagonaltemplate.infrastructure.output.db.common.converter;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

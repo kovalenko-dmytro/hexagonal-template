@@ -1,12 +1,11 @@
-package com.gmail.apach.hexagonaltemplate.application.port.input.file;
+package com.gmail.apach.hexagonaltemplate.application.usecase.file;
 
 import com.gmail.apach.hexagonaltemplate.application.port.output.file.CreateFileOutputPort;
 import com.gmail.apach.hexagonaltemplate.data.FilesTestData;
 import com.gmail.apach.hexagonaltemplate.domain.file.model.StoredFile;
+import com.gmail.apach.hexagonaltemplate.domain.file.vo.StoredResource;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ApplicationServerException;
-import com.gmail.apach.hexagonaltemplate.infrastructure.output.oss.AwsS3StorageServiceAdapter;
-import io.awspring.cloud.s3.Location;
-import io.awspring.cloud.s3.S3Resource;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.oss.s3.AwsS3StorageServiceAdapter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,14 +24,14 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class UploadFileInputPortTest {
+class UploadFileUseCaseTest {
 
     private static final String FILE_PATH = "src/test/resources/file/test.txt";
     private static final String ORIGINAL_FILE_NAME = "test.txt";
     private static final MockMultipartFile multipartFile;
 
     @InjectMocks
-    private UploadFileInputPort uploadFileInputPort;
+    private UploadFileUseCase uploadFileUseCase;
     @Mock
     private AwsS3StorageServiceAdapter awsS3Adapter;
     @Mock
@@ -50,13 +49,12 @@ class UploadFileInputPortTest {
 
     @Test
     void uploadFile_success() {
-        final var s3Resource = mock(S3Resource.class);
-        final var location = mock(Location.class);
-        when(awsS3Adapter.save(multipartFile)).thenReturn(s3Resource);
-        when(s3Resource.getLocation()).thenReturn(location);
-        when(createFileOutputPort.createFile(any(StoredFile.class))).thenReturn(FilesTestData.storedFile());
+        final var resource = mock(StoredResource.class);
 
-        assertDoesNotThrow(() -> uploadFileInputPort.uploadFile(multipartFile));
+        when(awsS3Adapter.save(multipartFile)).thenReturn(resource);
+        when(createFileOutputPort.create(any(StoredFile.class))).thenReturn(FilesTestData.storedFile());
+
+        assertDoesNotThrow(() -> uploadFileUseCase.upload(multipartFile));
     }
 
     @Test
@@ -64,6 +62,6 @@ class UploadFileInputPortTest {
         doThrow(new ApplicationServerException("uploadError"))
             .when(awsS3Adapter).save(multipartFile);
 
-        assertThrows(ApplicationServerException.class, () -> uploadFileInputPort.uploadFile(multipartFile));
+        assertThrows(ApplicationServerException.class, () -> uploadFileUseCase.upload(multipartFile));
     }
 }

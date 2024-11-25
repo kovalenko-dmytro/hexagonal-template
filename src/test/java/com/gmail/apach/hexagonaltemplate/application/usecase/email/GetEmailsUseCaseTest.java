@@ -1,4 +1,4 @@
-package com.gmail.apach.hexagonaltemplate.application.port.input.email;
+package com.gmail.apach.hexagonaltemplate.application.usecase.email;
 
 import com.gmail.apach.hexagonaltemplate.application.port.output.email.GetEmailsOutputPort;
 import com.gmail.apach.hexagonaltemplate.data.EmailsTestData;
@@ -18,10 +18,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class GetEmailsInputPortTest {
+class GetEmailsUseCaseTest {
 
     @InjectMocks
-    private GetEmailsInputPort getEmailsInputPort;
+    private GetEmailsUseCase getEmailsUseCase;
     @Mock
     private GetEmailsOutputPort getEmailsOutputPort;
 
@@ -29,10 +29,10 @@ class GetEmailsInputPortTest {
     void getEmails_success() {
         final var emails = new PageImpl<>(List.of(EmailsTestData.email(), EmailsTestData.anotherEmail()));
 
-        when(getEmailsOutputPort.getEmails(any(GetEmailsFilterWrapper.class))).thenReturn(emails);
+        when(getEmailsOutputPort.get(any(GetEmailsFilterWrapper.class))).thenReturn(emails);
 
         final var actual =
-            getEmailsInputPort.getEmails(null, null, null, null, null,
+            getEmailsUseCase.get(null, null, null, null, null,
                 null, 1, 1, new String[]{"sendBy"});
 
         assertNotNull(actual);

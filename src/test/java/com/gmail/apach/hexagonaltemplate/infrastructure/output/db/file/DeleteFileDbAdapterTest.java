@@ -17,6 +17,6 @@ class DeleteFileDbAdapterTest extends AbstractIntegrationTest {
     @DataSet("datasets/infrastructure/output/db/file/delete_file_setup.yml")
     @ExpectedDataSet("datasets/infrastructure/output/db/file/delete_file_expected.yml")
     void deleteFile() {
-        deleteFileDbAdapter.deleteFile(FILE_ID);
+        deleteFileDbAdapter.deleteByFileId(FILE_ID);
     }
 }

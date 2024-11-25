@@ -1,6 +1,6 @@
-package com.gmail.apach.hexagonaltemplate.application.port.input.user;
+package com.gmail.apach.hexagonaltemplate.application.usecase.user;
 
-import com.gmail.apach.hexagonaltemplate.application.port.output.email.PublishEmailOutputPort;
+import com.gmail.apach.hexagonaltemplate.application.port.output.mq.PublishEmailOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.CreateUserOutputPort;
 import com.gmail.apach.hexagonaltemplate.data.CreateUserTestData;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.Role;
@@ -19,7 +19,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collection;
 import java.util.List;
@@ -29,18 +28,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class CreateUserInputPortTest {
-
-    private static final String ENCODED_PASSWORD = "encodedPassword";
+class CreateUserUseCaseTest {
 
     @InjectMocks
-    private CreateUserInputPort createUserInputPort;
+    private CreateUserUseCase createUserUseCase;
     @Mock
     private CreateUserOutputPort createUserOutputPort;
     @Mock
     private CreateUserPermissionPolicy createUserPermissionPolicy;
-    @Mock
-    private PasswordEncoder passwordEncoder;
     @Mock
     private PublishEmailOutputPort publishEmailOutputPort;
 
@@ -64,13 +59,12 @@ class CreateUserInputPortTest {
         when(authentication.getName()).thenReturn("admin");
         when(authentication.getAuthorities()).thenReturn(authorities);
 
-        when(passwordEncoder.encode(user.getPassword())).thenReturn(ENCODED_PASSWORD);
         doNothing().when(createUserPermissionPolicy).check(user);
-        when(createUserOutputPort.createUser(user)).thenReturn(savedUser);
+        when(createUserOutputPort.create(user)).thenReturn(savedUser);
 
-        final var actual = createUserInputPort.createUser(user);
+        final var actual = createUserUseCase.create(user);
 
-        verify(publishEmailOutputPort, times(1)).publishSendEmail(any(SendEmailWrapper.class));
+        verify(publishEmailOutputPort, times(1)).publishSend(any(SendEmailWrapper.class));
         assertNotNull(actual);
         assertNotNull(actual.getUserId());
 
@@ -79,7 +73,6 @@ class CreateUserInputPortTest {
 
     @Test
     void createUserWithNoRoles_success() {
-        final var user = CreateUserTestData.user();
         final var userWithNoRoles = CreateUserTestData.userWithNoRoles();
         final var savedUser = CreateUserTestData.savedUser();
 
@@ -98,12 +91,11 @@ class CreateUserInputPortTest {
         when(authentication.getName()).thenReturn("admin");
         when(authentication.getAuthorities()).thenReturn(authorities);
 
-        when(passwordEncoder.encode(user.getPassword())).thenReturn(ENCODED_PASSWORD);
-        when(createUserOutputPort.createUser(userWithNoRoles)).thenReturn(savedUser);
+        when(createUserOutputPort.create(userWithNoRoles)).thenReturn(savedUser);
 
-        final var actual = createUserInputPort.createUser(userWithNoRoles);
+        final var actual = createUserUseCase.create(userWithNoRoles);
 
-        verify(publishEmailOutputPort, times(1)).publishSendEmail(any(SendEmailWrapper.class));
+        verify(publishEmailOutputPort, times(1)).publishSend(any(SendEmailWrapper.class));
         assertNotNull(actual);
         assertNotNull(actual.getUserId());
         assertFalse(actual.getRoles().isEmpty());
@@ -134,7 +126,7 @@ class CreateUserInputPortTest {
         doThrow(new ForbiddenException("forbidden"))
             .when(createUserPermissionPolicy).check(user);
 
-        assertThrows(ForbiddenException.class, () -> createUserInputPort.createUser(user));
+        assertThrows(ForbiddenException.class, () -> createUserUseCase.create(user));
 
         Mockito.reset(authentication, securityContext);
     }

@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user;
 
-import com.gmail.apach.hexagonaltemplate.application.usecase.user.CreateUserUseCase;
+import com.gmail.apach.hexagonaltemplate.application.port.input.user.CreateUserInputPort;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.mapper.UserRESTMapper;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user.dto.CreateUserRequest;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user.dto.UserResponse;
@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,14 +24,16 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class CreateUserRESTAdapter {
 
-    private final CreateUserUseCase createUserUseCase;
+    private final CreateUserInputPort createUserInputPort;
     private final UserRESTMapper userRESTMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
         final var requestedUser = userRESTMapper.toUser(request);
-        final var savedUser = createUserUseCase.createUser(requestedUser);
+        requestedUser.setPassword(passwordEncoder.encode(requestedUser.getPassword()));
+        final var savedUser = createUserInputPort.create(requestedUser);
         final var response = userRESTMapper.toUserResponse(savedUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt;
 
-import com.gmail.apach.hexagonaltemplate.application.port.output.email.PublishEmailOutputPort;
+import com.gmail.apach.hexagonaltemplate.application.port.output.mq.PublishEmailOutputPort;
 import com.gmail.apach.hexagonaltemplate.data.CreateUserTestData;
 import com.gmail.apach.hexagonaltemplate.domain.email.model.Email;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.admin.DefaultAdminConfigProperties;
@@ -45,9 +45,9 @@ class SendEmailSmptAdapterTest {
         when(templateEngine.process(any(String.class), any(IContext.class))).thenReturn("payload");
         when(emailSender.createMimeMessage()).thenReturn(message);
 
-        assertDoesNotThrow(() -> sendEmailSmptAdapter.sendEmail(emailData));
+        assertDoesNotThrow(() -> sendEmailSmptAdapter.send(emailData));
 
-        verify(publishEmailOutputPort, times(1)).publishSaveEmail(any(Email.class));
+        verify(publishEmailOutputPort, times(1)).publishSave(any(Email.class));
     }
 
     @Test
@@ -61,8 +61,8 @@ class SendEmailSmptAdapterTest {
         when(messageSource.getMessage(any(), any(), any())).thenReturn("Unable to send email");
         doThrow(new MailSendException("error")).when(emailSender).send(message);
 
-        sendEmailSmptAdapter.sendEmail(emailData);
+        sendEmailSmptAdapter.send(emailData);
 
-        verify(publishEmailOutputPort, times(1)).publishSaveEmail(any(Email.class));
+        verify(publishEmailOutputPort, times(1)).publishSave(any(Email.class));
     }
 }

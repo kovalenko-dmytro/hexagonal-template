@@ -1,4 +1,4 @@
-package com.gmail.apach.hexagonaltemplate.application.port.input.user;
+package com.gmail.apach.hexagonaltemplate.application.usecase.user;
 
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.GetUsersOutputPort;
 import com.gmail.apach.hexagonaltemplate.data.UsersTestData;
@@ -27,10 +27,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class GetUsersInputPortTest {
+class GetUsersUseCaseTest {
 
     @InjectMocks
-    private GetUsersInputPort getUsersInputPort;
+    private GetUsersUseCase getUsersUseCase;
     @Mock
     private GetUsersPermissionPolicy getUsersPermissionPolicy;
     @Mock
@@ -56,9 +56,9 @@ class GetUsersInputPortTest {
 
         doNothing().when(getUsersPermissionPolicy).check();
 
-        when(getUsersOutputPort.getUsers(any(GetUsersFilterWrapper.class))).thenReturn(users);
+        when(getUsersOutputPort.get(any(GetUsersFilterWrapper.class))).thenReturn(users);
 
-        final var actual = getUsersInputPort.getUsers(null, null, null, null,
+        final var actual = getUsersUseCase.get(null, null, null, null,
             null, null, null, null, 1, 1, new String[]{"sendBy"});
 
         assertNotNull(actual);
@@ -87,7 +87,7 @@ class GetUsersInputPortTest {
             .when(getUsersPermissionPolicy).check();
 
         assertThrows(ForbiddenException.class, () ->
-            getUsersInputPort.getUsers(null, null, null, null, null,
+            getUsersUseCase.get(null, null, null, null, null,
                 null, null, null, 1, 1, new String[]{"sendBy"}));
 
         Mockito.reset(authentication, securityContext);

@@ -4,6 +4,7 @@ import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.gmail.apach.hexagonaltemplate.AbstractIntegrationTest;
 import com.gmail.apach.hexagonaltemplate.domain.file.model.StoredFile;
+import com.gmail.apach.hexagonaltemplate.domain.file.vo.StoredResource;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,17 +25,17 @@ class CreateFileDbAdapterTest extends AbstractIntegrationTest {
         ignoreCols = {"file_", "created"})
     void createFile() {
         final var expected = StoredFile.builder()
-            .storageKey("key68c8-2f28-4b53-ac5a-2db586512441")
             .fileName("test.txt")
             .contentType("text/plain")
             .size(25L)
             .created(LocalDateTime.now())
+            .storedResource(StoredResource.builder().storageKey("key68c8-2f28-4b53-ac5a-2db586512441").build())
             .build();
 
-        final var actual = createFileDbAdapter.createFile(expected);
+        final var actual = createFileDbAdapter.create(expected);
 
         assertNotNull(actual);
         assertEquals(expected.getFileName(), actual.getFileName());
-        assertEquals(expected.getStorageKey(), actual.getStorageKey());
+        assertEquals(expected.getStoredResource().getStorageKey(), actual.getStoredResource().getStorageKey());
     }
 }

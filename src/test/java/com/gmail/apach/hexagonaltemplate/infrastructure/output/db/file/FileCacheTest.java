@@ -38,13 +38,13 @@ class FileCacheTest extends AbstractIntegrationTest {
 
         final var requestWrapper = getFilesRequestWrapper();
 
-        final var files = getFilesDbAdapter.getFiles(requestWrapper);
+        final var files = getFilesDbAdapter.get(requestWrapper);
 
         assertNotNull(files);
         assertTrue(CollectionUtils.isNotEmpty(files.getContent()));
         getFilesCache().ifPresent(cache -> assertFalse(cache.isEmpty()));
 
-        createFileDbAdapter.createFile(FilesTestData.fileWithStorageKey());
+        createFileDbAdapter.create(FilesTestData.fileWithStorageKey());
 
         getFilesCache().ifPresent(cache -> assertTrue(cache.isEmpty()));
     }
@@ -63,12 +63,12 @@ class FileCacheTest extends AbstractIntegrationTest {
 
         final var requestWrapper = getFilesRequestWrapper();
 
-        final var files = getFilesDbAdapter.getFiles(requestWrapper);
+        final var files = getFilesDbAdapter.get(requestWrapper);
 
         assertNotNull(files);
         getFilesCache().ifPresent(cache -> assertFalse(cache.isEmpty()));
 
-        deleteFileDbAdapter.deleteFile(FILE_ID);
+        deleteFileDbAdapter.deleteByFileId(FILE_ID);
 
         assertTrue(getCachedFile(FILE_ID).isEmpty());
         getFilesCache().ifPresent(cache -> assertTrue(cache.isEmpty()));
@@ -93,7 +93,7 @@ class FileCacheTest extends AbstractIntegrationTest {
 
         final var requestWrapper = getFilesRequestWrapper();
 
-        final var files = getFilesDbAdapter.getFiles(requestWrapper);
+        final var files = getFilesDbAdapter.get(requestWrapper);
 
         getFilesCache().ifPresent(cache -> {
             assertFalse(cache.isEmpty());

@@ -1,11 +1,13 @@
-package com.gmail.apach.hexagonaltemplate.infrastructure.output.oss;
+package com.gmail.apach.hexagonaltemplate.infrastructure.output.oss.s3;
 
 import com.gmail.apach.hexagonaltemplate.application.port.output.oss.ObjectStorageServiceOutputPort;
+import com.gmail.apach.hexagonaltemplate.domain.file.vo.StoredResource;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.constant.Error;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.mq.process.FileProcessingConfig;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.oss.AwsS3BucketProperties;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.oss.StorageServiceProviderType;
+import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.oss.s3.AwsS3BucketProperties;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ApplicationServerException;
-import io.awspring.cloud.s3.S3Resource;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.oss.common.mapper.AwsS3StorageServiceMapper;
 import io.awspring.cloud.s3.S3Template;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -18,19 +20,22 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.UUID;
 
-@Component
+@Component(StorageServiceProviderType.S3)
 @RequiredArgsConstructor
 public class AwsS3StorageServiceAdapter implements ObjectStorageServiceOutputPort {
 
     private final S3Template s3Template;
     private final AwsS3BucketProperties awsS3BucketProperties;
+    private final AwsS3StorageServiceMapper awsS3StorageServiceMapper;
     private final MessageSource messageSource;
 
     @Override
-    public S3Resource save(@NotNull MultipartFile file) {
+    public StoredResource save(@NotNull MultipartFile file) {
         final var objectKey = UUID.randomUUID().toString();
         try {
-            return s3Template.upload(awsS3BucketProperties.getBucketName(), objectKey, file.getInputStream());
+            final var resource =
+                s3Template.upload(awsS3BucketProperties.getBucketName(), objectKey, file.getInputStream());
+            return awsS3StorageServiceMapper.toStoredResource(resource);
         } catch (IOException e) {
             final var args = new Object[]{file.getOriginalFilename(), e.getMessage()};
             throw new ApplicationServerException(
@@ -40,8 +45,9 @@ public class AwsS3StorageServiceAdapter implements ObjectStorageServiceOutputPor
     }
 
     @Override
-    public S3Resource get(@NotNull String objectKey) {
-        return s3Template.download(awsS3BucketProperties.getBucketName(), objectKey);
+    public StoredResource get(@NotNull String objectKey) {
+        final var resource = s3Template.download(awsS3BucketProperties.getBucketName(), objectKey);
+        return awsS3StorageServiceMapper.toStoredResource(resource);
     }
 
     @Override

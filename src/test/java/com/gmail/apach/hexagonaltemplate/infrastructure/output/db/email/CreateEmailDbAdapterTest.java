@@ -19,7 +19,7 @@ class CreateEmailDbAdapterTest extends AbstractIntegrationTest {
     void createEmail_success() {
         final var expected = EmailsTestData.email();
 
-        createEmailDbAdapter.createEmail(expected);
+        createEmailDbAdapter.create(expected);
         final var actual = emailRepository.findBySendBy(expected.getSendBy());
 
         assertTrue(actual.isPresent());

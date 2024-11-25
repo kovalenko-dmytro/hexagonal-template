@@ -1,4 +1,4 @@
-package com.gmail.apach.hexagonaltemplate.domain.file.model;
+package com.gmail.apach.hexagonaltemplate.domain.file.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,11 +12,11 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 @Data
-public class DownloadedFile implements Serializable {
+public class StoredResource implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1234567L;
 
-    private String fileName;
+    private String storageKey;
     private byte[] payload;
 }

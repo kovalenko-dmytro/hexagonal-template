@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user;
 
-import com.gmail.apach.hexagonaltemplate.application.usecase.user.DeleteUserUseCase;
+import com.gmail.apach.hexagonaltemplate.application.port.input.user.DeleteUserInputPort;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class DeleteUserRESTAdapter {
 
-    private final DeleteUserUseCase deleteUserUseCase;
+    private final DeleteUserInputPort deleteUserInputPort;
 
     @DeleteMapping
     public ResponseEntity<Void> deleteByUserId(@PathVariable(value = "userId") String userId) {
-        deleteUserUseCase.deleteByUserId(userId);
+        deleteUserInputPort.deleteByUserId(userId);
         return ResponseEntity.noContent().build();
     }
 }
