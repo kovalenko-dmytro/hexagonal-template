@@ -6,10 +6,12 @@ import org.springframework.data.domain.Page;
 import java.time.LocalDate;
 
 public interface GetFilesInputPort {
-    Page<StoredFile> getFiles(String fileName,
-                              LocalDate createdFrom,
-                              LocalDate createdTo,
-                              int page,
-                              int size,
-                              String[] sort);
+    Page<StoredFile> get(
+        String fileName,
+        LocalDate createdFrom,
+        LocalDate createdTo,
+        int page,
+        int size,
+        String[] sort
+    );
 }

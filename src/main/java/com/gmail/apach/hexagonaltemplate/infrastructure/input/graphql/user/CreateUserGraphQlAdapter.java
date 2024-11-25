@@ -27,7 +27,7 @@ public class CreateUserGraphQlAdapter {
     public UserOutputType createUser(@Argument(value = "inputType") @Valid CreateUserInputType inputType) {
         final var requestedUser = userGraphQlMapper.toUser(inputType);
         requestedUser.setPassword(passwordEncoder.encode(requestedUser.getPassword()));
-        final var savedUser = createUserInputPort.createUser(requestedUser);
+        final var savedUser = createUserInputPort.create(requestedUser);
         return userGraphQlMapper.toUserOutputType(savedUser);
     }
 }

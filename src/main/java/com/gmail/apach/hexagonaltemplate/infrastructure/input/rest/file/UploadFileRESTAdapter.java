@@ -29,7 +29,7 @@ public class UploadFileRESTAdapter {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public ResponseEntity<FileResponse> uploadFile(@RequestParam(value = "file") MultipartFile file) {
-        final var storedFile = uploadFileInputPort.uploadFile(file);
+        final var storedFile = uploadFileInputPort.upload(file);
         final var response = fileRESTMapper.toFileResponse(storedFile);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

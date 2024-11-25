@@ -1,7 +1,7 @@
 package com.gmail.apach.hexagonaltemplate.application.usecase.user;
 
 import com.gmail.apach.hexagonaltemplate.application.port.input.user.CreateUserInputPort;
-import com.gmail.apach.hexagonaltemplate.application.port.output.email.PublishEmailOutputPort;
+import com.gmail.apach.hexagonaltemplate.application.port.output.mq.PublishEmailOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.CreateUserOutputPort;
 import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailType;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.AuthPrincipal;
@@ -26,11 +26,11 @@ public class CreateUserUseCase implements CreateUserInputPort {
     private final PublishEmailOutputPort publishEmailOutputPort;
 
     @Override
-    public User createUser(User user) {
+    public User create(User user) {
         setUserAttributes(user);
-        final var createdUser = createUserOutputPort.createUser(user);
+        final var createdUser = createUserOutputPort.create(user);
         final var emailWrapper = prepareEmail(createdUser);
-        publishEmailOutputPort.publishSendEmail(emailWrapper);
+        publishEmailOutputPort.publishSend(emailWrapper);
         return createdUser;
     }
 

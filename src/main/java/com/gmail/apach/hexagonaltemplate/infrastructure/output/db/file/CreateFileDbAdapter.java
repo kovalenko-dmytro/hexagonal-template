@@ -21,7 +21,7 @@ public class CreateFileDbAdapter implements CreateFileOutputPort {
         allEntries = true
     )
     @Override
-    public StoredFile createFile(StoredFile file) {
+    public StoredFile create(StoredFile file) {
         final var fileEntity = fileDbMapper.toFileEntity(file);
         final var savedFile = fileRepository.save(fileEntity);
         return fileDbMapper.toStoredFile(savedFile);

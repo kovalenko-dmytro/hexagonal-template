@@ -36,7 +36,7 @@ public class GetFilesRESTAdapter {
         @RequestParam(defaultValue = "10") int size,
         @RequestParam(defaultValue = "created") String[] sort
     ) {
-        final var files = getFilesInputPort.getFiles(fileName, createdFrom, createdTo, page, size, sort);
+        final var files = getFilesInputPort.get(fileName, createdFrom, createdTo, page, size, sort);
         final var response = files.map(fileRESTMapper::toFileResponse);
         return ResponseEntity.ok().body(new PagedModel<>(response));
     }

@@ -37,7 +37,7 @@ public class GetEmailsGraphQlAdapter {
         @Argument(value = "size") int size,
         @Argument(value = "sort") List<String> sort
     ) {
-        final var emails = getEmailsInputPort.getEmails(
+        final var emails = getEmailsInputPort.get(
             sendBy, sendTo, dateSendFrom, dateSendTo, emailType, emailStatus, page, size, sort.toArray(String[]::new));
         final var emailsPage = emails.map(emailGraphQlMapper::toEmailOutputType);
 

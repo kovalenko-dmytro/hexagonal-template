@@ -5,5 +5,5 @@ import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.file.wrapper.G
 import org.springframework.data.domain.Page;
 
 public interface GetFilesOutputPort {
-    Page<StoredFile> getFiles(GetFilesFilterWrapper wrapper);
+    Page<StoredFile> get(GetFilesFilterWrapper wrapper);
 }

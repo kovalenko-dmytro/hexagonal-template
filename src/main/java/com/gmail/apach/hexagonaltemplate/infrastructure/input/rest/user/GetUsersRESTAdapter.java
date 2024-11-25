@@ -39,7 +39,7 @@ public class GetUsersRESTAdapter {
         @RequestParam(defaultValue = "10") int size,
         @RequestParam(defaultValue = "created") String[] sort
     ) {
-        final var users = getUsersInputPort.getUsers(username, firstName, lastName, email, enabled,
+        final var users = getUsersInputPort.get(username, firstName, lastName, email, enabled,
             createdFrom, createdTo, createdBy, page, size, sort);
         final var response = users.map(userRESTMapper::toUserResponse);
         return ResponseEntity.ok().body(new PagedModel<>(response));

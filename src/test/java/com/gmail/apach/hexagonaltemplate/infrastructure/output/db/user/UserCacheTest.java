@@ -38,13 +38,13 @@ class UserCacheTest extends AbstractIntegrationTest {
     void createUser_evictUsersCacheLists_success() {
         getUsersCache().ifPresent(usersCache -> assertTrue(usersCache.isEmpty()));
 
-        final var users = getUsersDbAdapter.getUsers(getUsersRequestWrapper());
+        final var users = getUsersDbAdapter.get(getUsersRequestWrapper());
 
         assertNotNull(users);
         assertTrue(CollectionUtils.isNotEmpty(users.getContent()));
         getUsersCache().ifPresent(usersCache -> assertFalse(usersCache.isEmpty()));
 
-        createUserDbAdapter.createUser(UsersTestData.userCreatedByAdmin());
+        createUserDbAdapter.create(UsersTestData.userCreatedByAdmin());
 
         getUsersCache().ifPresent(usersCache -> assertTrue(usersCache.isEmpty()));
     }
@@ -61,7 +61,7 @@ class UserCacheTest extends AbstractIntegrationTest {
         assertFalse(cachedUser.isEmpty());
         assertEquals(userFromDB, cachedUser.get());
 
-        final var users = getUsersDbAdapter.getUsers(getUsersRequestWrapper());
+        final var users = getUsersDbAdapter.get(getUsersRequestWrapper());
 
         assertNotNull(users);
         getUsersCache().ifPresent(usersCache -> assertFalse(usersCache.isEmpty()));
@@ -91,7 +91,7 @@ class UserCacheTest extends AbstractIntegrationTest {
 
         final var requestWrapper = getUsersRequestWrapper();
 
-        final var users = getUsersDbAdapter.getUsers(requestWrapper);
+        final var users = getUsersDbAdapter.get(requestWrapper);
 
         getUsersCache().ifPresent(usersCache -> {
             assertFalse(usersCache.isEmpty());
@@ -112,7 +112,7 @@ class UserCacheTest extends AbstractIntegrationTest {
         assertTrue(getCachedUser(USER_ID).isEmpty());
         getUsersCache().ifPresent(usersCache -> assertTrue(usersCache.isEmpty()));
 
-        getUsersDbAdapter.getUsers(getUsersRequestWrapper());
+        getUsersDbAdapter.get(getUsersRequestWrapper());
         getUsersCache().ifPresent(usersCache -> assertFalse(usersCache.isEmpty()));
 
         final var userFromDB = getUserDbAdapter.getByUserId(userId);

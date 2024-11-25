@@ -34,7 +34,7 @@ class GetEmailsDbAdapterTest extends AbstractIntegrationTest {
             .sort(new String[]{"sendBy"})
             .build();
 
-        final var actual = getEmailsDbAdapter.getEmails(filterWrapper);
+        final var actual = getEmailsDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -57,7 +57,7 @@ class GetEmailsDbAdapterTest extends AbstractIntegrationTest {
             .size(5)
             .build();
 
-        final var actual = getEmailsDbAdapter.getEmails(filterWrapper);
+        final var actual = getEmailsDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -79,7 +79,7 @@ class GetEmailsDbAdapterTest extends AbstractIntegrationTest {
             .size(5)
             .build();
 
-        final var actual = getEmailsDbAdapter.getEmails(filterWrapper);
+        final var actual = getEmailsDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -102,7 +102,7 @@ class GetEmailsDbAdapterTest extends AbstractIntegrationTest {
             .size(5)
             .build();
 
-        final var actual = getEmailsDbAdapter.getEmails(filterWrapper);
+        final var actual = getEmailsDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -126,7 +126,7 @@ class GetEmailsDbAdapterTest extends AbstractIntegrationTest {
             .size(5)
             .build();
 
-        final var actual = getEmailsDbAdapter.getEmails(filterWrapper);
+        final var actual = getEmailsDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -147,7 +147,7 @@ class GetEmailsDbAdapterTest extends AbstractIntegrationTest {
             .size(5)
             .build();
 
-        final var actual = getEmailsDbAdapter.getEmails(filterWrapper);
+        final var actual = getEmailsDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -169,7 +169,7 @@ class GetEmailsDbAdapterTest extends AbstractIntegrationTest {
             .size(5)
             .build();
 
-        final var actual = getEmailsDbAdapter.getEmails(filterWrapper);
+        final var actual = getEmailsDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -190,7 +190,7 @@ class GetEmailsDbAdapterTest extends AbstractIntegrationTest {
             .size(5)
             .build();
 
-        final var actual = getEmailsDbAdapter.getEmails(filterWrapper);
+        final var actual = getEmailsDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));

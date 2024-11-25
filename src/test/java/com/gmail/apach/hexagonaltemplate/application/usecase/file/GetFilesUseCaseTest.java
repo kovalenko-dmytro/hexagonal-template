@@ -27,9 +27,9 @@ class GetFilesUseCaseTest {
     void getFiles_success() {
         final var files = new PageImpl<>(FilesTestData.storedFiles());
 
-        when(getFilesOutputPort.getFiles(any(GetFilesFilterWrapper.class))).thenReturn(files);
+        when(getFilesOutputPort.get(any(GetFilesFilterWrapper.class))).thenReturn(files);
 
-        final var actual = getFilesUseCase.getFiles(null, null, null,
+        final var actual = getFilesUseCase.get(null, null, null,
             1, 1, new String[]{"sendBy"});
 
         assertNotNull(actual);

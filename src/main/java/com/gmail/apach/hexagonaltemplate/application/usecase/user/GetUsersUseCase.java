@@ -20,7 +20,7 @@ public class GetUsersUseCase implements GetUsersInputPort {
     private final GetUsersOutputPort getUsersOutputPort;
 
     @Override
-    public Page<User> getUsers(
+    public Page<User> get(
         String username,
         String firstName,
         String lastName,
@@ -39,6 +39,6 @@ public class GetUsersUseCase implements GetUsersInputPort {
             .enabled(enabled).createdFrom(createdFrom).createdTo(createdTo).createdBy(createdBy)
             .isAdmin(AuthPrincipal.getDetails().isAdmin()).page(page).size(size).sort(sort)
             .build();
-        return getUsersOutputPort.getUsers(filterWrapper);
+        return getUsersOutputPort.get(filterWrapper);
     }
 }

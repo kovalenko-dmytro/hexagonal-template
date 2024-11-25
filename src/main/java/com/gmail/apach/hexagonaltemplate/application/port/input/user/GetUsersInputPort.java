@@ -6,15 +6,17 @@ import org.springframework.data.domain.Page;
 import java.time.LocalDate;
 
 public interface GetUsersInputPort {
-    Page<User> getUsers(String username,
-                        String firstName,
-                        String lastName,
-                        String email,
-                        Boolean enabled,
-                        LocalDate createdFrom,
-                        LocalDate createdTo,
-                        String createdBy,
-                        int page,
-                        int size,
-                        String[] sort);
+    Page<User> get(
+        String username,
+        String firstName,
+        String lastName,
+        String email,
+        Boolean enabled,
+        LocalDate createdFrom,
+        LocalDate createdTo,
+        String createdBy,
+        int page,
+        int size,
+        String[] sort
+    );
 }

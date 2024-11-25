@@ -2,7 +2,7 @@ package com.gmail.apach.hexagonaltemplate.application.usecase.file;
 
 import com.gmail.apach.hexagonaltemplate.application.port.output.file.DeleteFileOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.file.GetFileOutputPort;
-import com.gmail.apach.hexagonaltemplate.application.port.output.file.PublishFileOutputPort;
+import com.gmail.apach.hexagonaltemplate.application.port.output.mq.PublishFileOutputPort;
 import com.gmail.apach.hexagonaltemplate.data.FilesTestData;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
@@ -33,8 +33,8 @@ class DeleteFileUseCaseTest {
     void deleteByFileId_success() {
         final var storedFile = FilesTestData.storedFile();
         when(getFileOutputPort.getByFileId(FILE_ID)).thenReturn(storedFile);
-        doNothing().when(deleteFileOutputPort).deleteFile(storedFile.getFileId());
-        doNothing().when(publishFileOutputPort).publishDeleteFile(storedFile.getStorageKey());
+        doNothing().when(deleteFileOutputPort).deleteByFileId(storedFile.getFileId());
+        doNothing().when(publishFileOutputPort).publishDelete(storedFile.getStoredResource().getStorageKey());
 
         assertDoesNotThrow(() -> deleteFileUseCase.deleteByFileId(storedFile.getFileId()));
     }

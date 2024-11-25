@@ -56,9 +56,9 @@ class GetUsersUseCaseTest {
 
         doNothing().when(getUsersPermissionPolicy).check();
 
-        when(getUsersOutputPort.getUsers(any(GetUsersFilterWrapper.class))).thenReturn(users);
+        when(getUsersOutputPort.get(any(GetUsersFilterWrapper.class))).thenReturn(users);
 
-        final var actual = getUsersUseCase.getUsers(null, null, null, null,
+        final var actual = getUsersUseCase.get(null, null, null, null,
             null, null, null, null, 1, 1, new String[]{"sendBy"});
 
         assertNotNull(actual);
@@ -87,7 +87,7 @@ class GetUsersUseCaseTest {
             .when(getUsersPermissionPolicy).check();
 
         assertThrows(ForbiddenException.class, () ->
-            getUsersUseCase.getUsers(null, null, null, null, null,
+            getUsersUseCase.get(null, null, null, null, null,
                 null, null, null, 1, 1, new String[]{"sendBy"}));
 
         Mockito.reset(authentication, securityContext);

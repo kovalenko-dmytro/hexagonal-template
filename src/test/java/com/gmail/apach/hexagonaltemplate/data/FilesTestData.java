@@ -1,6 +1,7 @@
 package com.gmail.apach.hexagonaltemplate.data;
 
 import com.gmail.apach.hexagonaltemplate.domain.file.model.StoredFile;
+import com.gmail.apach.hexagonaltemplate.domain.file.vo.StoredResource;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.http.MediaType;
@@ -31,21 +32,21 @@ public final class FilesTestData {
     public static StoredFile fileWithStorageKey() {
         return StoredFile.builder()
             .fileName("test.txt")
-            .storageKey("key68c8-2f28-4b53-ac5a-2db586512455")
             .contentType("text/plain")
             .size(29L)
             .created(LocalDateTime.now())
+            .storedResource(StoredResource.builder().storageKey("key68c8-2f28-4b53-ac5a-2db586512455").build())
             .build();
     }
 
     public static StoredFile storedFile() {
         return StoredFile.builder()
             .fileId("qqed68c8-2f28-4b53-ac5a-2db586512eee")
-            .storageKey("eeed68c8-2f28-4b53-ac5a-2db586512e55")
             .fileName("file")
             .contentType("text/plain")
             .size(123L)
             .created(LocalDateTime.now())
+            .storedResource(StoredResource.builder().storageKey("eeed68c8-2f28-4b53-ac5a-2db586512e55").build())
             .build();
     }
 
@@ -53,27 +54,27 @@ public final class FilesTestData {
         return List.of(
             StoredFile.builder()
                 .fileId("qqed68c8-2f28-4b53-ac5a-2db586512eee")
-                .storageKey("eeed68c8-2f28-4b53-ac5a-2db586512e55")
                 .fileName("file1")
                 .contentType("text/plain")
                 .size(123L)
                 .created(LocalDateTime.now())
+                .storedResource(StoredResource.builder().storageKey("eeed68c8-2f28-4b53-ac5a-2db586512e55").build())
                 .build(),
             StoredFile.builder()
                 .fileId("qqed68c8-2f28-4b53-ac5a-2db586512ee1")
-                .storageKey("eeed68c8-2f28-4b53-ac5a-2db586512e56")
                 .fileName("file2")
                 .contentType("text/plain")
                 .size(125L)
                 .created(LocalDateTime.now())
+                .storedResource(StoredResource.builder().storageKey("eeed68c8-2f28-4b53-ac5a-2db586512e56").build())
                 .build(),
             StoredFile.builder()
                 .fileId("qqed68c8-2f28-4b53-ac5a-2db586512ee2")
-                .storageKey("eeed68c8-2f28-4b53-ac5a-2db586512e57")
                 .fileName("file3")
                 .contentType("text/plain")
                 .size(127L)
                 .created(LocalDateTime.now())
+                .storedResource(StoredResource.builder().storageKey("eeed68c8-2f28-4b53-ac5a-2db586512e57").build())
                 .build()
         );
     }

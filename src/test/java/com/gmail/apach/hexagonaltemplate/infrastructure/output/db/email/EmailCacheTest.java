@@ -44,13 +44,13 @@ class EmailCacheTest extends AbstractIntegrationTest {
             .sort(new String[]{SORT_ORDER})
             .build();
 
-        final var emails = getEmailsDbAdapter.getEmails(requestWrapper);
+        final var emails = getEmailsDbAdapter.get(requestWrapper);
 
         assertNotNull(emails);
         assertTrue(CollectionUtils.isNotEmpty(emails.getContent()));
         getEmailsCache().ifPresent(cache -> assertFalse(cache.isEmpty()));
 
-        createEmailDbAdapter.createEmail(EmailsTestData.email());
+        createEmailDbAdapter.create(EmailsTestData.email());
 
         getEmailsCache().ifPresent(cache -> assertTrue(cache.isEmpty()));
 
@@ -70,7 +70,7 @@ class EmailCacheTest extends AbstractIntegrationTest {
             .sort(new String[]{SORT_ORDER})
             .build();
 
-        final var emails = getEmailsDbAdapter.getEmails(requestWrapper);
+        final var emails = getEmailsDbAdapter.get(requestWrapper);
 
         assertNotNull(emails);
         assertTrue(CollectionUtils.isNotEmpty(emails.getContent()));
@@ -96,7 +96,7 @@ class EmailCacheTest extends AbstractIntegrationTest {
             .build();
 
 
-        final var emails = getEmailsDbAdapter.getEmails(requestWrapper);
+        final var emails = getEmailsDbAdapter.get(requestWrapper);
 
         getEmailsCache().ifPresent(cache -> {
             assertFalse(cache.isEmpty());

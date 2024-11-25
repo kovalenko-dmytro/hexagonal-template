@@ -42,7 +42,7 @@ public class GetEmailsRESTAdapter {
         @RequestParam(defaultValue = "10") int size,
         @RequestParam(defaultValue = "sendBy") String[] sort
     ) {
-        final var emails = getEmailsInputPort.getEmails(
+        final var emails = getEmailsInputPort.get(
             sendBy, sendTo, dateSendFrom, dateSendTo, emailType, emailStatus, page, size, sort);
         final var response = emails.map(emailRESTMapper::toEmailResponse);
         return ResponseEntity.ok().body(new PagedModel<>(response));

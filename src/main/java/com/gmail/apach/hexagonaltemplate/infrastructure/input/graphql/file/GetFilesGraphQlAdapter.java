@@ -32,7 +32,7 @@ public class GetFilesGraphQlAdapter {
         @Argument(value = "size") int size,
         @Argument(value = "sort") List<String> sort
     ) {
-        final var files = getFilesInputPort.getFiles(
+        final var files = getFilesInputPort.get(
             fileName, createdFrom, createdTo, page, size, sort.toArray(String[]::new));
         final var filesPage = files.map(fileGraphQlMapper::toFileOutputType);
 

@@ -25,7 +25,7 @@ public class GetUsersDbAdapter implements GetUsersOutputPort {
         key = UserCacheConstant.Key.SEARCH,
         condition = UserCacheConstant.Condition.SEARCH
     )
-    public Page<User> getUsers(GetUsersFilterWrapper wrapper) {
+    public Page<User> get(GetUsersFilterWrapper wrapper) {
         return userRepository
             .findAll(UserSpecifications.specification(wrapper), wrapper.toPageable())
             .map(userMapper::toUser);

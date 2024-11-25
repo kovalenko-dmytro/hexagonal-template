@@ -33,7 +33,7 @@ public class CreateUserRESTAdapter {
     public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
         final var requestedUser = userRESTMapper.toUser(request);
         requestedUser.setPassword(passwordEncoder.encode(requestedUser.getPassword()));
-        final var savedUser = createUserInputPort.createUser(requestedUser);
+        final var savedUser = createUserInputPort.create(requestedUser);
         final var response = userRESTMapper.toUserResponse(savedUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

@@ -19,7 +19,7 @@ public class GetEmailsUseCase implements GetEmailsInputPort {
     private final GetEmailsOutputPort getEmailsOutputPort;
 
     @Override
-    public Page<Email> getEmails(
+    public Page<Email> get(
         String sendBy,
         String sendTo,
         LocalDate dateSendFrom,
@@ -34,6 +34,6 @@ public class GetEmailsUseCase implements GetEmailsInputPort {
             .sendBy(sendBy).sendTo(sendTo).dateSendFrom(dateSendFrom).dateSendTo(dateSendTo)
             .emailType(emailType).emailStatus(emailStatus).page(page).size(size).sort(sort)
             .build();
-        return getEmailsOutputPort.getEmails(filterWrapper);
+        return getEmailsOutputPort.get(filterWrapper);
     }
 }

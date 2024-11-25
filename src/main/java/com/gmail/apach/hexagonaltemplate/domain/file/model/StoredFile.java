@@ -1,5 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.domain.file.model;
 
+import com.gmail.apach.hexagonaltemplate.domain.file.vo.StoredResource;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,9 +20,9 @@ public class StoredFile implements Serializable {
     private static final long serialVersionUID = 1234567L;
 
     private String fileId;
-    private String storageKey;
     private String fileName;
     private String contentType;
     private long size;
     private LocalDateTime created;
+    private StoredResource storedResource;
 }

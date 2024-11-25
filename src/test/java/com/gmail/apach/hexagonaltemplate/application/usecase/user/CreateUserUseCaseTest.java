@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.application.usecase.user;
 
-import com.gmail.apach.hexagonaltemplate.application.port.output.email.PublishEmailOutputPort;
+import com.gmail.apach.hexagonaltemplate.application.port.output.mq.PublishEmailOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.CreateUserOutputPort;
 import com.gmail.apach.hexagonaltemplate.data.CreateUserTestData;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.Role;
@@ -60,11 +60,11 @@ class CreateUserUseCaseTest {
         when(authentication.getAuthorities()).thenReturn(authorities);
 
         doNothing().when(createUserPermissionPolicy).check(user);
-        when(createUserOutputPort.createUser(user)).thenReturn(savedUser);
+        when(createUserOutputPort.create(user)).thenReturn(savedUser);
 
-        final var actual = createUserUseCase.createUser(user);
+        final var actual = createUserUseCase.create(user);
 
-        verify(publishEmailOutputPort, times(1)).publishSendEmail(any(SendEmailWrapper.class));
+        verify(publishEmailOutputPort, times(1)).publishSend(any(SendEmailWrapper.class));
         assertNotNull(actual);
         assertNotNull(actual.getUserId());
 
@@ -91,11 +91,11 @@ class CreateUserUseCaseTest {
         when(authentication.getName()).thenReturn("admin");
         when(authentication.getAuthorities()).thenReturn(authorities);
 
-        when(createUserOutputPort.createUser(userWithNoRoles)).thenReturn(savedUser);
+        when(createUserOutputPort.create(userWithNoRoles)).thenReturn(savedUser);
 
-        final var actual = createUserUseCase.createUser(userWithNoRoles);
+        final var actual = createUserUseCase.create(userWithNoRoles);
 
-        verify(publishEmailOutputPort, times(1)).publishSendEmail(any(SendEmailWrapper.class));
+        verify(publishEmailOutputPort, times(1)).publishSend(any(SendEmailWrapper.class));
         assertNotNull(actual);
         assertNotNull(actual.getUserId());
         assertFalse(actual.getRoles().isEmpty());
@@ -126,7 +126,7 @@ class CreateUserUseCaseTest {
         doThrow(new ForbiddenException("forbidden"))
             .when(createUserPermissionPolicy).check(user);
 
-        assertThrows(ForbiddenException.class, () -> createUserUseCase.createUser(user));
+        assertThrows(ForbiddenException.class, () -> createUserUseCase.create(user));
 
         Mockito.reset(authentication, securityContext);
     }

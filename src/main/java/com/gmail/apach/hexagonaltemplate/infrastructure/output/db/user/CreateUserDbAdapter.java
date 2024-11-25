@@ -29,7 +29,7 @@ public class CreateUserDbAdapter implements CreateUserOutputPort {
         value = UserCacheConstant.LIST_CACHE_NAME,
         allEntries = true
     )
-    public User createUser(User user) {
+    public User create(User user) {
         final var userEntity = userMapper.toUserEntity(user);
         setRoles(userEntity);
         return userMapper.toUser(userRepository.save(userEntity));

@@ -24,7 +24,7 @@ public class CreateEmailDbAdapter implements CreateEmailOutputPort {
     )
     @RabbitListener(queues = EmailProcessingConfig.SAVE_EMAIL_QUEUE)
     @Override
-    public void createEmail(Email email) {
+    public void create(Email email) {
         final var emailEntity = emailDbMapper.toEmailEntity(email);
         emailRepository.save(emailEntity);
     }

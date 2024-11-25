@@ -37,7 +37,7 @@ public class GetUsersGraphQlAdapter {
         @Argument(value = "size") int size,
         @Argument(value = "sort") List<String> sort
     ) {
-        final var users = getUsersInputPort.getUsers(username, firstName, lastName, email, enabled,
+        final var users = getUsersInputPort.get(username, firstName, lastName, email, enabled,
             createdFrom, createdTo, createdBy, page, size, sort.toArray(String[]::new));
         final var usersPage = users.map(userGraphQlMapper::toUserOutputType);
 

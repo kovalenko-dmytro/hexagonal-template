@@ -29,7 +29,7 @@ class GetUsersDbAdapterTest extends AbstractIntegrationTest {
             .sort(new String[]{"created"})
             .build();
 
-        final var actual = getUsersDbAdapter.getUsers(filterWrapper);
+        final var actual = getUsersDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -51,7 +51,7 @@ class GetUsersDbAdapterTest extends AbstractIntegrationTest {
             .sort(new String[]{"created"})
             .build();
 
-        final var actual = getUsersDbAdapter.getUsers(filterWrapper);
+        final var actual = getUsersDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -71,7 +71,7 @@ class GetUsersDbAdapterTest extends AbstractIntegrationTest {
             .isAdmin(true)
             .build();
 
-        final var actual = getUsersDbAdapter.getUsers(filterWrapper);
+        final var actual = getUsersDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -91,7 +91,7 @@ class GetUsersDbAdapterTest extends AbstractIntegrationTest {
             .isAdmin(true)
             .build();
 
-        final var actual = getUsersDbAdapter.getUsers(filterWrapper);
+        final var actual = getUsersDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -111,7 +111,7 @@ class GetUsersDbAdapterTest extends AbstractIntegrationTest {
             .isAdmin(true)
             .build();
 
-        final var actual = getUsersDbAdapter.getUsers(filterWrapper);
+        final var actual = getUsersDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -132,7 +132,7 @@ class GetUsersDbAdapterTest extends AbstractIntegrationTest {
             .isAdmin(true)
             .build();
 
-        final var actual = getUsersDbAdapter.getUsers(filterWrapper);
+        final var actual = getUsersDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -153,7 +153,7 @@ class GetUsersDbAdapterTest extends AbstractIntegrationTest {
             .isAdmin(true)
             .build();
 
-        final var actual = getUsersDbAdapter.getUsers(filterWrapper);
+        final var actual = getUsersDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -172,7 +172,7 @@ class GetUsersDbAdapterTest extends AbstractIntegrationTest {
             .isAdmin(true)
             .build();
 
-        final var actual = getUsersDbAdapter.getUsers(filterWrapper);
+        final var actual = getUsersDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -192,7 +192,7 @@ class GetUsersDbAdapterTest extends AbstractIntegrationTest {
             .isAdmin(true)
             .build();
 
-        final var actual = getUsersDbAdapter.getUsers(filterWrapper);
+        final var actual = getUsersDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -211,7 +211,7 @@ class GetUsersDbAdapterTest extends AbstractIntegrationTest {
             .isAdmin(true)
             .build();
 
-        final var actual = getUsersDbAdapter.getUsers(filterWrapper);
+        final var actual = getUsersDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));

@@ -22,11 +22,11 @@ public class DownloadFileRESTAdapter {
     @ResponseBody
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public ResponseEntity<byte[]> downloadFile(@PathVariable("fileId") String fileId) {
-        final var file = downloadFileInputPort.downloadFile(fileId);
+        final var file = downloadFileInputPort.download(fileId);
         final var headerValues = "attachment; filename=\"" + file.getFileName() + "\"";
         return ResponseEntity
             .ok()
             .header(HttpHeaders.CONTENT_DISPOSITION, headerValues)
-            .body(file.getPayload());
+            .body(file.getStoredResource().getPayload());
     }
 }

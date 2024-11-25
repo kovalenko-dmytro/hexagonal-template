@@ -3,7 +3,7 @@ package com.gmail.apach.hexagonaltemplate.application.usecase.file;
 import com.gmail.apach.hexagonaltemplate.application.port.input.file.DeleteFileInputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.file.DeleteFileOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.file.GetFileOutputPort;
-import com.gmail.apach.hexagonaltemplate.application.port.output.file.PublishFileOutputPort;
+import com.gmail.apach.hexagonaltemplate.application.port.output.mq.PublishFileOutputPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,7 @@ public class DeleteFileUseCase implements DeleteFileInputPort {
     @Override
     public void deleteByFileId(String fileId) {
         final var file = getFileOutputPort.getByFileId(fileId);
-        deleteFileOutputPort.deleteFile(file.getFileId());
-        publishFileOutputPort.publishDeleteFile(file.getStorageKey());
+        deleteFileOutputPort.deleteByFileId(file.getFileId());
+        publishFileOutputPort.publishDelete(file.getStoredResource().getStorageKey());
     }
 }

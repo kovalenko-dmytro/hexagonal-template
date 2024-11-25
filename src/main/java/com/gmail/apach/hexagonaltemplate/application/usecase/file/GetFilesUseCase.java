@@ -17,16 +17,17 @@ public class GetFilesUseCase implements GetFilesInputPort {
     private final GetFilesOutputPort getFilesOutputPort;
 
     @Override
-    public Page<StoredFile> getFiles(String fileName,
-                                     LocalDate createdFrom,
-                                     LocalDate createdTo,
-                                     int page,
-                                     int size,
-                                     String[] sort
+    public Page<StoredFile> get(
+        String fileName,
+        LocalDate createdFrom,
+        LocalDate createdTo,
+        int page,
+        int size,
+        String[] sort
     ) {
         final var filterWrapper = GetFilesFilterWrapper.builder()
             .fileName(fileName).createdFrom(createdFrom).createdTo(createdTo).page(page).size(size).sort(sort)
             .build();
-        return getFilesOutputPort.getFiles(filterWrapper);
+        return getFilesOutputPort.get(filterWrapper);
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import java.time.LocalDate;
 
 public interface GetEmailsInputPort {
-    Page<Email> getEmails(
+    Page<Email> get(
         String sendBy,
         String sendTo,
         LocalDate dateSendFrom,

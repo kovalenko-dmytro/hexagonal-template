@@ -29,10 +29,10 @@ class GetEmailsUseCaseTest {
     void getEmails_success() {
         final var emails = new PageImpl<>(List.of(EmailsTestData.email(), EmailsTestData.anotherEmail()));
 
-        when(getEmailsOutputPort.getEmails(any(GetEmailsFilterWrapper.class))).thenReturn(emails);
+        when(getEmailsOutputPort.get(any(GetEmailsFilterWrapper.class))).thenReturn(emails);
 
         final var actual =
-            getEmailsUseCase.getEmails(null, null, null, null, null,
+            getEmailsUseCase.get(null, null, null, null, null,
                 null, 1, 1, new String[]{"sendBy"});
 
         assertNotNull(actual);

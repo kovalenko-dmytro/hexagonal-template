@@ -5,5 +5,5 @@ import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.wrapper.G
 import org.springframework.data.domain.Page;
 
 public interface GetUsersOutputPort {
-    Page<User> getUsers(GetUsersFilterWrapper wrapper);
+    Page<User> get(GetUsersFilterWrapper wrapper);
 }
