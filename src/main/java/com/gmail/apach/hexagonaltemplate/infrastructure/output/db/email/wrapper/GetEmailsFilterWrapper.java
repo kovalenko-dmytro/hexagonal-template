@@ -2,7 +2,7 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.output.db.email.wrapper
 
 import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailStatus;
 import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailType;
-import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.common.BaseFilterWrapper;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.common.wrapper.BaseFilterWrapper;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;

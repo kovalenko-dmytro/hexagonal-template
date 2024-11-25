@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.common.auth;
 
-import com.gmail.apach.hexagonaltemplate.application.port.input.user.GetUserInputPort;
+import com.gmail.apach.hexagonaltemplate.application.usecase.user.GetUserUseCase;
 import com.gmail.apach.hexagonaltemplate.data.UsersTestData;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ResourceNotFoundException;
@@ -39,7 +39,7 @@ class AuthServiceTest {
     @Mock
     private JWTService jwtService;
     @Mock
-    private GetUserInputPort getUserInputPort;
+    private GetUserUseCase getUserInputPort;
 
     @AfterEach
     public void clearSecurityContext() {

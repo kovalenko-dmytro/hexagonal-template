@@ -2,11 +2,7 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.mappe
 
 import com.gmail.apach.hexagonaltemplate.domain.file.model.StoredFile;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.file.dto.FileResponse;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.NullValuePropertyMappingStrategy;
-import org.mapstruct.ReportingPolicy;
-
+import org.mapstruct.*;
 
 @Mapper(
     componentModel = "spring",
@@ -14,6 +10,6 @@ import org.mapstruct.ReportingPolicy;
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL,
     unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface FileRESTMapper {
-
+    @Mapping(target = "storageKey", source = "file.storedResource.storageKey")
     FileResponse toFileResponse(StoredFile file);
 }

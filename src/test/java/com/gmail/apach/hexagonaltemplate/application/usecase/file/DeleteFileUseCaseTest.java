@@ -1,8 +1,8 @@
-package com.gmail.apach.hexagonaltemplate.application.port.input.file;
+package com.gmail.apach.hexagonaltemplate.application.usecase.file;
 
 import com.gmail.apach.hexagonaltemplate.application.port.output.file.DeleteFileOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.file.GetFileOutputPort;
-import com.gmail.apach.hexagonaltemplate.application.port.output.file.PublishFileOutputPort;
+import com.gmail.apach.hexagonaltemplate.application.port.output.mq.PublishFileOutputPort;
 import com.gmail.apach.hexagonaltemplate.data.FilesTestData;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
@@ -16,12 +16,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class DeleteFileInputPortTest {
+class DeleteFileUseCaseTest {
 
     private static final String FILE_ID = "qqed68c8-2f28-4b53-ac5a-2db586512eee";
 
     @InjectMocks
-    private DeleteFileInputPort deleteFileInputPort;
+    private DeleteFileUseCase deleteFileUseCase;
     @Mock
     private GetFileOutputPort getFileOutputPort;
     @Mock
@@ -33,10 +33,10 @@ class DeleteFileInputPortTest {
     void deleteByFileId_success() {
         final var storedFile = FilesTestData.storedFile();
         when(getFileOutputPort.getByFileId(FILE_ID)).thenReturn(storedFile);
-        doNothing().when(deleteFileOutputPort).deleteFile(storedFile.getFileId());
-        doNothing().when(publishFileOutputPort).publishDeleteFile(storedFile.getStorageKey());
+        doNothing().when(deleteFileOutputPort).deleteByFileId(storedFile.getFileId());
+        doNothing().when(publishFileOutputPort).publishDelete(storedFile.getStoredResource().getStorageKey());
 
-        assertDoesNotThrow(() -> deleteFileInputPort.deleteByFileId(storedFile.getFileId()));
+        assertDoesNotThrow(() -> deleteFileUseCase.deleteByFileId(storedFile.getFileId()));
     }
 
     @Test
@@ -44,6 +44,6 @@ class DeleteFileInputPortTest {
         doThrow(new ResourceNotFoundException("notFound"))
             .when(getFileOutputPort).getByFileId(FILE_ID);
 
-        assertThrows(ResourceNotFoundException.class, () -> deleteFileInputPort.deleteByFileId(FILE_ID));
+        assertThrows(ResourceNotFoundException.class, () -> deleteFileUseCase.deleteByFileId(FILE_ID));
     }
 }

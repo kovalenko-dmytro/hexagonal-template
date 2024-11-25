@@ -1,4 +1,4 @@
-package com.gmail.apach.hexagonaltemplate.application.port.input.user;
+package com.gmail.apach.hexagonaltemplate.application.usecase.user;
 
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.GetUserOutputPort;
 import com.gmail.apach.hexagonaltemplate.data.UsersTestData;
@@ -16,13 +16,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class GetUserInputPortTest {
+class GetUserUseCaseTest {
 
     private static final String USERNAME = "username";
     private static final String USER_ID = "5a8d68c8-2f28-4b53-ac5a-2db586512440";
 
     @InjectMocks
-    private GetUserInputPort getUserInputPort;
+    private GetUserUseCase getUserUseCase;
     @Mock
     private GetUserByIdPermissionPolicy getUserByIdPermissionPolicy;
     @Mock
@@ -33,7 +33,7 @@ class GetUserInputPortTest {
         when(getUserOutputPort.getByUsername(USERNAME))
             .thenReturn(User.builder().username(USERNAME).build());
 
-        final var actual = getUserInputPort.getByUsername(USERNAME);
+        final var actual = getUserUseCase.getByUsername(USERNAME);
 
         assertNotNull(actual);
         assertEquals(USERNAME, actual.getUsername());
@@ -44,7 +44,7 @@ class GetUserInputPortTest {
         doThrow(new ResourceNotFoundException("notFound"))
             .when(getUserOutputPort).getByUsername(USERNAME);
 
-        assertThrows(ResourceNotFoundException.class, () -> getUserInputPort.getByUsername(USERNAME));
+        assertThrows(ResourceNotFoundException.class, () -> getUserUseCase.getByUsername(USERNAME));
     }
 
     @Test
@@ -54,7 +54,7 @@ class GetUserInputPortTest {
 
         doNothing().when(getUserByIdPermissionPolicy).check(admin);
 
-        final var actual = getUserInputPort.getByUserId(USER_ID);
+        final var actual = getUserUseCase.getByUserId(USER_ID);
 
         assertNotNull(actual);
     }
@@ -64,7 +64,7 @@ class GetUserInputPortTest {
         doThrow(new ResourceNotFoundException("notFound"))
             .when(getUserOutputPort).getByUserId(USER_ID);
 
-        assertThrows(ResourceNotFoundException.class, () -> getUserInputPort.getByUserId(USER_ID));
+        assertThrows(ResourceNotFoundException.class, () -> getUserUseCase.getByUserId(USER_ID));
     }
 
     @Test
@@ -75,6 +75,6 @@ class GetUserInputPortTest {
         doThrow(new ForbiddenException("forbidden"))
             .when(getUserByIdPermissionPolicy).check(admin);
 
-        assertThrows(ForbiddenException.class, () -> getUserInputPort.getByUserId(USER_ID));
+        assertThrows(ForbiddenException.class, () -> getUserUseCase.getByUserId(USER_ID));
     }
 }

@@ -1,4 +1,4 @@
-package com.gmail.apach.hexagonaltemplate.application.port.input.user;
+package com.gmail.apach.hexagonaltemplate.application.usecase.user;
 
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.DeleteUserOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.GetUserOutputPort;
@@ -17,12 +17,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class DeleteUserInputPortTest {
+class DeleteUserUseCaseTest {
 
     private static final String USER_ID = "5a8d68c8-2f28-4b53-ac5a-2db586512440";
 
     @InjectMocks
-    private DeleteUserInputPort deleteUserInputPort;
+    private DeleteUserUseCase deleteUserUseCase;
     @Mock
     private GetUserOutputPort getUserOutputPort;
     @Mock
@@ -39,7 +39,7 @@ class DeleteUserInputPortTest {
         doNothing().when(deleteUserPermissionPolicy).check(user);
         doNothing().when(deleteUserOutputPort).deleteByUserId(user.getUserId());
 
-        assertDoesNotThrow(() -> deleteUserInputPort.deleteByUserId(user.getUserId()));
+        assertDoesNotThrow(() -> deleteUserUseCase.deleteByUserId(user.getUserId()));
     }
 
     @Test
@@ -47,7 +47,7 @@ class DeleteUserInputPortTest {
         doThrow(new ResourceNotFoundException("notFound"))
             .when(getUserOutputPort).getByUserId(USER_ID);
 
-        assertThrows(ResourceNotFoundException.class, () -> deleteUserInputPort.deleteByUserId(USER_ID));
+        assertThrows(ResourceNotFoundException.class, () -> deleteUserUseCase.deleteByUserId(USER_ID));
     }
 
     @Test
@@ -59,6 +59,6 @@ class DeleteUserInputPortTest {
         doThrow(new ForbiddenException("forbidden"))
             .when(deleteUserPermissionPolicy).check(user);
 
-        assertThrows(ForbiddenException.class, () -> deleteUserInputPort.deleteByUserId(USER_ID));
+        assertThrows(ForbiddenException.class, () -> deleteUserUseCase.deleteByUserId(USER_ID));
     }
 }

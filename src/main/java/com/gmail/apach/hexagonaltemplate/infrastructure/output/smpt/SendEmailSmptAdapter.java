@@ -1,7 +1,7 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt;
 
-import com.gmail.apach.hexagonaltemplate.application.port.output.email.PublishEmailOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.email.SendEmailOutputPort;
+import com.gmail.apach.hexagonaltemplate.application.port.output.mq.PublishEmailOutputPort;
 import com.gmail.apach.hexagonaltemplate.domain.email.model.Email;
 import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailStatus;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.admin.DefaultAdminConfigProperties;
@@ -43,10 +43,10 @@ public class SendEmailSmptAdapter implements SendEmailOutputPort {
 
     @Override
     @RabbitListener(queues = EmailProcessingConfig.SEND_EMAIL_QUEUE)
-    public void sendEmail(SendEmailWrapper wrapper) {
+    public void send(SendEmailWrapper wrapper) {
         final var payload = obtainPayload(wrapper);
         final var emailStatus = send(payload, wrapper);
-        publishEmailOutputPort.publishSaveEmail(toEmail(wrapper, emailStatus));
+        publishEmailOutputPort.publishSave(toEmail(wrapper, emailStatus));
     }
 
     private String obtainPayload(SendEmailWrapper wrapper) {

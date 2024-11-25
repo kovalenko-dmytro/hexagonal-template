@@ -25,7 +25,7 @@ public class GetFilesDbAdapter implements GetFilesOutputPort {
         condition = FileCacheConstant.Condition.SEARCH
     )
     @Override
-    public Page<StoredFile> getFiles(GetFilesFilterWrapper wrapper) {
+    public Page<StoredFile> get(GetFilesFilterWrapper wrapper) {
         return fileRepository
             .findAll(FileSpecifications.specification(wrapper), wrapper.toPageable())
             .map(fileDbMapper::toStoredFile);

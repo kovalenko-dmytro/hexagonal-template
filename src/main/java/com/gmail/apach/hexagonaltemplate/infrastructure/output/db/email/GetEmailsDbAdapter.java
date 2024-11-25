@@ -25,7 +25,7 @@ public class GetEmailsDbAdapter implements GetEmailsOutputPort {
         condition = EmailCacheConstant.Condition.SEARCH
     )
     @Override
-    public Page<Email> getEmails(GetEmailsFilterWrapper wrapper) {
+    public Page<Email> get(GetEmailsFilterWrapper wrapper) {
         return emailRepository
             .findAll(EmailSpecifications.specification(wrapper), wrapper.toPageable())
             .map(emailDbMapper::toEmail);

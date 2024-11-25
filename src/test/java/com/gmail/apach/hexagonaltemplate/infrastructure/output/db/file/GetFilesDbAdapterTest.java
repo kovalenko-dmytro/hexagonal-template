@@ -28,7 +28,7 @@ class GetFilesDbAdapterTest extends AbstractIntegrationTest {
             .sort(new String[]{"created"})
             .build();
 
-        final var actual = getFilesDbAdapter.getFiles(filterWrapper);
+        final var actual = getFilesDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -48,7 +48,7 @@ class GetFilesDbAdapterTest extends AbstractIntegrationTest {
             .size(5)
             .build();
 
-        final var actual = getFilesDbAdapter.getFiles(filterWrapper);
+        final var actual = getFilesDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -66,7 +66,7 @@ class GetFilesDbAdapterTest extends AbstractIntegrationTest {
             .size(5)
             .build();
 
-        final var actual = getFilesDbAdapter.getFiles(filterWrapper);
+        final var actual = getFilesDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -85,7 +85,7 @@ class GetFilesDbAdapterTest extends AbstractIntegrationTest {
             .size(5)
             .build();
 
-        final var actual = getFilesDbAdapter.getFiles(filterWrapper);
+        final var actual = getFilesDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));
@@ -103,7 +103,7 @@ class GetFilesDbAdapterTest extends AbstractIntegrationTest {
             .size(5)
             .build();
 
-        final var actual = getFilesDbAdapter.getFiles(filterWrapper);
+        final var actual = getFilesDbAdapter.get(filterWrapper);
 
         assertNotNull(actual);
         assertTrue(CollectionUtils.isNotEmpty(actual.getContent()));

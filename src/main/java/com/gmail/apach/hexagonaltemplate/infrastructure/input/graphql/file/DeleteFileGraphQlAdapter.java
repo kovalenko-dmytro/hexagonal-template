@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.file;
 
-import com.gmail.apach.hexagonaltemplate.application.usecase.file.DeleteFileUseCase;
+import com.gmail.apach.hexagonaltemplate.application.port.input.file.DeleteFileInputPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -13,11 +13,11 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class DeleteFileGraphQlAdapter {
 
-    private final DeleteFileUseCase deleteFileUseCase;
+    private final DeleteFileInputPort deleteFileInputPort;
 
     @MutationMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public void deleteByFileId(@Argument(value = "fileId") String fileId) {
-        deleteFileUseCase.deleteByFileId(fileId);
+        deleteFileInputPort.deleteByFileId(fileId);
     }
 }

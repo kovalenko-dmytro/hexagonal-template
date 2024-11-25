@@ -1,4 +1,4 @@
-package com.gmail.apach.hexagonaltemplate.infrastructure.common.config.oss;
+package com.gmail.apach.hexagonaltemplate.infrastructure.common.config.oss.s3;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.gmail.apach.hexagonaltemplate.infrastructure.output.db.common;
+package com.gmail.apach.hexagonaltemplate.infrastructure.output.db.common.wrapper;
 
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.constant.CommonConstant;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.common.auth;
 
-import com.gmail.apach.hexagonaltemplate.application.usecase.user.GetUserUseCase;
+import com.gmail.apach.hexagonaltemplate.application.port.input.user.GetUserInputPort;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.constant.CommonConstant;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.wrapper.AuthTokenDetails;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final GetUserUseCase getUserUseCase;
+    private final GetUserInputPort getUserInputPort;
     private final AuthenticationManager authenticationManager;
     private final JWTService jwtService;
 
@@ -23,7 +23,7 @@ public class AuthService {
         final var authentication = authenticationManager.authenticate(authToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        final var authenticatedUser = getUserUseCase.getByUsername(authentication.getName());
+        final var authenticatedUser = getUserInputPort.getByUsername(authentication.getName());
         final var accessToken = jwtService.generateAccessToken(authenticatedUser);
         return AuthTokenDetails.builder()
             .tokenType(CommonConstant.BEARER_AUTH_HEADER_PREFIX.getValue().trim())
@@ -34,6 +34,6 @@ public class AuthService {
 
     public User getCurrentUser() {
         final var authentication = SecurityContextHolder.getContext().getAuthentication();
-        return getUserUseCase.getByUsername(authentication.getName());
+        return getUserInputPort.getByUsername(authentication.getName());
     }
 }

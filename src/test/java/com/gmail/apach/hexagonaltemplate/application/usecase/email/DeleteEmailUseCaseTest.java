@@ -1,4 +1,4 @@
-package com.gmail.apach.hexagonaltemplate.application.port.input.email;
+package com.gmail.apach.hexagonaltemplate.application.usecase.email;
 
 import com.gmail.apach.hexagonaltemplate.application.port.output.email.DeleteEmailOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.email.GetEmailOutputPort;
@@ -15,12 +15,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class DeleteEmailInputPortTest {
+class DeleteEmailUseCaseTest {
 
     private static final String EMAIL_ID = "eeed68c8-2f28-4b53-ac5a-2db586512eee";
 
     @InjectMocks
-    private DeleteEmailInputPort deleteEmailInputPort;
+    private DeleteEmailUseCase deleteEmailUseCase;
     @Mock
     private GetEmailOutputPort getEmailOutputPort;
     @Mock
@@ -34,7 +34,7 @@ class DeleteEmailInputPortTest {
         when(getEmailOutputPort.getByEmailId(EMAIL_ID)).thenReturn(email);
         doNothing().when(deleteEmailOutputPort).deleteByEmailId(email.getEmailId());
 
-        assertDoesNotThrow(() -> deleteEmailInputPort.deleteByEmailId(email.getEmailId()));
+        assertDoesNotThrow(() -> deleteEmailUseCase.deleteByEmailId(email.getEmailId()));
     }
 
     @Test
@@ -42,6 +42,6 @@ class DeleteEmailInputPortTest {
         doThrow(new ResourceNotFoundException("notFound"))
             .when(getEmailOutputPort).getByEmailId(EMAIL_ID);
 
-        assertThrows(ResourceNotFoundException.class, () -> deleteEmailInputPort.deleteByEmailId(EMAIL_ID));
+        assertThrows(ResourceNotFoundException.class, () -> deleteEmailUseCase.deleteByEmailId(EMAIL_ID));
     }
 }

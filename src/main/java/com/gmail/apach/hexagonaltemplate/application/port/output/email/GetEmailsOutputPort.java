@@ -5,5 +5,5 @@ import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.email.wrapper.
 import org.springframework.data.domain.Page;
 
 public interface GetEmailsOutputPort {
-    Page<Email> getEmails(GetEmailsFilterWrapper wrapper);
+    Page<Email> get(GetEmailsFilterWrapper wrapper);
 }
