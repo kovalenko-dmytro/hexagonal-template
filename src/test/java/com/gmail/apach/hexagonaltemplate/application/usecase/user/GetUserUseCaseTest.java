@@ -1,10 +1,10 @@
 package com.gmail.apach.hexagonaltemplate.application.usecase.user;
 
+import com.gmail.apach.hexagonaltemplate.application.port.output.auth.CurrentPrincipalOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.GetUserOutputPort;
 import com.gmail.apach.hexagonaltemplate.data.UsersTestData;
+import com.gmail.apach.hexagonaltemplate.domain.common.exception.PolicyViolationException;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
-import com.gmail.apach.hexagonaltemplate.domain.user.policy.GetUserByIdPermissionPolicy;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ForbiddenException;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +13,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class GetUserUseCaseTest {
@@ -24,7 +25,7 @@ class GetUserUseCaseTest {
     @InjectMocks
     private GetUserUseCase getUserUseCase;
     @Mock
-    private GetUserByIdPermissionPolicy getUserByIdPermissionPolicy;
+    private CurrentPrincipalOutputPort currentPrincipalOutputPort;
     @Mock
     private GetUserOutputPort getUserOutputPort;
 
@@ -50,9 +51,9 @@ class GetUserUseCaseTest {
     @Test
     void getByUserId_success() {
         final var admin = UsersTestData.admin();
-        when(getUserOutputPort.getByUserId(USER_ID)).thenReturn(admin);
 
-        doNothing().when(getUserByIdPermissionPolicy).check(admin);
+        when(getUserOutputPort.getByUserId(USER_ID)).thenReturn(admin);
+        when(currentPrincipalOutputPort.getPrincipal()).thenReturn(UsersTestData.admin());
 
         final var actual = getUserUseCase.getByUserId(USER_ID);
 
@@ -70,11 +71,10 @@ class GetUserUseCaseTest {
     @Test
     void getByUserId_forbidden() {
         final var admin = UsersTestData.admin();
+
         when(getUserOutputPort.getByUserId(USER_ID)).thenReturn(admin);
+        when(currentPrincipalOutputPort.getPrincipal()).thenReturn(UsersTestData.userCreatedByAdmin());
 
-        doThrow(new ForbiddenException("forbidden"))
-            .when(getUserByIdPermissionPolicy).check(admin);
-
-        assertThrows(ForbiddenException.class, () -> getUserUseCase.getByUserId(USER_ID));
+        assertThrows(PolicyViolationException.class, () -> getUserUseCase.getByUserId(USER_ID));
     }
 }

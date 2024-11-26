@@ -1,10 +1,10 @@
 package com.gmail.apach.hexagonaltemplate.application.usecase.user;
 
+import com.gmail.apach.hexagonaltemplate.application.port.output.auth.CurrentPrincipalOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.DeleteUserOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.GetUserOutputPort;
 import com.gmail.apach.hexagonaltemplate.data.UsersTestData;
-import com.gmail.apach.hexagonaltemplate.domain.user.policy.DeleteUserPermissionPolicy;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ForbiddenException;
+import com.gmail.apach.hexagonaltemplate.domain.common.exception.PolicyViolationException;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +28,7 @@ class DeleteUserUseCaseTest {
     @Mock
     private DeleteUserOutputPort deleteUserOutputPort;
     @Mock
-    private DeleteUserPermissionPolicy deleteUserPermissionPolicy;
+    private CurrentPrincipalOutputPort currentPrincipalOutputPort;
 
     @Test
     void deleteByUserId_success() {
@@ -36,7 +36,7 @@ class DeleteUserUseCaseTest {
         user.setUserId(USER_ID);
 
         when(getUserOutputPort.getByUserId(USER_ID)).thenReturn(user);
-        doNothing().when(deleteUserPermissionPolicy).check(user);
+        when(currentPrincipalOutputPort.getPrincipal()).thenReturn(UsersTestData.admin());
         doNothing().when(deleteUserOutputPort).deleteByUserId(user.getUserId());
 
         assertDoesNotThrow(() -> deleteUserUseCase.deleteByUserId(user.getUserId()));
@@ -56,9 +56,8 @@ class DeleteUserUseCaseTest {
         user.setUserId(USER_ID);
 
         when(getUserOutputPort.getByUserId(USER_ID)).thenReturn(user);
-        doThrow(new ForbiddenException("forbidden"))
-            .when(deleteUserPermissionPolicy).check(user);
+        when(currentPrincipalOutputPort.getPrincipal()).thenReturn(UsersTestData.userCreatedByAdmin());
 
-        assertThrows(ForbiddenException.class, () -> deleteUserUseCase.deleteByUserId(USER_ID));
+        assertThrows(PolicyViolationException.class, () -> deleteUserUseCase.deleteByUserId(USER_ID));
     }
 }
