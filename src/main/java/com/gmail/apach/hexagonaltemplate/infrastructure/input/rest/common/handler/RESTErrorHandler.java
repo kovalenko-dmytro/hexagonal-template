@@ -1,5 +1,7 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.common.handler;
 
+import com.gmail.apach.hexagonaltemplate.domain.common.exception.DomainException;
+import com.gmail.apach.hexagonaltemplate.domain.common.exception.PolicyViolationException;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.constant.Error;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.constant.CommonConstant;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ApplicationServerException;
@@ -144,6 +146,24 @@ public class RESTErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleUnauthorized(AuthenticationException ex) {
         final var response =
             buildRestApiErrorResponse(ex.getMessage(), HttpStatus.UNAUTHORIZED, List.of());
+        return createResponseEntity(response);
+    }
+
+    @ExceptionHandler({PolicyViolationException.class})
+    public ResponseEntity<Object> handlePolicyViolationExceptions(PolicyViolationException ex) {
+        final var message =
+            messageSource.getMessage(ex.getDomainError().getKey(), ex.getArgs(), LocaleContextHolder.getLocale());
+        final var response =
+            buildRestApiErrorResponse(message, HttpStatus.FORBIDDEN, List.of());
+        return createResponseEntity(response);
+    }
+
+    @ExceptionHandler({DomainException.class})
+    public ResponseEntity<Object> handleDomainExceptions(DomainException ex) {
+        final var message =
+            messageSource.getMessage(ex.getDomainError().getKey(), ex.getArgs(), LocaleContextHolder.getLocale());
+        final var response =
+            buildRestApiErrorResponse(message, HttpStatus.INTERNAL_SERVER_ERROR, List.of());
         return createResponseEntity(response);
     }
 

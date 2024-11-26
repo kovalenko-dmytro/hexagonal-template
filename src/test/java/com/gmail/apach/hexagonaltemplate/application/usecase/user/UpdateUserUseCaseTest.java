@@ -1,10 +1,10 @@
 package com.gmail.apach.hexagonaltemplate.application.usecase.user;
 
+import com.gmail.apach.hexagonaltemplate.application.port.output.auth.CurrentPrincipalOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.GetUserOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.UpdateUserOutputPort;
 import com.gmail.apach.hexagonaltemplate.data.UsersTestData;
-import com.gmail.apach.hexagonaltemplate.domain.user.policy.UpdateUserPermissionPolicy;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ForbiddenException;
+import com.gmail.apach.hexagonaltemplate.domain.common.exception.PolicyViolationException;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +13,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class UpdateUserUseCaseTest {
@@ -27,7 +28,7 @@ class UpdateUserUseCaseTest {
     @Mock
     private UpdateUserOutputPort updateUserOutputPort;
     @Mock
-    private UpdateUserPermissionPolicy updateUserPermissionPolicy;
+    private CurrentPrincipalOutputPort currentPrincipalOutputPort;
 
     @Test
     void update_success() {
@@ -38,13 +39,9 @@ class UpdateUserUseCaseTest {
         final var updatedUser = UsersTestData.updatedUserCreatedByAdmin();
         updatedUser.setUserId(USER_ID);
 
-        when(getUserOutputPort.getByUserId(USER_ID))
-            .thenReturn(user);
-        doNothing()
-            .when(updateUserPermissionPolicy)
-            .check(user, updatedData);
-        when(updateUserOutputPort.update(user))
-            .thenReturn(updatedUser);
+        when(getUserOutputPort.getByUserId(USER_ID)).thenReturn(user);
+        when(currentPrincipalOutputPort.getPrincipal()).thenReturn(UsersTestData.admin());
+        when(updateUserOutputPort.update(user)).thenReturn(updatedUser);
 
         final var actual = updateUserUseCase.update(updatedData);
 
@@ -73,11 +70,9 @@ class UpdateUserUseCaseTest {
         final var updatedData = UsersTestData.updateUserDataWithoutNewRolesAndEnabled();
         updatedData.setUserId(USER_ID);
 
-        when(getUserOutputPort.getByUserId(USER_ID))
-            .thenReturn(user);
-        doThrow(new ForbiddenException("forbidden"))
-            .when(updateUserPermissionPolicy).check(user, updatedData);
+        when(getUserOutputPort.getByUserId(USER_ID)).thenReturn(user);
+        when(currentPrincipalOutputPort.getPrincipal()).thenReturn(UsersTestData.userCreatedByManager());
 
-        assertThrows(ForbiddenException.class, () -> updateUserUseCase.update(updatedData));
+        assertThrows(PolicyViolationException.class, () -> updateUserUseCase.update(updatedData));
     }
 }

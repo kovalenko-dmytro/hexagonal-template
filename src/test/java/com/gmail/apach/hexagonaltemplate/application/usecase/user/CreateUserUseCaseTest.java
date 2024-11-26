@@ -1,12 +1,13 @@
 package com.gmail.apach.hexagonaltemplate.application.usecase.user;
 
+import com.gmail.apach.hexagonaltemplate.application.port.output.auth.CurrentPrincipalOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.mq.PublishEmailOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.CreateUserOutputPort;
 import com.gmail.apach.hexagonaltemplate.data.CreateUserTestData;
+import com.gmail.apach.hexagonaltemplate.data.UsersTestData;
+import com.gmail.apach.hexagonaltemplate.domain.common.exception.PolicyViolationException;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.Role;
-import com.gmail.apach.hexagonaltemplate.domain.user.policy.CreateUserPermissionPolicy;
 import com.gmail.apach.hexagonaltemplate.domain.user.vo.RoleType;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ForbiddenException;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt.wrapper.SendEmailWrapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,7 +36,7 @@ class CreateUserUseCaseTest {
     @Mock
     private CreateUserOutputPort createUserOutputPort;
     @Mock
-    private CreateUserPermissionPolicy createUserPermissionPolicy;
+    private CurrentPrincipalOutputPort currentPrincipalOutputPort;
     @Mock
     private PublishEmailOutputPort publishEmailOutputPort;
 
@@ -59,7 +60,7 @@ class CreateUserUseCaseTest {
         when(authentication.getName()).thenReturn("admin");
         when(authentication.getAuthorities()).thenReturn(authorities);
 
-        doNothing().when(createUserPermissionPolicy).check(user);
+        when(currentPrincipalOutputPort.getPrincipal()).thenReturn(UsersTestData.admin());
         when(createUserOutputPort.create(user)).thenReturn(savedUser);
 
         final var actual = createUserUseCase.create(user);
@@ -91,6 +92,7 @@ class CreateUserUseCaseTest {
         when(authentication.getName()).thenReturn("admin");
         when(authentication.getAuthorities()).thenReturn(authorities);
 
+        when(currentPrincipalOutputPort.getPrincipal()).thenReturn(UsersTestData.admin());
         when(createUserOutputPort.create(userWithNoRoles)).thenReturn(savedUser);
 
         final var actual = createUserUseCase.create(userWithNoRoles);
@@ -123,10 +125,9 @@ class CreateUserUseCaseTest {
         when(authentication.getName()).thenReturn("user");
         when(authentication.getAuthorities()).thenReturn(authorities);
 
-        doThrow(new ForbiddenException("forbidden"))
-            .when(createUserPermissionPolicy).check(user);
+        when(currentPrincipalOutputPort.getPrincipal()).thenReturn(UsersTestData.userCreatedByAdmin());
 
-        assertThrows(ForbiddenException.class, () -> createUserUseCase.create(user));
+        assertThrows(PolicyViolationException.class, () -> createUserUseCase.create(user));
 
         Mockito.reset(authentication, securityContext);
     }

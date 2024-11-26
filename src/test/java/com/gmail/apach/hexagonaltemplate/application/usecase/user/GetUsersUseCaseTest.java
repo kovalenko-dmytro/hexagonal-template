@@ -1,10 +1,10 @@
 package com.gmail.apach.hexagonaltemplate.application.usecase.user;
 
+import com.gmail.apach.hexagonaltemplate.application.port.output.auth.CurrentPrincipalOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.GetUsersOutputPort;
 import com.gmail.apach.hexagonaltemplate.data.UsersTestData;
-import com.gmail.apach.hexagonaltemplate.domain.user.policy.GetUsersPermissionPolicy;
+import com.gmail.apach.hexagonaltemplate.domain.common.exception.PolicyViolationException;
 import com.gmail.apach.hexagonaltemplate.domain.user.vo.RoleType;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ForbiddenException;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.wrapper.GetUsersFilterWrapper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ class GetUsersUseCaseTest {
     @InjectMocks
     private GetUsersUseCase getUsersUseCase;
     @Mock
-    private GetUsersPermissionPolicy getUsersPermissionPolicy;
+    private CurrentPrincipalOutputPort currentPrincipalOutputPort;
     @Mock
     private GetUsersOutputPort getUsersOutputPort;
 
@@ -54,7 +54,7 @@ class GetUsersUseCaseTest {
         when(authentication.getName()).thenReturn("admin");
         when(authentication.getAuthorities()).thenReturn(authorities);
 
-        doNothing().when(getUsersPermissionPolicy).check();
+        when(currentPrincipalOutputPort.getPrincipal()).thenReturn(UsersTestData.admin());
 
         when(getUsersOutputPort.get(any(GetUsersFilterWrapper.class))).thenReturn(users);
 
@@ -83,10 +83,9 @@ class GetUsersUseCaseTest {
         when(authentication.getName()).thenReturn("user");
         when(authentication.getAuthorities()).thenReturn(authorities);
 
-        doThrow(new ForbiddenException("forbidden"))
-            .when(getUsersPermissionPolicy).check();
+        when(currentPrincipalOutputPort.getPrincipal()).thenReturn(UsersTestData.userCreatedByAdmin());
 
-        assertThrows(ForbiddenException.class, () ->
+        assertThrows(PolicyViolationException.class, () ->
             getUsersUseCase.get(null, null, null, null, null,
                 null, null, null, 1, 1, new String[]{"sendBy"}));
 
