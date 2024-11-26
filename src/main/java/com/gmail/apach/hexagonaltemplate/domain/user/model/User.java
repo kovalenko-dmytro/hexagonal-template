@@ -36,11 +36,11 @@ public class User implements Serializable {
     private String createdBy;
     private Set<Role> roles;
 
-    public boolean isSelf(AuthPrincipal authPrincipal) {
+    public boolean isSelf(User currentPrincipal) {
         if (Objects.isNull(username)) {
             throw new IllegalStateException();
         }
-        return username.contentEquals(authPrincipal.getUsername());
+        return username.contentEquals(currentPrincipal.getUsername());
     }
 
     public boolean isAdmin() {
@@ -85,7 +85,7 @@ public class User implements Serializable {
         return roles.stream().map(Role::getRole).collect(Collectors.toSet());
     }
 
-    public String getRoleTypesToStringJoining() {
+    public String rolesJoiningToString() {
         return getRoleTypes().stream()
             .map(RoleType::name)
             .collect(Collectors.joining(CommonConstant.COMMA.getValue()));

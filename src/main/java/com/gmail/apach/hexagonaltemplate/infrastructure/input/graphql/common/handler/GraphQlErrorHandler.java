@@ -1,5 +1,7 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.common.handler;
 
+import com.gmail.apach.hexagonaltemplate.domain.common.exception.DomainException;
+import com.gmail.apach.hexagonaltemplate.domain.common.exception.PolicyViolationException;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.constant.Error;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.constant.CommonConstant;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ApplicationServerException;
@@ -94,6 +96,24 @@ public class GraphQlErrorHandler {
     @GraphQlExceptionHandler
     public GraphQLError handleDataAccessExceptions(DataAccessException ex) {
         return GraphQLError.newError().errorType(graphql.ErrorType.DataFetchingException).message(ex.getMessage()).build();
+    }
+
+    @GraphQlExceptionHandler
+    public GraphQLError handleDomainExceptions(DomainException ex) {
+        return GraphQLError.newError()
+            .errorType(ErrorType.INTERNAL_ERROR)
+            .message(messageSource
+                .getMessage(ex.getDomainError().getKey(), ex.getArgs(), LocaleContextHolder.getLocale()))
+            .build();
+    }
+
+    @GraphQlExceptionHandler
+    public GraphQLError handlePolicyViolationExceptions(PolicyViolationException ex) {
+        return GraphQLError.newError()
+            .errorType(ErrorType.FORBIDDEN)
+            .message(messageSource
+                .getMessage(ex.getDomainError().getKey(), ex.getArgs(), LocaleContextHolder.getLocale()))
+            .build();
     }
 
     @GraphQlExceptionHandler
