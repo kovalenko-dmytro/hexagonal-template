@@ -148,13 +148,13 @@ class UserPermissionPolicyServiceTest {
     @Test
     void validateAdminGetAnyUser_success() {
         final var getAdminContext = UserPermissionPolicyContext.builder()
-            .inputAttributes(UsersTestData.admin()).principal(UsersTestData.admin())
+            .processed(UsersTestData.admin()).principal(UsersTestData.admin())
             .build();
         final var getManagerContext = UserPermissionPolicyContext.builder()
-            .inputAttributes(UsersTestData.manager()).principal(UsersTestData.admin())
+            .processed(UsersTestData.manager()).principal(UsersTestData.admin())
             .build();
         final var getUserContext = UserPermissionPolicyContext.builder()
-            .inputAttributes(UsersTestData.userCreatedByManager()).principal(UsersTestData.admin())
+            .processed(UsersTestData.userCreatedByManager()).principal(UsersTestData.admin())
             .build();
 
         assertDoesNotThrow(() -> UserPermissionPolicyService.checkGetUserByIdPolicy(getAdminContext));

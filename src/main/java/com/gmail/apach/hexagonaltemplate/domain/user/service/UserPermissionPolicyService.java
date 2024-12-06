@@ -1,9 +1,8 @@
 package com.gmail.apach.hexagonaltemplate.domain.user.service;
 
 import com.gmail.apach.hexagonaltemplate.domain.common.constant.DomainError;
-import com.gmail.apach.hexagonaltemplate.domain.common.exception.PolicyViolationException;
 import com.gmail.apach.hexagonaltemplate.domain.common.policy.context.UserPermissionPolicyContext;
-import com.gmail.apach.hexagonaltemplate.domain.user.policy.*;
+import com.gmail.apach.hexagonaltemplate.domain.user.policy.api.*;
 import com.gmail.apach.hexagonaltemplate.domain.user.vo.RoleType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -16,23 +15,25 @@ public final class UserPermissionPolicyService {
     public static void checkCreateUserPolicy(UserPermissionPolicyContext context) {
         final var policy =
             new AdminGrantsPolicy()
-                .or(new ManagerCreatesUserPolicy());
+                .or(new ManagerCreatesUserPolicy())
+                .withErrorDetails(
+                    DomainError.FORBIDDEN_USER_CREATION,
+                    new Object[]{context.inputAttributes().rolesJoiningToString()})
+                .terminateIfError();
 
-        if (!policy.isSatisfiedWith(context)) {
-            throw new PolicyViolationException(
-                DomainError.FORBIDDEN_USER_CREATION, new Object[]{context.inputAttributes().rolesJoiningToString()});
-        }
+        policy.isSatisfiedWith(context);
     }
 
     public static void checkDeleteUserPolicy(UserPermissionPolicyContext context) {
         final var policy =
             new AdminGrantsPolicy()
-                .and(new AdminDeletesNotSelfPolicy());
+                .and(new AdminDeletesNotSelfPolicy())
+                .withErrorDetails(
+                    DomainError.FORBIDDEN_USER_DELETE_BY_ID,
+                    new Object[]{context.processed().getUserId()})
+                .terminateIfError();
 
-        if (!policy.isSatisfiedWith(context)) {
-            throw new PolicyViolationException(
-                DomainError.FORBIDDEN_USER_DELETE_BY_ID, new Object[]{context.processed().getUserId()});
-        }
+        policy.isSatisfiedWith(context);
     }
 
     public static void checkGetUserByIdPolicy(UserPermissionPolicyContext context) {
@@ -40,64 +41,61 @@ public final class UserPermissionPolicyService {
             new AdminGrantsPolicy()
                 .or(new ManagerGetsManagerPolicy())
                 .or(new ManagerGetsUserPolicy())
-                .or(new UserGetsSelfPolicy());
+                .or(new UserGetsSelfPolicy())
+                .withErrorDetails(
+                    DomainError.FORBIDDEN_USER_GET_BY_ID,
+                    new Object[]{context.processed().getUserId()})
+                .terminateIfError();
 
-        if (!policy.isSatisfiedWith(context)) {
-            throw new PolicyViolationException(
-                DomainError.FORBIDDEN_USER_GET_BY_ID, new Object[]{context.processed().getUserId()});
-        }
+        policy.isSatisfiedWith(context);
     }
 
     public static void checkUpdateUserPolicy(UserPermissionPolicyContext context) {
-        final var policy =
+        var policy =
             new AdminGrantsPolicy()
                 .or(new ManagerUpdatesSelfPolicy())
                 .or(new ManagerUpdatesUsersPolicy())
-                .or(new UserUpdatesSelfPolicy());
+                .or(new UserUpdatesSelfPolicy())
+                .withErrorDetails(
+                    DomainError.FORBIDDEN_USER_UPDATE_BY_ID,
+                    new Object[]{context.processed().getUserId()})
+                .terminateIfError();
 
-        if (!policy.isSatisfiedWith(context)) {
-            throw new PolicyViolationException(
-                DomainError.FORBIDDEN_USER_UPDATE_BY_ID, new Object[]{context.processed().getUserId()});
-        }
+        policy.isSatisfiedWith(context);
 
         final var enabledPassed = Objects.nonNull(context.inputAttributes().getEnabled());
         final var enabledNonMatch = !context.processed().getEnabled().equals(context.inputAttributes().getEnabled());
         if (enabledPassed && enabledNonMatch) {
-            checkUpdateUserEnabledPolicy(context);
+            policy = new AdminUpdatesEnabledPolicy()
+
+                .or(new ManagerUpdatesUserEnabledPolicy())
+                .withErrorDetails(
+                    DomainError.FORBIDDEN_USER_UPDATE_ENABLED,
+                    new Object[]{context.processed().getUserId()})
+                .terminateIfError();
+
+            policy.isSatisfiedWith(context);
         }
         if (context.inputAttributes().rolesExist()) {
-            checkUpdateUserRolesPolicy(context);
-        }
-    }
+            policy = new AdminUpdatesRolesPolicy()
+                .withErrorDetails(
+                    DomainError.FORBIDDEN_USER_UPDATE_ROLES,
+                    new Object[]{context.processed().getUserId()})
+                .terminateIfError();
 
-    private static void checkUpdateUserEnabledPolicy(UserPermissionPolicyContext context) {
-        final var policy =
-            new AdminUpdatesEnabledPolicy()
-                .or(new ManagerUpdatesUserEnabledPolicy());
-
-        if (!policy.isSatisfiedWith(context)) {
-            throw new PolicyViolationException(
-                DomainError.FORBIDDEN_USER_UPDATE_ENABLED, new Object[]{context.processed().getUserId()});
-        }
-    }
-
-    private static void checkUpdateUserRolesPolicy(UserPermissionPolicyContext context) {
-        final var policy = new AdminUpdatesRolesPolicy();
-
-        if (!policy.isSatisfiedWith(context)) {
-            throw new PolicyViolationException(
-                DomainError.FORBIDDEN_USER_UPDATE_ROLES, new Object[]{context.processed().getUserId()});
+            policy.isSatisfiedWith(context);
         }
     }
 
     public static void checkGetUsersPolicy(UserPermissionPolicyContext context) {
         final var policy =
             new AdminGrantsPolicy()
-                .or(new ManagerGrantsPolicy());
+                .or(new ManagerGrantsPolicy())
+                .withErrorDetails(
+                    DomainError.FORBIDDEN_USER_GET_LIST,
+                    new Object[]{RoleType.USER.getAuthority()})
+                .terminateIfError();
 
-        if (!policy.isSatisfiedWith(context)) {
-            throw new PolicyViolationException(
-                DomainError.FORBIDDEN_USER_GET_LIST, new Object[]{RoleType.USER.getAuthority()});
-        }
+        policy.isSatisfiedWith(context);
     }
 }

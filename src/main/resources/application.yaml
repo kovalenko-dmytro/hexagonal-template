@@ -18,6 +18,11 @@ spring:
     web:
       pageable:
         one-indexed-parameters: true
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-schema: always
   liquibase:
     enabled: false
   datasource:
@@ -116,6 +121,7 @@ logging:
     org:
       springframework:
         data: WARN
+        batch: WARN
         security: WARN
         amqp: WARN
       hibernate: WARN
