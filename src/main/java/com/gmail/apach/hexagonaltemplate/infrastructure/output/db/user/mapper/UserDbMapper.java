@@ -9,6 +9,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.List;
+
 
 @Mapper(
     componentModel = "spring",
@@ -17,6 +19,7 @@ import org.mapstruct.ReportingPolicy;
     unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserDbMapper {
     UserEntity toUserEntity(User user);
+    List<UserEntity> toUserEntity(List<User> users);
     User toUser(UserEntity userEntity);
     RoleEntity toRoleEntity(Role role);
     Role toRole(RoleEntity roleEntity);

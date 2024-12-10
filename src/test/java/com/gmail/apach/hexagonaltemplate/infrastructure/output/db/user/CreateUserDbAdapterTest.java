@@ -83,4 +83,9 @@ class CreateUserDbAdapterTest extends AbstractIntegrationTest {
                 .collect(Collectors.toSet())
                 .containsAll(Set.of(RoleType.USER, RoleType.MANAGER)));
     }
+
+    @Test
+    void createUsers_success() {
+
+    }
 }

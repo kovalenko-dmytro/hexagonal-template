@@ -1,15 +1,12 @@
-package com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user;
+package com.gmail.apach.hexagonaltemplate.application.usecase.batch.user.importing;
 
-import com.gmail.apach.hexagonaltemplate.application.port.output.user.ImportUsersOutputPort;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.cache.constant.UserCacheConstant;
+import com.gmail.apach.hexagonaltemplate.application.port.input.user.ImportUsersInputPort;
+import com.gmail.apach.hexagonaltemplate.application.usecase.batch.common.JobParameterKey;
+import com.gmail.apach.hexagonaltemplate.application.usecase.batch.common.JobRegistry;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.message.constant.Error;
-import com.gmail.apach.hexagonaltemplate.infrastructure.common.config.mq.process.UserProcessingConfig;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.exception.ApplicationServerException;
-import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.batch.JobRegistry;
-import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.wrapper.ImportUsersWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.JobParametersInvalidException;
@@ -17,41 +14,37 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
-import org.springframework.batch.item.ExecutionContext;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
-@Slf4j
-public class ImportUsersDbAdapter implements ImportUsersOutputPort {
+public class ImportUsersUseCase implements ImportUsersInputPort {
 
     private final ApplicationContext applicationContext;
     private final JobLauncher jobLauncher;
     private final MessageSource messageSource;
 
-    @CacheEvict(
-        value = UserCacheConstant.LIST_CACHE_NAME,
-        allEntries = true
-    )
-    @RabbitListener(queues = UserProcessingConfig.IMPORT_USERS_QUEUE)
+    @Async
     @Override
-    public void execute(ImportUsersWrapper wrapper) {
+    public void execute(String jobId, String fileId, String username) {
+        log.info("Job name: {} with id: {} is initialized.", JobRegistry.IMPORT_USERS_JOB.getJobName(), jobId);
         final var job = applicationContext.getBean(JobRegistry.IMPORT_USERS_JOB.getJobBean(), Job.class);
-        final var jobId = String.valueOf(System.currentTimeMillis());
 
         final var jobParameters = new JobParametersBuilder()
-            .addString("JobID", jobId)
+            .addString(JobParameterKey.JOB_ID, jobId)
+            .addString(JobParameterKey.FILE_ID, fileId)
+            .addString(JobParameterKey.PRINCIPAL_USERNAME, username)
             .toJobParameters();
 
         try {
-            final var jobExecution = jobLauncher.run(job, jobParameters);
-            ExecutionContext context= jobExecution.getExecutionContext();
-            context.put("USERS", wrapper.users());
-            log.info("{} execution completed with status: {}", job.getName(), jobExecution.getStatus());
+            final var execution = jobLauncher.run(job, jobParameters);
+            log.info("Job name: {} with id: {} is finished with status: {}.",
+                JobRegistry.IMPORT_USERS_JOB.getJobName(), jobId, execution.getStatus().name());
         } catch (JobExecutionAlreadyRunningException | JobRestartException |
                  JobInstanceAlreadyCompleteException | JobParametersInvalidException e) {
             final var errorArgs = new Object[]{jobId, job.getName(), e.getMessage()};

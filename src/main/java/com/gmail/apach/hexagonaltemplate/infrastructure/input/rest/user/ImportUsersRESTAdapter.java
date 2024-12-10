@@ -1,8 +1,9 @@
 package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user;
 
 import com.gmail.apach.hexagonaltemplate.application.port.input.user.ImportUsersInputPort;
+import com.gmail.apach.hexagonaltemplate.application.port.output.auth.CurrentPrincipalOutputPort;
 import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user.dto.ImportUsersRequest;
-import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user.dto.UserResponse;
+import com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.user.dto.ImportUsersResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,19 +16,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "User Batch API")
+import java.util.UUID;
+
+@Tag(name = "Batch API")
 @RestController
-@RequestMapping(value = "/api/v1/batch/users/import-from-file")
+@RequestMapping(value = "/api/v1/batch/import-users-from-file")
 @RequiredArgsConstructor
 @Validated
 public class ImportUsersRESTAdapter {
 
     private final ImportUsersInputPort importUsersInputPort;
+    private final CurrentPrincipalOutputPort currentPrincipalOutputPort;
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    public ResponseEntity<UserResponse> importUsers(@Valid @RequestBody ImportUsersRequest request) {
-        importUsersInputPort.execute(request.fileId());
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<ImportUsersResponse> importUsers(@Valid @RequestBody ImportUsersRequest request) {
+        final var jobId = UUID.randomUUID().toString();
+        final var username = currentPrincipalOutputPort.getPrincipal().getUsername();
+        importUsersInputPort.execute(jobId, request.fileId(), username);
+        //TODO redirect to batch get status API and add async
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ImportUsersResponse(jobId));
     }
 }

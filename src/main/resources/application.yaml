@@ -10,6 +10,11 @@ spring:
     hibernate:
       ddl-auto: validate
     open-in-view: false
+    properties:
+      hibernate:
+        order_inserts: true
+        jdbc:
+          batch_size: 10
   data:
     redis:
       host: ${REDIS_HOST}

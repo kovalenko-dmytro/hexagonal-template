@@ -1,4 +1,4 @@
-package com.gmail.apach.hexagonaltemplate.application.usecase.user.importing.executor;
+package com.gmail.apach.hexagonaltemplate.application.usecase.batch.user.importing.processor;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
