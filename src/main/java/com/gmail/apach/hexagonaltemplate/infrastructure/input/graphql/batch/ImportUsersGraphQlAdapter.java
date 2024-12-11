@@ -1,9 +1,9 @@
-package com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.user;
+package com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.batch;
 
 import com.gmail.apach.hexagonaltemplate.application.port.input.user.ImportUsersInputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.auth.CurrentPrincipalOutputPort;
-import com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.user.dto.ImportUsersInputType;
-import com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.user.dto.ImportUsersOutputType;
+import com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.batch.dto.ImportUsersInputType;
+import com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.batch.dto.ImportUsersOutputType;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;

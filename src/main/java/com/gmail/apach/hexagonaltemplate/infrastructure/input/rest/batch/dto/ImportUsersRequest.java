@@ -1,10 +1,10 @@
-package com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.user.dto;
+package com.gmail.apach.hexagonaltemplate.infrastructure.input.rest.batch.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 
 @Builder
-public record ImportUsersInputType(
+public record ImportUsersRequest(
     @NotBlank
     String fileId
 ) {

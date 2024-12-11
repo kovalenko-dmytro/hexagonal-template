@@ -29,8 +29,8 @@ public class ImportUsersProcessor implements Tasklet, StepExecutionListener {
 
     private final ImportUsersFromFileProcessorProvider provider;
 
-    @Value("#{jobParameters['jobId']}")
-    private String jobId;
+    @Value("#{jobParameters['batchId']}")
+    private String batchId;
 
     private StoredFile storedFile;
     private List<User> users;
@@ -41,7 +41,7 @@ public class ImportUsersProcessor implements Tasklet, StepExecutionListener {
             .getJobExecution()
             .getExecutionContext();
         this.storedFile = (StoredFile) executionContext.get("storedFile");
-        log.info("Step {} for job id: {} has been initialized.", stepExecution.getStepName(), jobId);
+        log.info("Step {} for job id: {} has been initialized.", stepExecution.getStepName(), batchId);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ImportUsersProcessor implements Tasklet, StepExecutionListener {
         @NonNull ChunkContext chunkContext
     ) throws Exception {
         this.users = provider.getProcessor(storedFile.getContentType()).process(storedFile);
-        log.info("Step {} for job id: {} has been executed.", contribution.getStepExecution().getStepName(), jobId);
+        log.info("Step {} for job id: {} has been executed.", contribution.getStepExecution().getStepName(), batchId);
         return RepeatStatus.FINISHED;
     }
 
@@ -60,7 +60,7 @@ public class ImportUsersProcessor implements Tasklet, StepExecutionListener {
             .getJobExecution()
             .getExecutionContext()
             .put("users", this.users);
-        log.info("Step {} for job id: {} has been completed.", stepExecution.getStepName(), jobId);
+        log.info("Step {} for job id: {} has been completed.", stepExecution.getStepName(), batchId);
         return ExitStatus.COMPLETED;
     }
 }

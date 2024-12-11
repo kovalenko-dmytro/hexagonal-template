@@ -28,8 +28,8 @@ public class ImportUsersWriter implements Tasklet, StepExecutionListener {
 
     private final CreateUserOutputPort createUserOutputPort;
 
-    @Value("#{jobParameters['jobId']}")
-    private String jobId;
+    @Value("#{jobParameters['batchId']}")
+    private String batchId;
 
     private List<User> users;
 
@@ -40,7 +40,7 @@ public class ImportUsersWriter implements Tasklet, StepExecutionListener {
             .getJobExecution()
             .getExecutionContext();
         this.users = (List<User>) executionContext.get("users");
-        log.info("Step {} for job id: {} has been initialized.", stepExecution.getStepName(), jobId);
+        log.info("Step {} for job id: {} has been initialized.", stepExecution.getStepName(), batchId);
     }
 
     @Override
@@ -49,13 +49,13 @@ public class ImportUsersWriter implements Tasklet, StepExecutionListener {
         @NonNull ChunkContext chunkContext
     ) throws Exception {
         createUserOutputPort.create(users);
-        log.info("Step {} for job id: {} has been executed.", contribution.getStepExecution().getStepName(), jobId);
+        log.info("Step {} for job id: {} has been executed.", contribution.getStepExecution().getStepName(), batchId);
         return RepeatStatus.FINISHED;
     }
 
     @Override
     public ExitStatus afterStep(@NonNull StepExecution stepExecution) {
-        log.info("Step {} for job id: {} has been completed.", stepExecution.getStepName(), jobId);
+        log.info("Step {} for job id: {} has been completed.", stepExecution.getStepName(), batchId);
         return ExitStatus.COMPLETED;
     }
 }

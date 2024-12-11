@@ -1,4 +1,4 @@
-package com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.user.dto;
+package com.gmail.apach.hexagonaltemplate.infrastructure.input.graphql.batch.dto;
 
 import lombok.Builder;
 

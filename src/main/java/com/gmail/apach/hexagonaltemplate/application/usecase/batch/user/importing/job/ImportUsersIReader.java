@@ -33,15 +33,15 @@ public class ImportUsersIReader implements Tasklet, StepExecutionListener {
 
     @Value("#{jobParameters['fileId']}")
     private String fileId;
-    @Value("#{jobParameters['jobId']}")
-    private String jobId;
+    @Value("#{jobParameters['batchId']}")
+    private String batchId;
 
     private StoredFile storedFile;
 
     @Override
     public void beforeStep(@NonNull StepExecution stepExecution) {
         StepExecutionListener.super.beforeStep(stepExecution);
-        log.info("Step {} for job id: {} has been initialized.", stepExecution.getStepName(), jobId);
+        log.info("Step {} for job id: {} has been initialized.", stepExecution.getStepName(), batchId);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class ImportUsersIReader implements Tasklet, StepExecutionListener {
         final var resource = objectStorageServiceOutputPort.get(storedFile.getStoredResource().getStorageKey());
         storedFile.setStoredResource(resource);
         this.storedFile = storedFile;
-        log.info("Step {} for job id: {} has been executed.", contribution.getStepExecution().getStepName(), jobId);
+        log.info("Step {} for job id: {} has been executed.", contribution.getStepExecution().getStepName(), batchId);
         return RepeatStatus.FINISHED;
     }
 
@@ -63,7 +63,7 @@ public class ImportUsersIReader implements Tasklet, StepExecutionListener {
             .getJobExecution()
             .getExecutionContext()
             .put("storedFile", this.storedFile);
-        log.info("Step {} for job id: {} has been completed.", stepExecution.getStepName(), jobId);
+        log.info("Step {} for job id: {} has been completed.", stepExecution.getStepName(), batchId);
         return ExitStatus.COMPLETED;
     }
 }

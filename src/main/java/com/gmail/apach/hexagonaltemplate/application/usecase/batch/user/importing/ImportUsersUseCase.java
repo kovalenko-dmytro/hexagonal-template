@@ -31,12 +31,12 @@ public class ImportUsersUseCase implements ImportUsersInputPort {
 
     @Async
     @Override
-    public void execute(String jobId, String fileId, String username) {
-        log.info("Job name: {} with id: {} is initialized.", JobRegistry.IMPORT_USERS_JOB.getJobName(), jobId);
+    public void execute(String batchId, String fileId, String username) {
+        log.info("Job name: {} with id: {} is initialized.", JobRegistry.IMPORT_USERS_JOB.getJobName(), batchId);
         final var job = applicationContext.getBean(JobRegistry.IMPORT_USERS_JOB.getJobBean(), Job.class);
 
         final var jobParameters = new JobParametersBuilder()
-            .addString(JobParameterKey.JOB_ID, jobId)
+            .addString(JobParameterKey.BATCH_ID, batchId)
             .addString(JobParameterKey.FILE_ID, fileId)
             .addString(JobParameterKey.PRINCIPAL_USERNAME, username)
             .toJobParameters();
@@ -44,10 +44,10 @@ public class ImportUsersUseCase implements ImportUsersInputPort {
         try {
             final var execution = jobLauncher.run(job, jobParameters);
             log.info("Job name: {} with id: {} is finished with status: {}.",
-                JobRegistry.IMPORT_USERS_JOB.getJobName(), jobId, execution.getStatus().name());
+                JobRegistry.IMPORT_USERS_JOB.getJobName(), batchId, execution.getStatus().name());
         } catch (JobExecutionAlreadyRunningException | JobRestartException |
                  JobInstanceAlreadyCompleteException | JobParametersInvalidException e) {
-            final var errorArgs = new Object[]{jobId, job.getName(), e.getMessage()};
+            final var errorArgs = new Object[]{batchId, job.getName(), e.getMessage()};
             throw new ApplicationServerException(
                 messageSource.getMessage(Error.JOB_FAILED.getKey(), errorArgs, LocaleContextHolder.getLocale()));
         }

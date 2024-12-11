@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class JobParameterKey {
-    public static final String JOB_ID = "jobId";
+    public static final String BATCH_ID = "batchId";
     public static final String FILE_ID = "fileId";
     public static final String PRINCIPAL_USERNAME = "username";
 }
