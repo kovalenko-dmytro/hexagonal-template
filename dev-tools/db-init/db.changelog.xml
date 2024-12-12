@@ -30,5 +30,29 @@
         <sqlFile path="sql/2024-09-16-1523_create_table_files.sql"/>
     </changeSet>
 
+    <changeSet id="db-change-set-7" author="hexagonal-template">
+        <sqlFile path="sql/2024-12-11-1550_create_table_batch_job_instance.sql"/>
+    </changeSet>
+
+    <changeSet id="db-change-set-8" author="hexagonal-template">
+        <sqlFile path="sql/2024-12-11-1555_create_table_batch_job_execution.sql"/>
+    </changeSet>
+
+    <changeSet id="db-change-set-9" author="hexagonal-template">
+        <sqlFile path="sql/2024-12-11-1600_create_table_batch_job_execution_context.sql"/>
+    </changeSet>
+
+    <changeSet id="db-change-set-10" author="hexagonal-template">
+        <sqlFile path="sql/2024-12-11-1605_create_table_batch_job_execution_params.sql"/>
+    </changeSet>
+
+    <changeSet id="db-change-set-11" author="hexagonal-template">
+        <sqlFile path="sql/2024-12-11-1610_create_table_batch_step_execution.sql"/>
+    </changeSet>
+
+    <changeSet id="db-change-set-12" author="hexagonal-template">
+        <sqlFile path="sql/2024-12-11-1615_create_table_batch_step_execution_context.sql"/>
+    </changeSet>
+
 
 </databaseChangeLog>

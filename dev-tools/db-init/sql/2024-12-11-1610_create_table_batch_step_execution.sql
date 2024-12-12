@@ -1,0 +1,23 @@
+CREATE TABLE batch_step_execution (
+	step_execution_id int8 NOT NULL,
+	"version" int8 NOT NULL,
+	step_name varchar(100) NOT NULL,
+	job_execution_id int8 NOT NULL,
+	create_time timestamp NOT NULL,
+	start_time timestamp NULL,
+	end_time timestamp NULL,
+	status varchar(10) NULL,
+	commit_count int8 NULL,
+	read_count int8 NULL,
+	filter_count int8 NULL,
+	write_count int8 NULL,
+	read_skip_count int8 NULL,
+	write_skip_count int8 NULL,
+	process_skip_count int8 NULL,
+	rollback_count int8 NULL,
+	exit_code varchar(2500) NULL,
+	exit_message varchar(2500) NULL,
+	last_updated timestamp NULL,
+	CONSTRAINT batch_step_execution_pkey PRIMARY KEY (step_execution_id),
+	CONSTRAINT job_exec_step_fk FOREIGN KEY (job_execution_id) REFERENCES batch_job_execution(job_execution_id)
+);
