@@ -22,8 +22,8 @@ import java.util.List;
 @Setter
 public class ImportUsersFromExcelProcessor implements ImportUsersFromFileProcessor {
 
-    @Value("#{jobParameters['username']}")
-    private String username;
+    @Value("#{jobParameters['executedBy']}")
+    private String executedBy;
 
     @Override
     public List<User> process(StoredFile file) {
@@ -33,7 +33,7 @@ public class ImportUsersFromExcelProcessor implements ImportUsersFromFileProcess
 
         ImportUsersPolicyService.validateExcelFile(excel);
         final var users = ImportUsersConversionService.excelToModel(excel);
-        users.forEach(user -> user.setCreatedBy(username));
+        users.forEach(user -> user.setCreatedBy(executedBy));
 
         ImportUsersPolicyService.validateModels(users);
         return users;
