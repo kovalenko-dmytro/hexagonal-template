@@ -25,9 +25,9 @@ public class ImportUsersGraphQlAdapter {
     @MutationMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public ImportUsersOutputType importUsers(@Argument(value = "inputType") @Valid ImportUsersInputType inputType) {
-        final var jobId = UUID.randomUUID().toString();
-        final var username = currentPrincipalOutputPort.getPrincipal().getUsername();
-        importUsersInputPort.execute(jobId, inputType.fileId(), username);
-        return new ImportUsersOutputType(jobId);
+        final var batchId = UUID.randomUUID().toString();
+        final var executedBy = currentPrincipalOutputPort.getPrincipal().getUsername();
+        importUsersInputPort.execute(batchId, inputType.fileId(), executedBy);
+        return new ImportUsersOutputType(batchId);
     }
 }

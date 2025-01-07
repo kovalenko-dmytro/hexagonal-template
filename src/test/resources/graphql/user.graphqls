@@ -55,7 +55,7 @@ input ImportUsersInputType {
 }
 
 type ImportUsersOutputType {
-  jobId: String
+  batchId: String
 }
 
 extend type Query {

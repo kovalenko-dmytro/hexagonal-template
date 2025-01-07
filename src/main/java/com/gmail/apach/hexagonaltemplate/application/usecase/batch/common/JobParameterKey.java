@@ -7,5 +7,5 @@ import lombok.NoArgsConstructor;
 public final class JobParameterKey {
     public static final String BATCH_ID = "batchId";
     public static final String FILE_ID = "fileId";
-    public static final String PRINCIPAL_USERNAME = "username";
+    public static final String EXECUTED_BY = "executedBy";
 }

@@ -38,8 +38,8 @@ public class ImportUsersRESTAdapter {
         HttpServletRequest httpRequest
     ) throws URISyntaxException {
         final var batchId = UUID.randomUUID().toString();
-        final var username = currentPrincipalOutputPort.getPrincipal().getUsername();
-        importUsersInputPort.execute(batchId, request.fileId(), username);
+        final var executedBy = currentPrincipalOutputPort.getPrincipal().getUsername();
+        importUsersInputPort.execute(batchId, request.fileId(), executedBy);
         return ResponseEntity.created(new URI(buildRedirectUri(httpRequest, batchId))).build();
     }
 

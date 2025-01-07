@@ -31,14 +31,14 @@ public class ImportUsersUseCase implements ImportUsersInputPort {
 
     @Async
     @Override
-    public void execute(String batchId, String fileId, String username) {
+    public void execute(String batchId, String fileId, String executedBy) {
         log.info("Job name: {} with id: {} is initialized.", JobRegistry.IMPORT_USERS_JOB.getJobName(), batchId);
         final var job = applicationContext.getBean(JobRegistry.IMPORT_USERS_JOB.getJobBean(), Job.class);
 
         final var jobParameters = new JobParametersBuilder()
             .addString(JobParameterKey.BATCH_ID, batchId)
             .addString(JobParameterKey.FILE_ID, fileId)
-            .addString(JobParameterKey.PRINCIPAL_USERNAME, username)
+            .addString(JobParameterKey.EXECUTED_BY, executedBy)
             .toJobParameters();
 
         try {
