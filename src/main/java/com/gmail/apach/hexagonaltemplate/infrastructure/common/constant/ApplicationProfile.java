@@ -11,4 +11,5 @@ public final class ApplicationProfile {
     public static final String STAGING = "staging";
     public static final String PRODUCTION = "production";
     public static final String TEST = "test";
+    public static final String NOT_TEST = "!test";
 }

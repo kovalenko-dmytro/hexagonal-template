@@ -50,14 +50,6 @@ input UpdateUserInputType {
   roleType: RoleType
 }
 
-input ImportUsersInputType {
-  fileId: String
-}
-
-type ImportUsersOutputType {
-  batchId: String
-}
-
 extend type Query {
   signIn(inputType: SignInInputType!): SignInOutputType
   getCurrentUser: CurrentUserOutputType
@@ -81,5 +73,4 @@ extend type Mutation {
   createUser(inputType: CreateUserInputType!): UserOutputType
   deleteByUserId(userId: String!): Void
   updateUser(userId: String! inputType: UpdateUserInputType!): UserOutputType
-  importUsers(inputType: ImportUsersInputType!): ImportUsersOutputType
 }

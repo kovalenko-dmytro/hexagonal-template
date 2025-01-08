@@ -26,7 +26,7 @@ import java.util.UUID;
 @Validated
 public class ImportUsersRESTAdapter {
 
-    private static final String BATCHES_URI_PATH = "/api/v1/batches/";
+    private static final String REDIRECT_URI_BASE_PATH = "/api/v1/batches/";
 
     private final ImportUsersInputPort importUsersInputPort;
     private final CurrentPrincipalOutputPort currentPrincipalOutputPort;
@@ -47,6 +47,6 @@ public class ImportUsersRESTAdapter {
         return httpRequest.getScheme() + "://"
             + httpRequest.getServerName() + ":"
             + httpRequest.getServerPort()
-            + BATCHES_URI_PATH + batchId;
+            + REDIRECT_URI_BASE_PATH + batchId;
     }
 }
