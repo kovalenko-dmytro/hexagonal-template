@@ -29,7 +29,7 @@ public enum ImportUsersExcelHeaders {
 
     public static boolean existAndNoDuplicates(List<String> fileHeaders) {
         final var normalized = new HashSet<>(fileHeaders);
-        return fileHeaders.size() == normalized.size() && headers.keySet().containsAll(normalized);
+        return fileHeaders.size() == normalized.size() && normalized.containsAll(headers.keySet());
     }
 
     public static String headersJoinToString() {

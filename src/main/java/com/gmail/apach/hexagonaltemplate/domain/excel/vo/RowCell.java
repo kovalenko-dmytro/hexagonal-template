@@ -12,6 +12,7 @@ import org.apache.poi.ss.usermodel.DateUtil;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,7 +27,10 @@ public abstract class RowCell implements Serializable {
 
     public abstract <T> T getValue();
 
-    public static RowCell getInstance(Cell cell) {
+    public static RowCell getInstance(int index, Cell cell) {
+        if (Objects.isNull(cell)) {
+            return new BlankRowCell(index, CellDataType.BLANK, StringUtils.EMPTY);
+        }
         final var dataType = cell.getCellType();
         final int columnIndex = cell.getColumnIndex();
         switch (dataType) {

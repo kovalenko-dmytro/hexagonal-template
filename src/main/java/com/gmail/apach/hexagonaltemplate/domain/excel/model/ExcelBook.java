@@ -6,6 +6,7 @@ import com.gmail.apach.hexagonaltemplate.domain.excel.vo.BookSheet;
 import com.gmail.apach.hexagonaltemplate.domain.excel.vo.ExcelFileExtension;
 import com.gmail.apach.hexagonaltemplate.domain.excel.vo.RowCell;
 import com.gmail.apach.hexagonaltemplate.domain.excel.vo.SheetRow;
+import com.gmail.apach.hexagonaltemplate.domain.user.constant.ImportUsersExcelHeaders;
 import lombok.Getter;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
@@ -78,10 +79,8 @@ public class ExcelBook implements Serializable {
 
     private List<RowCell> fillInSells(Row row) {
         return IntStream
-            .range(row.getFirstCellNum(), row.getLastCellNum())
-            .mapToObj(
-                index -> RowCell.getInstance(row.getCell(index, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK))
-            )
+            .range(0, ImportUsersExcelHeaders.headers.size())
+            .mapToObj(index -> RowCell.getInstance(index, row.getCell(index)))
             .toList();
     }
 }
