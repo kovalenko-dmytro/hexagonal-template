@@ -5,7 +5,7 @@ import com.gmail.apach.hexagonaltemplate.application.port.output.auth.CurrentPri
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.GetUsersOutputPort;
 import com.gmail.apach.hexagonaltemplate.domain.common.policy.context.UserPermissionPolicyContext;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
-import com.gmail.apach.hexagonaltemplate.domain.user.service.UserPermissionPolicyService;
+import com.gmail.apach.hexagonaltemplate.domain.user.service.UserValidationService;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.wrapper.GetUsersFilterWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -35,7 +35,7 @@ public class GetUsersUseCase implements GetUsersInputPort {
         String[] sort
     ) {
         final var principal = currentPrincipalOutputPort.getPrincipal();
-        UserPermissionPolicyService.checkGetUsersPolicy(preparePolicyContext(principal));
+        UserValidationService.checkGetUsersPolicy(preparePolicyContext(principal));
 
         final var filterWrapper = GetUsersFilterWrapper.builder()
             .username(username).firstName(firstName).lastName(lastName).email(email)
