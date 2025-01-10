@@ -43,7 +43,7 @@ class ImportUsersFromFileDbAdapterTest {
         throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException,
         JobParametersInvalidException, JobRestartException {
 
-        when(applicationContext.getBean(JobRegistry.IMPORT_USERS_JOB.getJobBean(), Job.class))
+        when(applicationContext.getBean(JobRegistry.IMPORT_USERS_FROM_FILE_JOB.getJobBean(), Job.class))
             .thenReturn(job);
         when(jobLauncher.run(any(Job.class), any(JobParameters.class)))
             .thenReturn(jobExecution);
@@ -59,7 +59,7 @@ class ImportUsersFromFileDbAdapterTest {
         throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException,
         JobParametersInvalidException, JobRestartException {
 
-        when(applicationContext.getBean(JobRegistry.IMPORT_USERS_JOB.getJobBean(), Job.class))
+        when(applicationContext.getBean(JobRegistry.IMPORT_USERS_FROM_FILE_JOB.getJobBean(), Job.class))
             .thenReturn(job);
         doThrow(new JobExecutionAlreadyRunningException("AlreadyRunning"))
             .when(jobLauncher)

@@ -13,10 +13,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @RequiredArgsConstructor
-public class ImportUsersFromFileJob {
-    private static final String IMPORT_USERS_READ_STEP_NAME = "IMPORT-USERS-JOB-READ-STEP";
-    protected static final String IMPORT_USERS_PROCESS_STEP_NAME = "IMPORT-USERS-JOB-PROCESS-STEP";
-    protected static final String IMPORT_USERS_WRITE_STEP_NAME = "IMPORT-USERS-JOB-WRITE-STEP";
+public class ImportUsersFromFileJobConfig {
+    private static final String IMPORT_USERS_FROM_FILE_READ_STEP = "IMPORT-USERS-FROM-FILE-JOB-READ-STEP";
+    protected static final String IMPORT_USERS_FROM_FILE_PROCESS_STEP = "IMPORT-USERS-FROM-FILE-JOB-PROCESS-STEP";
+    protected static final String IMPORT_USERS_FROM_FILE_WRITE_STEP = "IMPORT-USERS-FROM-FILE-JOB-WRITE-STEP";
 
     private final JobRepository jobRepository;
     private final PlatformTransactionManager transactionManager;
@@ -26,29 +26,28 @@ public class ImportUsersFromFileJob {
 
     @Bean
     protected Step readStep() {
-        return new StepBuilder(IMPORT_USERS_READ_STEP_NAME, jobRepository)
+        return new StepBuilder(IMPORT_USERS_FROM_FILE_READ_STEP, jobRepository)
             .tasklet(reader, transactionManager)
             .build();
     }
 
     @Bean
     protected Step processStep() {
-        return new StepBuilder(IMPORT_USERS_PROCESS_STEP_NAME, jobRepository)
+        return new StepBuilder(IMPORT_USERS_FROM_FILE_PROCESS_STEP, jobRepository)
             .tasklet(processor, transactionManager)
             .build();
     }
 
     @Bean
     protected Step writeStep() {
-        return new StepBuilder(IMPORT_USERS_WRITE_STEP_NAME, jobRepository)
+        return new StepBuilder(IMPORT_USERS_FROM_FILE_WRITE_STEP, jobRepository)
             .tasklet(writer, transactionManager)
             .build();
     }
 
     @Bean
-    public Job importUsersJob() {
-        final var builder = new JobBuilder(JobRegistry.IMPORT_USERS_JOB.getJobName(), jobRepository);
-        return builder
+    public Job importUsersFromFileJob() {
+        return new JobBuilder(JobRegistry.IMPORT_USERS_FROM_FILE_JOB.getJobName(), jobRepository)
             .start(readStep())
             .next(processStep())
             .next(writeStep())

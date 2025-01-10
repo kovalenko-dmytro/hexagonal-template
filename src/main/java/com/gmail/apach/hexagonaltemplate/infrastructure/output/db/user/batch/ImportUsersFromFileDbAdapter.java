@@ -32,8 +32,10 @@ public class ImportUsersFromFileDbAdapter implements ImportUsersFromFileOutputPo
     @Async
     @Override
     public void execute(String batchId, String fileId, String executedBy) {
-        log.info("Job name: {} with id: {} is initialized.", JobRegistry.IMPORT_USERS_JOB.getJobName(), batchId);
-        final var job = applicationContext.getBean(JobRegistry.IMPORT_USERS_JOB.getJobBean(), Job.class);
+        final var job = applicationContext.getBean(JobRegistry.IMPORT_USERS_FROM_FILE_JOB.getJobBean(), Job.class);
+
+        log.info("Job: {} for batch with id: {} is initialized.",
+            JobRegistry.IMPORT_USERS_FROM_FILE_JOB.getJobName(), batchId);
 
         final var jobParameters = new JobParametersBuilder()
             .addString(JobParameterKey.BATCH_ID, batchId)
@@ -43,8 +45,8 @@ public class ImportUsersFromFileDbAdapter implements ImportUsersFromFileOutputPo
 
         try {
             final var execution = jobLauncher.run(job, jobParameters);
-            log.info("Job name: {} with id: {} is finished with status: {}.",
-                JobRegistry.IMPORT_USERS_JOB.getJobName(), batchId, execution.getStatus().name());
+            log.info("Job: {} for batch with id: {} is finished with status: {}.",
+                JobRegistry.IMPORT_USERS_FROM_FILE_JOB.getJobName(), batchId, execution.getStatus().name());
         } catch (JobExecutionAlreadyRunningException | JobRestartException |
                  JobInstanceAlreadyCompleteException | JobParametersInvalidException e) {
             final var errorArgs = new Object[]{batchId, job.getName(), e.getMessage()};
