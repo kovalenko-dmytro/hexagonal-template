@@ -1,5 +1,7 @@
 package com.gmail.apach.hexagonaltemplate.application.port.input.user;
 
+import com.gmail.apach.hexagonaltemplate.domain.batch.model.ExecutedBatch;
+
 public interface ImportUsersFromFileInputPort {
-    void execute(String batchId, String fileId, String executedBy);
+    ExecutedBatch execute(String fileId);
 }
