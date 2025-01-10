@@ -8,7 +8,7 @@ import com.gmail.apach.hexagonaltemplate.domain.common.policy.context.UserPermis
 import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailType;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.Role;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
-import com.gmail.apach.hexagonaltemplate.domain.user.service.UserPermissionPolicyService;
+import com.gmail.apach.hexagonaltemplate.domain.user.service.UserValidationService;
 import com.gmail.apach.hexagonaltemplate.domain.user.vo.RoleType;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.smpt.wrapper.SendEmailWrapper;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +45,7 @@ public class CreateUserUseCase implements CreateUserInputPort {
 
     private void processRoles(User user, User currentPrincipal) {
         if (user.rolesExist()) {
-            UserPermissionPolicyService.checkCreateUserPolicy(preparePolicyContext(user, currentPrincipal));
+            UserValidationService.checkCreateUserPolicy(preparePolicyContext(user, currentPrincipal));
         } else {
             user.setRoles(Set.of(Role.builder().role(RoleType.USER).build()));
         }

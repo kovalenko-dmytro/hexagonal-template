@@ -19,6 +19,8 @@ public final class FilesTestData {
     private static final String FILE_PATH = "src/test/resources/file/test.txt";
     private static final String ORIGINAL_FILE_NAME = "test.txt";
     private static final String REQUEST_PARAM_NAME = "file";
+    private static final String IMPORT_USERS_FILE_PATH = "src/test/resources/file/insert_users.xlsx";
+    private static final String IMPORT_USERS_ORIGINAL_FILE_NAME = "insert_users.xlsx";
 
     public static StoredFile file() {
         return StoredFile.builder()
@@ -85,5 +87,13 @@ public final class FilesTestData {
             ORIGINAL_FILE_NAME,
             MediaType.TEXT_PLAIN_VALUE,
             Files.readAllBytes(new File(FILE_PATH).toPath()));
+    }
+
+    public static MockMultipartFile getImportUsersExcel() throws IOException {
+        return new MockMultipartFile(
+            REQUEST_PARAM_NAME,
+            IMPORT_USERS_ORIGINAL_FILE_NAME,
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            Files.readAllBytes(new File(IMPORT_USERS_FILE_PATH).toPath()));
     }
 }

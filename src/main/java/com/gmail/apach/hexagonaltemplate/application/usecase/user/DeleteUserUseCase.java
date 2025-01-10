@@ -6,7 +6,7 @@ import com.gmail.apach.hexagonaltemplate.application.port.output.user.DeleteUser
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.GetUserOutputPort;
 import com.gmail.apach.hexagonaltemplate.domain.common.policy.context.UserPermissionPolicyContext;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
-import com.gmail.apach.hexagonaltemplate.domain.user.service.UserPermissionPolicyService;
+import com.gmail.apach.hexagonaltemplate.domain.user.service.UserValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +21,7 @@ public class DeleteUserUseCase implements DeleteUserInputPort {
     @Override
     public void deleteByUserId(String userId) {
         final var deletedUser = getUserOutputPort.getByUserId(userId);
-        UserPermissionPolicyService.checkDeleteUserPolicy(preparePolicyContext(deletedUser));
+        UserValidationService.checkDeleteUserPolicy(preparePolicyContext(deletedUser));
         deleteUserOutputPort.deleteByUserId(deletedUser.getUserId());
     }
 
