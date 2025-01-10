@@ -1,0 +1,35 @@
+users:
+  - user_:
+    user_name: "username1"
+    password: "$2a$10$IhyKS9Cc/aPDvMZ1/GG6KuDEZj/cFa3gGrfczg10PtI4wQOrsdivO"
+    first_name: "first_name1"
+    last_name: "last_name1"
+    email: "email1@email"
+    enabled: "true"
+    created:
+  - user_:
+    user_name: "username2"
+    password: "$2a$10$IhyKS9Cc/aPDvMZ1/GG6KuDEZj/cFa3gGrfczg10PtI4wQOrsdivO"
+    first_name: "first_name2"
+    last_name: "last_name2"
+    email: "email2@email"
+    enabled: "true"
+    created:
+  - user_:
+    user_name: "username3"
+    password: "$2a$10$IhyKS9Cc/aPDvMZ1/GG6KuDEZj/cFa3gGrfczg10PtI4wQOrsdivO"
+    first_name: "first_name3"
+    last_name: "last_name3"
+    email: "email3@email"
+    enabled: "true"
+    created:
+roles:
+  - role_: "5a8d68c8-2f28-4b53-ac5a-2db586512438"
+    role: "USER"
+users_roles:
+  - user_:
+    role_: "5a8d68c8-2f28-4b53-ac5a-2db586512438"
+  - user_:
+    role_: "5a8d68c8-2f28-4b53-ac5a-2db586512438"
+  - user_:
+    role_: "5a8d68c8-2f28-4b53-ac5a-2db586512438"

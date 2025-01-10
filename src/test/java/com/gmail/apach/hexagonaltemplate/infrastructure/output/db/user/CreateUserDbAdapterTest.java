@@ -3,6 +3,7 @@ package com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.gmail.apach.hexagonaltemplate.AbstractIntegrationTest;
+import com.gmail.apach.hexagonaltemplate.data.UsersTestData;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.Role;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
 import com.gmail.apach.hexagonaltemplate.domain.user.vo.RoleType;
@@ -82,5 +83,16 @@ class CreateUserDbAdapterTest extends AbstractIntegrationTest {
                 .map(Role::getRole)
                 .collect(Collectors.toSet())
                 .containsAll(Set.of(RoleType.USER, RoleType.MANAGER)));
+    }
+
+    @Test
+    @DataSet("datasets/infrastructure/output/db/user/create_user_setup.yml")
+    @ExpectedDataSet(
+        value = "datasets/infrastructure/output/db/user/create_users_expected.yml",
+        ignoreCols = {"user_", "created", "password"},
+        orderBy = "email")
+    void createUsers_success() {
+        final var users = UsersTestData.usersForInsert();
+        createUserDbAdapter.create(users);
     }
 }

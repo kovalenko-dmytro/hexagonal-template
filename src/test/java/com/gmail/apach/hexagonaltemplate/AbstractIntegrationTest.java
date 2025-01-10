@@ -2,7 +2,6 @@ package com.gmail.apach.hexagonaltemplate;
 
 import com.github.database.rider.core.api.configuration.DBUnit;
 import com.github.database.rider.core.api.configuration.Orthography;
-import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.junit5.api.DBRider;
 import com.gmail.apach.hexagonaltemplate.infrastructure.common.constant.ApplicationProfile;
 import com.redis.testcontainers.RedisContainer;
@@ -27,7 +26,13 @@ import java.util.Optional;
 @SpringBootTest(classes = HexagonalTemplateApplication.class)
 @ActiveProfiles(ApplicationProfile.TEST)
 @DBRider
-@DBUnit(caseInsensitiveStrategy = Orthography.LOWERCASE)
+@DBUnit(
+    caseInsensitiveStrategy = Orthography.LOWERCASE,
+    batchedStatements = true,
+    allowEmptyFields = true,
+    alwaysCleanBefore = true,
+    alwaysCleanAfter = true
+)
 public abstract class AbstractIntegrationTest {
 
     private static final String BUCKET_NAME = "test-bucket";
@@ -91,7 +96,6 @@ public abstract class AbstractIntegrationTest {
     }
 
     @BeforeEach
-    @DataSet("datasets/infrastructure/clear.yml")
     protected void beforeEach() {
     }
 

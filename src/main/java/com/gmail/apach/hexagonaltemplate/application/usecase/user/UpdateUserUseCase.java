@@ -6,7 +6,7 @@ import com.gmail.apach.hexagonaltemplate.application.port.output.user.GetUserOut
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.UpdateUserOutputPort;
 import com.gmail.apach.hexagonaltemplate.domain.common.policy.context.UserPermissionPolicyContext;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
-import com.gmail.apach.hexagonaltemplate.domain.user.service.UserPermissionPolicyService;
+import com.gmail.apach.hexagonaltemplate.domain.user.service.UserValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +21,7 @@ public class UpdateUserUseCase implements UpdateUserInputPort {
     @Override
     public User update(User user) {
         final var requestedUser = getUserOutputPort.getByUserId(user.getUserId());
-        UserPermissionPolicyService.checkUpdateUserPolicy(preparePolicyContext(user, requestedUser));
+        UserValidationService.checkUpdateUserPolicy(preparePolicyContext(user, requestedUser));
 
         if (user.firstNameNonBlank()) {
             requestedUser.setFirstName(user.getFirstName());

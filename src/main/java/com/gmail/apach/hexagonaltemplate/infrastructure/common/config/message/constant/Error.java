@@ -29,7 +29,8 @@ public enum Error {
     EMAIL_SEND_ERROR("error.email.send"),
     EMAIL_TEMPLATE_NOT_FOUND("error.email.template.not.found"),
     FILE_STORAGE_UNABLE_UPLOAD("error.file.storage.unable.upload"),
-    FILE_STORAGE_UNABLE_READ("error.file.storage.unable.read");
+    FILE_STORAGE_UNABLE_READ("error.file.storage.unable.read"),
+    JOB_FAILED("error.job.failed");
 
     private final String key;
 }

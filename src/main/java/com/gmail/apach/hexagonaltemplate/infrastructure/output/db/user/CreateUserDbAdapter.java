@@ -12,9 +12,12 @@ import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.repositor
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -22,6 +25,7 @@ public class CreateUserDbAdapter implements CreateUserOutputPort {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
     private final UserDbMapper userMapper;
 
     @Override
@@ -35,11 +39,39 @@ public class CreateUserDbAdapter implements CreateUserOutputPort {
         return userMapper.toUser(userRepository.save(userEntity));
     }
 
+    @CacheEvict(
+        value = UserCacheConstant.LIST_CACHE_NAME,
+        allEntries = true
+    )
+    @Override
+    public void create(List<User> users) {
+        final var userEntities = userMapper.toUserEntity(users);
+        final var allRoles = roleRepository.findAll();
+        final var userRoles = allRoles.stream()
+            .filter(roleEntity -> RoleType.USER.equals(roleEntity.getRole()))
+            .collect(Collectors.toSet());
+        userEntities.forEach(userEntity -> {
+            userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+            userEntity.setRoles(
+                CollectionUtils.isEmpty(userEntity.getRoles()) ? userRoles : obtainRoles(userEntity, allRoles));
+        });
+        userRepository.saveAll(userEntities);
+    }
+
+    private Set<RoleEntity> obtainRoles(UserEntity userEntity, List<RoleEntity> allRoles) {
+        Set<RoleType> userRoles = userEntity.getRoles().stream()
+            .map(RoleEntity::getRole)
+            .collect(Collectors.toSet());
+        return allRoles.stream()
+            .filter(roleEntity -> userRoles.contains(roleEntity.getRole()))
+            .collect(Collectors.toSet());
+    }
+
     private void setRoles(UserEntity userEntity) {
         if (CollectionUtils.isEmpty(userEntity.getRoles())) {
             roleRepository
                 .findByRole(RoleType.USER)
-                .ifPresent(role ->  userEntity.setRoles(Set.of(role)));
+                .ifPresent(role -> userEntity.setRoles(Set.of(role)));
         } else {
             final var roleTypes = userEntity.getRoles().stream()
                 .map(RoleEntity::getRole).toList();

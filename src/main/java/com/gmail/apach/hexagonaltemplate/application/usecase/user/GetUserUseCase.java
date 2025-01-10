@@ -5,7 +5,7 @@ import com.gmail.apach.hexagonaltemplate.application.port.output.auth.CurrentPri
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.GetUserOutputPort;
 import com.gmail.apach.hexagonaltemplate.domain.common.policy.context.UserPermissionPolicyContext;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
-import com.gmail.apach.hexagonaltemplate.domain.user.service.UserPermissionPolicyService;
+import com.gmail.apach.hexagonaltemplate.domain.user.service.UserValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +24,7 @@ public class GetUserUseCase implements GetUserInputPort {
     @Override
     public User getByUserId(String userId) {
         final var user = getUserOutputPort.getByUserId(userId);
-        UserPermissionPolicyService.checkGetUserByIdPolicy(preparePolicyContext(user));
+        UserValidationService.checkGetUserByIdPolicy(preparePolicyContext(user));
         return user;
     }
 

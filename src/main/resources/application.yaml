@@ -10,6 +10,11 @@ spring:
     hibernate:
       ddl-auto: validate
     open-in-view: false
+    properties:
+      hibernate:
+        order_inserts: true
+        jdbc:
+          batch_size: 10
   data:
     redis:
       host: ${REDIS_HOST}
@@ -18,6 +23,11 @@ spring:
     web:
       pageable:
         one-indexed-parameters: true
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-schema: never
   liquibase:
     enabled: false
   datasource:
@@ -116,6 +126,7 @@ logging:
     org:
       springframework:
         data: WARN
+        batch: WARN
         security: WARN
         amqp: WARN
       hibernate: WARN
