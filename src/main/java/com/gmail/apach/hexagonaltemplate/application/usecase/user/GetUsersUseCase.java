@@ -3,7 +3,7 @@ package com.gmail.apach.hexagonaltemplate.application.usecase.user;
 import com.gmail.apach.hexagonaltemplate.application.port.input.user.GetUsersInputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.auth.CurrentPrincipalOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.GetUsersOutputPort;
-import com.gmail.apach.hexagonaltemplate.domain.common.policy.context.UserPermissionPolicyContext;
+import com.gmail.apach.hexagonaltemplate.domain.common.policy.context.UserValidationContext;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
 import com.gmail.apach.hexagonaltemplate.domain.user.service.UserValidationService;
 import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.wrapper.GetUsersFilterWrapper;
@@ -46,8 +46,8 @@ public class GetUsersUseCase implements GetUsersInputPort {
         return getUsersOutputPort.get(filterWrapper);
     }
 
-    private UserPermissionPolicyContext preparePolicyContext(User principal) {
-        return UserPermissionPolicyContext.builder()
+    private UserValidationContext preparePolicyContext(User principal) {
+        return UserValidationContext.builder()
             .principal(principal)
             .build();
     }

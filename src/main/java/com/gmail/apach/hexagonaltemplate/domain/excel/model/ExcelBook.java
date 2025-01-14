@@ -6,7 +6,7 @@ import com.gmail.apach.hexagonaltemplate.domain.excel.vo.BookSheet;
 import com.gmail.apach.hexagonaltemplate.domain.excel.vo.ExcelFileExtension;
 import com.gmail.apach.hexagonaltemplate.domain.excel.vo.RowCell;
 import com.gmail.apach.hexagonaltemplate.domain.excel.vo.SheetRow;
-import com.gmail.apach.hexagonaltemplate.domain.user.constant.ImportUsersExcelHeaders;
+import com.gmail.apach.hexagonaltemplate.infrastructure.output.db.user.batch.constant.ImportUsersExcelHeaders;
 import lombok.Getter;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
