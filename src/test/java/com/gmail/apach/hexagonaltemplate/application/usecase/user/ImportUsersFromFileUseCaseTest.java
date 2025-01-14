@@ -15,7 +15,6 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class ImportUsersFromFileUseCaseTest {
 
-    private static final String USERNAME = "username";
     private static final String FILE_ID = "qqed68c8-2f28-4b53-ac5a-2db586512eee";
 
     @InjectMocks

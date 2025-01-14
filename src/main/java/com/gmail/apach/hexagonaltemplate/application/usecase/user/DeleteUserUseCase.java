@@ -4,7 +4,7 @@ import com.gmail.apach.hexagonaltemplate.application.port.input.user.DeleteUserI
 import com.gmail.apach.hexagonaltemplate.application.port.output.auth.CurrentPrincipalOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.DeleteUserOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.GetUserOutputPort;
-import com.gmail.apach.hexagonaltemplate.domain.common.policy.context.UserPermissionPolicyContext;
+import com.gmail.apach.hexagonaltemplate.domain.common.policy.context.UserValidationContext;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
 import com.gmail.apach.hexagonaltemplate.domain.user.service.UserValidationService;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +25,8 @@ public class DeleteUserUseCase implements DeleteUserInputPort {
         deleteUserOutputPort.deleteByUserId(deletedUser.getUserId());
     }
 
-    private UserPermissionPolicyContext preparePolicyContext(User processed) {
-        return UserPermissionPolicyContext.builder()
+    private UserValidationContext preparePolicyContext(User processed) {
+        return UserValidationContext.builder()
             .processed(processed)
             .principal(currentPrincipalOutputPort.getPrincipal())
             .build();

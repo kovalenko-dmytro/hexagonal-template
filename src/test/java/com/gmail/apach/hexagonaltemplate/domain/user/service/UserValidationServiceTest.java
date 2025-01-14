@@ -2,7 +2,7 @@ package com.gmail.apach.hexagonaltemplate.domain.user.service;
 
 import com.gmail.apach.hexagonaltemplate.data.UsersTestData;
 import com.gmail.apach.hexagonaltemplate.domain.common.exception.PolicyViolationException;
-import com.gmail.apach.hexagonaltemplate.domain.common.policy.context.UserPermissionPolicyContext;
+import com.gmail.apach.hexagonaltemplate.domain.common.policy.context.UserValidationContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -20,14 +20,14 @@ class UserValidationServiceTest {
 
     @Test
     void validateAdminCreatesUserOrManager_success() {
-        final var createManagerContext = UserPermissionPolicyContext.builder()
+        final var createManagerContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.manager())
             .principal(UsersTestData.admin())
             .build();
 
         assertDoesNotThrow(() -> UserValidationService.checkCreateUserPolicy(createManagerContext));
 
-        final var createUserContext = UserPermissionPolicyContext.builder()
+        final var createUserContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.userCreatedByAdmin()).principal(UsersTestData.admin())
             .build();
 
@@ -36,7 +36,7 @@ class UserValidationServiceTest {
 
     @Test
     void validateManagerCreatesUser_success() {
-        final var createUserContext = UserPermissionPolicyContext.builder()
+        final var createUserContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.userCreatedByManager()).principal(UsersTestData.manager())
             .build();
 
@@ -45,7 +45,7 @@ class UserValidationServiceTest {
 
     @Test
     void validateManagerCreatesManager_forbidden() {
-        final var createManagerContext = UserPermissionPolicyContext.builder()
+        final var createManagerContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.manager()).principal(UsersTestData.anotherManager())
             .build();
 
@@ -55,13 +55,13 @@ class UserValidationServiceTest {
 
     @Test
     void validateUserCreatesAny_forbidden() {
-        final var createAdminContext = UserPermissionPolicyContext.builder()
+        final var createAdminContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.admin()).principal(UsersTestData.userCreatedByAdmin())
             .build();
-        final var createManagerContext = UserPermissionPolicyContext.builder()
+        final var createManagerContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.manager()).principal(UsersTestData.userCreatedByAdmin())
             .build();
-        final var createUserContext = UserPermissionPolicyContext.builder()
+        final var createUserContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.userCreatedByManager()).principal(UsersTestData.userCreatedByAdmin())
             .build();
 
@@ -75,11 +75,11 @@ class UserValidationServiceTest {
 
     @Test
     void validateAdminDeleteAnyOtherUsers_success() {
-        final var deleteManagerContext = UserPermissionPolicyContext.builder()
+        final var deleteManagerContext = UserValidationContext.builder()
             .processed(UsersTestData.manager())
             .principal(UsersTestData.admin())
             .build();
-        final var deleteUserContext = UserPermissionPolicyContext.builder()
+        final var deleteUserContext = UserValidationContext.builder()
             .processed(UsersTestData.userCreatedByManager())
             .principal(UsersTestData.admin())
             .build();
@@ -90,7 +90,7 @@ class UserValidationServiceTest {
 
     @Test
     void validateAdminDeleteSelf_forbidden() {
-        final var deleteAdminContext = UserPermissionPolicyContext.builder()
+        final var deleteAdminContext = UserValidationContext.builder()
             .processed(UsersTestData.admin())
             .principal(UsersTestData.admin())
             .build();
@@ -101,15 +101,15 @@ class UserValidationServiceTest {
 
     @Test
     void validateManagerDeleteAnyOtherUsers_forbidden() {
-        final var deleteAdminContext = UserPermissionPolicyContext.builder()
+        final var deleteAdminContext = UserValidationContext.builder()
             .processed(UsersTestData.admin())
             .principal(UsersTestData.manager())
             .build();
-        final var deleteManagerContext = UserPermissionPolicyContext.builder()
+        final var deleteManagerContext = UserValidationContext.builder()
             .processed(UsersTestData.anotherManager())
             .principal(UsersTestData.manager())
             .build();
-        final var deleteUserContext = UserPermissionPolicyContext.builder()
+        final var deleteUserContext = UserValidationContext.builder()
             .processed(UsersTestData.userCreatedByManager())
             .principal(UsersTestData.manager())
             .build();
@@ -124,15 +124,15 @@ class UserValidationServiceTest {
 
     @Test
     void validateUserDeleteAnyOtherUsers_forbidden() {
-        final var deleteAdminContext = UserPermissionPolicyContext.builder()
+        final var deleteAdminContext = UserValidationContext.builder()
             .processed(UsersTestData.admin())
             .principal(UsersTestData.userCreatedByAdmin())
             .build();
-        final var deleteManagerContext = UserPermissionPolicyContext.builder()
+        final var deleteManagerContext = UserValidationContext.builder()
             .processed(UsersTestData.manager())
             .principal(UsersTestData.userCreatedByAdmin())
             .build();
-        final var deleteUserContext = UserPermissionPolicyContext.builder()
+        final var deleteUserContext = UserValidationContext.builder()
             .processed(UsersTestData.userCreatedByManager())
             .principal(UsersTestData.userCreatedByAdmin())
             .build();
@@ -147,13 +147,13 @@ class UserValidationServiceTest {
 
     @Test
     void validateAdminGetAnyUser_success() {
-        final var getAdminContext = UserPermissionPolicyContext.builder()
+        final var getAdminContext = UserValidationContext.builder()
             .processed(UsersTestData.admin()).principal(UsersTestData.admin())
             .build();
-        final var getManagerContext = UserPermissionPolicyContext.builder()
+        final var getManagerContext = UserValidationContext.builder()
             .processed(UsersTestData.manager()).principal(UsersTestData.admin())
             .build();
-        final var getUserContext = UserPermissionPolicyContext.builder()
+        final var getUserContext = UserValidationContext.builder()
             .processed(UsersTestData.userCreatedByManager()).principal(UsersTestData.admin())
             .build();
 
@@ -164,11 +164,11 @@ class UserValidationServiceTest {
 
     @Test
     void validateManagerGetAnyExceptAdmin_success() {
-        final var getManagerContext = UserPermissionPolicyContext.builder()
+        final var getManagerContext = UserValidationContext.builder()
             .processed(UsersTestData.anotherManager())
             .principal(UsersTestData.manager())
             .build();
-        final var getUserContext = UserPermissionPolicyContext.builder()
+        final var getUserContext = UserValidationContext.builder()
             .processed(UsersTestData.userCreatedByManager())
             .principal(UsersTestData.manager())
             .build();
@@ -179,7 +179,7 @@ class UserValidationServiceTest {
 
     @Test
     void validateManagerGetAdmin_forbidden() {
-        final var getAdminContext = UserPermissionPolicyContext.builder()
+        final var getAdminContext = UserValidationContext.builder()
             .processed(UsersTestData.admin())
             .principal(UsersTestData.manager())
             .build();
@@ -190,7 +190,7 @@ class UserValidationServiceTest {
 
     @Test
     void validateUserGetSelf_success() {
-        final var getUserContext = UserPermissionPolicyContext.builder()
+        final var getUserContext = UserValidationContext.builder()
             .processed(UsersTestData.userCreatedByManager())
             .principal(UsersTestData.userCreatedByManager())
             .build();
@@ -200,15 +200,15 @@ class UserValidationServiceTest {
 
     @Test
     void validateUserGetNotSelf_forbidden() {
-        final var getAdminContext = UserPermissionPolicyContext.builder()
+        final var getAdminContext = UserValidationContext.builder()
             .processed(UsersTestData.admin())
             .principal(UsersTestData.userCreatedByAdmin())
             .build();
-        final var getManagerContext = UserPermissionPolicyContext.builder()
+        final var getManagerContext = UserValidationContext.builder()
             .processed(UsersTestData.manager())
             .principal(UsersTestData.userCreatedByAdmin())
             .build();
-        final var getUserContext = UserPermissionPolicyContext.builder()
+        final var getUserContext = UserValidationContext.builder()
             .processed(UsersTestData.userCreatedByManager())
             .principal(UsersTestData.userCreatedByAdmin())
             .build();
@@ -223,7 +223,7 @@ class UserValidationServiceTest {
 
     @Test
     void validateAdminGetUsers_success() {
-        final var getUsersContext = UserPermissionPolicyContext.builder()
+        final var getUsersContext = UserValidationContext.builder()
             .principal(UsersTestData.admin())
             .build();
 
@@ -232,7 +232,7 @@ class UserValidationServiceTest {
 
     @Test
     void validateManagerGetUsers_success() {
-        final var getUsersContext = UserPermissionPolicyContext.builder()
+        final var getUsersContext = UserValidationContext.builder()
             .principal(UsersTestData.manager())
             .build();
 
@@ -241,7 +241,7 @@ class UserValidationServiceTest {
 
     @Test
     void validateUserGetUsers_forbidden() {
-        final var getUsersContext = UserPermissionPolicyContext.builder()
+        final var getUsersContext = UserValidationContext.builder()
             .principal(UsersTestData.userCreatedByAdmin())
             .build();
 
@@ -251,17 +251,17 @@ class UserValidationServiceTest {
 
     @Test
     void validateAdminUpdateAnyUser_success() {
-        final var updateAdminContext = UserPermissionPolicyContext.builder()
+        final var updateAdminContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithoutNewRolesAndEnabled())
             .processed(UsersTestData.admin())
             .principal(UsersTestData.admin())
             .build();
-        final var updateManagerContext = UserPermissionPolicyContext.builder()
+        final var updateManagerContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithoutNewRolesAndEnabled())
             .processed(UsersTestData.manager())
             .principal(UsersTestData.admin())
             .build();
-        final var updateUserContext = UserPermissionPolicyContext.builder()
+        final var updateUserContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithoutNewRolesAndEnabled())
             .processed(UsersTestData.userCreatedByAdmin())
             .principal(UsersTestData.admin())
@@ -279,12 +279,12 @@ class UserValidationServiceTest {
 
     @Test
     void validateAdminUpdateOwnRolesAndEnabled_forbidden() {
-        final var updateAdminEnabledContext = UserPermissionPolicyContext.builder()
+        final var updateAdminEnabledContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithNewEnabled())
             .processed(UsersTestData.admin())
             .principal(UsersTestData.admin())
             .build();
-        final var updateAdminRolesContext = UserPermissionPolicyContext.builder()
+        final var updateAdminRolesContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithNewRoles())
             .processed(UsersTestData.admin())
             .principal(UsersTestData.admin())
@@ -299,12 +299,12 @@ class UserValidationServiceTest {
 
     @Test
     void validateManagerUpdateSelfOrAnyUser_success() {
-        final var updateManagerContext = UserPermissionPolicyContext.builder()
+        final var updateManagerContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithoutNewRolesAndEnabled())
             .processed(UsersTestData.manager())
             .principal(UsersTestData.manager())
             .build();
-        final var updateUserContext = UserPermissionPolicyContext.builder()
+        final var updateUserContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithoutNewRolesAndEnabled())
             .processed(UsersTestData.userCreatedByAdmin())
             .principal(UsersTestData.manager())
@@ -319,12 +319,12 @@ class UserValidationServiceTest {
 
     @Test
     void validateManagerUpdateAnotherManagerOrAdmin_forbidden() {
-        final var updateAdminContext = UserPermissionPolicyContext.builder()
+        final var updateAdminContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithoutNewRolesAndEnabled())
             .processed(UsersTestData.admin())
             .principal(UsersTestData.manager())
             .build();
-        final var updateManagerContext = UserPermissionPolicyContext.builder()
+        final var updateManagerContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithoutNewRolesAndEnabled())
             .processed(UsersTestData.anotherManager())
             .principal(UsersTestData.manager())
@@ -339,17 +339,17 @@ class UserValidationServiceTest {
 
     @Test
     void validateManagerUpdateEnabledToSelfOrAnotherManagerOrAdmin_forbidden() {
-        final var updateAdminContext = UserPermissionPolicyContext.builder()
+        final var updateAdminContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithNewEnabled())
             .processed(UsersTestData.admin())
             .principal(UsersTestData.manager())
             .build();
-        final var updateSelfContext = UserPermissionPolicyContext.builder()
+        final var updateSelfContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithNewEnabled())
             .processed(UsersTestData.manager())
             .principal(UsersTestData.manager())
             .build();
-        final var updateManagerContext = UserPermissionPolicyContext.builder()
+        final var updateManagerContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithNewEnabled())
             .processed(UsersTestData.anotherManager())
             .principal(UsersTestData.manager())
@@ -367,17 +367,17 @@ class UserValidationServiceTest {
 
     @Test
     void validateManagerUpdateRoles_forbidden() {
-        final var updateAdminContext = UserPermissionPolicyContext.builder()
+        final var updateAdminContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithNewRoles())
             .processed(UsersTestData.admin())
             .principal(UsersTestData.manager())
             .build();
-        final var updateManagerContext = UserPermissionPolicyContext.builder()
+        final var updateManagerContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithNewRoles())
             .processed(UsersTestData.anotherManager())
             .principal(UsersTestData.manager())
             .build();
-        final var updateUserContext = UserPermissionPolicyContext.builder()
+        final var updateUserContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithNewRoles())
             .processed(UsersTestData.userCreatedByAdmin())
             .principal(UsersTestData.manager())
@@ -395,7 +395,7 @@ class UserValidationServiceTest {
 
     @Test
     void validateUserUpdateSelf_success() {
-        final var updateUserSelfContext = UserPermissionPolicyContext.builder()
+        final var updateUserSelfContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithoutNewRolesAndEnabled())
             .processed(UsersTestData.userCreatedByAdmin())
             .principal(UsersTestData.userCreatedByAdmin())
@@ -407,17 +407,17 @@ class UserValidationServiceTest {
 
     @Test
     void validateUserUpdateNotSelf_forbidden() {
-        final var updateAdminContext = UserPermissionPolicyContext.builder()
+        final var updateAdminContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithoutNewRolesAndEnabled())
             .processed(UsersTestData.admin())
             .principal(UsersTestData.userCreatedByAdmin())
             .build();
-        final var updateManagerContext = UserPermissionPolicyContext.builder()
+        final var updateManagerContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithoutNewRolesAndEnabled())
             .processed(UsersTestData.manager())
             .principal(UsersTestData.userCreatedByAdmin())
             .build();
-        final var updateUserContext = UserPermissionPolicyContext.builder()
+        final var updateUserContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithoutNewRolesAndEnabled())
             .processed(UsersTestData.userCreatedByManager())
             .principal(UsersTestData.userCreatedByAdmin())
@@ -435,32 +435,32 @@ class UserValidationServiceTest {
 
     @Test
     void validateUserUpdateEnabledOrRoles_forbidden() {
-        final var updateAdminEnabledContext = UserPermissionPolicyContext.builder()
+        final var updateAdminEnabledContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithNewEnabled())
             .processed(UsersTestData.admin())
             .principal(UsersTestData.userCreatedByAdmin())
             .build();
-        final var updateManagerEnabledContext = UserPermissionPolicyContext.builder()
+        final var updateManagerEnabledContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithNewEnabled())
             .processed(UsersTestData.manager())
             .principal(UsersTestData.userCreatedByAdmin())
             .build();
-        final var updateUserEnabledContext = UserPermissionPolicyContext.builder()
+        final var updateUserEnabledContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithNewEnabled())
             .processed(UsersTestData.userCreatedByManager())
             .principal(UsersTestData.userCreatedByAdmin())
             .build();
-        final var updateAdminRolesContext = UserPermissionPolicyContext.builder()
+        final var updateAdminRolesContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithNewRoles())
             .processed(UsersTestData.admin())
             .principal(UsersTestData.userCreatedByAdmin())
             .build();
-        final var updateManagerRolesContext = UserPermissionPolicyContext.builder()
+        final var updateManagerRolesContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithNewRoles())
             .processed(UsersTestData.manager())
             .principal(UsersTestData.userCreatedByAdmin())
             .build();
-        final var updateUserRolesContext = UserPermissionPolicyContext.builder()
+        final var updateUserRolesContext = UserValidationContext.builder()
             .inputAttributes(UsersTestData.updateUserDataWithNewRoles())
             .processed(UsersTestData.userCreatedByManager())
             .principal(UsersTestData.userCreatedByAdmin())
