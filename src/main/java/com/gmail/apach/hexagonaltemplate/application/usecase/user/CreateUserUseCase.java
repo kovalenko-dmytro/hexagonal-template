@@ -4,7 +4,7 @@ import com.gmail.apach.hexagonaltemplate.application.port.input.user.CreateUserI
 import com.gmail.apach.hexagonaltemplate.application.port.output.auth.CurrentPrincipalOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.mq.PublishEmailOutputPort;
 import com.gmail.apach.hexagonaltemplate.application.port.output.user.CreateUserOutputPort;
-import com.gmail.apach.hexagonaltemplate.domain.common.policy.context.UserPermissionPolicyContext;
+import com.gmail.apach.hexagonaltemplate.domain.common.policy.context.UserValidationContext;
 import com.gmail.apach.hexagonaltemplate.domain.email.vo.EmailType;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.Role;
 import com.gmail.apach.hexagonaltemplate.domain.user.model.User;
@@ -51,8 +51,8 @@ public class CreateUserUseCase implements CreateUserInputPort {
         }
     }
 
-    private UserPermissionPolicyContext preparePolicyContext(User inputAttributes, User principal) {
-        return UserPermissionPolicyContext.builder()
+    private UserValidationContext preparePolicyContext(User inputAttributes, User principal) {
+        return UserValidationContext.builder()
             .inputAttributes(inputAttributes)
             .principal(principal)
             .build();

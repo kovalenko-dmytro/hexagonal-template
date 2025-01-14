@@ -1,8 +1,8 @@
 package com.gmail.apach.hexagonaltemplate.domain.user.service;
 
 import com.gmail.apach.hexagonaltemplate.domain.common.constant.DomainError;
-import com.gmail.apach.hexagonaltemplate.domain.common.policy.context.UserPermissionPolicyContext;
-import com.gmail.apach.hexagonaltemplate.domain.user.policy.api.*;
+import com.gmail.apach.hexagonaltemplate.domain.common.policy.context.UserValidationContext;
+import com.gmail.apach.hexagonaltemplate.domain.user.policy.*;
 import com.gmail.apach.hexagonaltemplate.domain.user.vo.RoleType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class UserValidationService {
 
-    public static void checkCreateUserPolicy(UserPermissionPolicyContext context) {
+    public static void checkCreateUserPolicy(UserValidationContext context) {
         final var policy =
             new AdminGrantsPolicy()
                 .or(new ManagerCreatesUserPolicy())
@@ -24,7 +24,7 @@ public final class UserValidationService {
         policy.isSatisfiedWith(context);
     }
 
-    public static void checkDeleteUserPolicy(UserPermissionPolicyContext context) {
+    public static void checkDeleteUserPolicy(UserValidationContext context) {
         final var policy =
             new AdminGrantsPolicy()
                 .and(new AdminDeletesNotSelfPolicy())
@@ -36,7 +36,7 @@ public final class UserValidationService {
         policy.isSatisfiedWith(context);
     }
 
-    public static void checkGetUserByIdPolicy(UserPermissionPolicyContext context) {
+    public static void checkGetUserByIdPolicy(UserValidationContext context) {
         final var policy =
             new AdminGrantsPolicy()
                 .or(new ManagerGetsManagerPolicy())
@@ -50,7 +50,7 @@ public final class UserValidationService {
         policy.isSatisfiedWith(context);
     }
 
-    public static void checkUpdateUserPolicy(UserPermissionPolicyContext context) {
+    public static void checkUpdateUserPolicy(UserValidationContext context) {
         var policy =
             new AdminGrantsPolicy()
                 .or(new ManagerUpdatesSelfPolicy())
@@ -87,7 +87,7 @@ public final class UserValidationService {
         }
     }
 
-    public static void checkGetUsersPolicy(UserPermissionPolicyContext context) {
+    public static void checkGetUsersPolicy(UserValidationContext context) {
         final var policy =
             new AdminGrantsPolicy()
                 .or(new ManagerGrantsPolicy())

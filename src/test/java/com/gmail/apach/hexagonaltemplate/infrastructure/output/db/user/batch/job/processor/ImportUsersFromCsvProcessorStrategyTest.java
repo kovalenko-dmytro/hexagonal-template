@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.batch.core.JobParameters;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
@@ -19,6 +20,8 @@ class ImportUsersFromCsvProcessorStrategyTest {
     @Test
     void process_unsupportedOperation() {
         final var storedFile = mock(StoredFile.class);
-        assertThrows(UnsupportedOperationException.class, () -> importUsersFromCsvProcessorStrategy.process(storedFile));
+        final var jobParameters = mock(JobParameters.class);
+        assertThrows(UnsupportedOperationException.class,
+            () -> importUsersFromCsvProcessorStrategy.process(storedFile, jobParameters));
     }
 }
